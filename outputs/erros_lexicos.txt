@@ -1,0 +1,4 @@
+--- Erros Léxicos Encontrados ---
+Erro Léxico: Caractere inesperado '$' na linha 21. Possível causa: símbolo não permitido na linguagem TONTO.
+Erro Léxico: Caractere inesperado 'é' na linha 21. Possível causa: símbolo não permitido na linguagem TONTO.
+Erro Léxico: Caractere inesperado '$' na linha 23. Possível causa: símbolo não permitido na linguagem TONTO.

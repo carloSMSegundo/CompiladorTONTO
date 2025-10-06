@@ -1,13 +1,5 @@
 Tipo                      Valor                          Linha      Posição   
 --------------------------------------------------------------------------------
-SPECIAL_SYMBOL            '--'                           1          0         
-CLASS_NAME                'Início'                       1          4         
-RELATION_NAME             'do'                           1          11        
-CLASS_NAME                'Bloco'                        1          14        
-RELATION_NAME             'de'                           1          20        
-CLASS_NAME                'Código'                       1          23        
-CLASS_NAME                'Válido'                       1          30        
-SPECIAL_SYMBOL            '--'                           1          37        
 RESERVED_WORD             'package'                      3          42        
 CLASS_NAME                'UniversidadeModelo'           3          50        
 CLASS_STEREOTYPE          'kind'                         5          70        
@@ -40,13 +32,6 @@ NUMBER                    1                              14         224
 SPECIAL_SYMBOL            ']'                            14         225       
 CLASS_NAME                'Professor'                    14         227       
 SPECIAL_SYMBOL            '}'                            15         237       
-SPECIAL_SYMBOL            '--'                           16         239       
-CLASS_NAME                'Teste'                        16         243       
-RELATION_NAME             'de'                           16         249       
-CLASS_NAME                'Convenção'                    16         252       
-RELATION_NAME             'de'                           16         262       
-CLASS_NAME                'Instância'                    16         265       
-SPECIAL_SYMBOL            '--'                           16         275       
 CLASS_NAME                'A'                            17         279       
 RELATION_NAME             'linha'                        17         281       
 RELATION_NAME             'abaixo'                       17         287       
@@ -56,12 +41,6 @@ RELATION_NAME             'reconhecida'                  17         303
 RELATION_NAME             'como'                         17         315       
 CLASS_NAME                'INSTANCE_NAME'                17         320       
 INSTANCE_NAME             'instanciaDeContrato123'       19         336       
-SPECIAL_SYMBOL            '--'                           20         359       
-CLASS_NAME                'Teste'                        20         363       
-RELATION_NAME             'de'                           20         369       
-CLASS_NAME                'Erro'                         20         372       
-CLASS_NAME                'Léxico'                       20         377       
-SPECIAL_SYMBOL            '--'                           20         384       
 CLASS_NAME                'O'                            21         388       
 RELATION_NAME             'caractere'                    21         390       
 RELATION_NAME             'na'                           21         404       
@@ -71,4 +50,5 @@ RELATION_NAME             'deve'                         21         420
 RELATION_NAME             'gerar'                        21         425       
 RELATION_NAME             'um'                           21         431       
 RELATION_NAME             'erro'                         21         434       
-RELATION_NAME             'léxico'                       21         439       
+RELATION_NAME             'l'                            21         439       
+RELATION_NAME             'xico'                         21         441       
