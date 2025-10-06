@@ -1,0 +1,23 @@
+--- Início do Bloco de Código Válido ---
+
+package UniversidadeModelo
+
+kind University {
+nome: string
+endereco: EnderecoDataType
+}
+
+role Professor specializes Pessoa
+
+relator ContratoEmprego {
+@mediation
+[1] -- empregado -- [1] Professor
+}
+--- Teste de Convenção de Instância ---
+A linha abaixo deve ser reconhecida como INSTANCE_NAME.
+
+instanciaDeContrato123
+--- Teste de Erro Léxico ---
+O caractere '$' na linha abaixo deve gerar um erro léxico.
+
+$
