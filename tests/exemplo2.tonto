@@ -1,0 +1,12 @@
+--- Teste de Erros de Nomenclatura ---
+
+kind Universidade1 {
+    nome: string
+}
+role Aluno {
+    temMatricula123: string
+}
+kind Pessoa {
+    documento: CPF_123DataType
+}
+%

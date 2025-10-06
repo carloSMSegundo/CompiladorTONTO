@@ -1,4 +1,4 @@
 --- Erros Léxicos Encontrados ---
-Erro Léxico: Caractere inesperado '$' na linha 21. Possível causa: símbolo não permitido na linguagem TONTO.
-Erro Léxico: Caractere inesperado 'é' na linha 21. Possível causa: símbolo não permitido na linguagem TONTO.
-Erro Léxico: Caractere inesperado '$' na linha 23. Possível causa: símbolo não permitido na linguagem TONTO.
+Erro Léxico: O nome de classe 'Universidade1' na linha 3 não pode conter números.
+Erro Léxico: O nome de tipo 'CPF_123DataType' na linha 10 tem formato inválido. Novos tipos não podem conter números ou sublinhados.
+Erro Léxico: Caractere inesperado '%' na linha 12. Sugestão: Verifique se o símbolo é permitido na linguagem TONTO ou se há um erro de digitação.
