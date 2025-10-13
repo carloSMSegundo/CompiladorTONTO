@@ -32,17 +32,13 @@ O analisador foi implementado em **Python**, utilizando a biblioteca **PLY**, um
 
 2. Ativar o ambiente virtual:
 
-**Windows (CMD ou PowerShell):**
-
-<pre>venv\Scripts\activate</pre>
-
 **Windows (Git Bash):**
 
-<pre>source venv/Scripts/activate</pre>
+<pre>source venv/bin/activate</pre>
 
 **Linux/macOS:**
 
-<pre>source venv/bin/activate</pre>
+<pre>source venv/bin/activate.fish</pre>
 
 3. Instalar dependências:
 
