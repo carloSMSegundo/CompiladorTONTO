@@ -42,7 +42,7 @@ O analisador foi implementado em **Python**, utilizando a biblioteca **PLY**, um
 
 3. Instalar dependências:
 
-<pre>pip install ply</pre>
+<pre>pip install -r requirements.txt</pre>
 
 ---
 
