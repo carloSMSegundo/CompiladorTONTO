@@ -5,11 +5,17 @@ import re
 # 1. Palavras reservadas e estereótipos
 # ==========================================================
 reserved = {
-    # Palavras reservadas
+    # Palavras reservadas do trabalho
     'genset': 'RESERVED_WORD', 'disjoint': 'RESERVED_WORD', 'complete': 'RESERVED_WORD',
     'general': 'RESERVED_WORD', 'specifics': 'RESERVED_WORD', 'where': 'RESERVED_WORD', 'package': 'RESERVED_WORD',
+    'of': 'RESERVED_WORD',
 
-    # Estereótipos de classe
+    # Palavras-chave de Natureza Ontológica (com hífen), baseadas nos exemplos
+    'functional-complexes': 'RESERVED_WORD',
+    'intrinsic-modes': 'RESERVED_WORD',
+    'relators': 'RESERVED_WORD',
+
+    # Estereótipos de classe do trabalho
     'event': 'CLASS_STEREOTYPE', 'situation': 'CLASS_STEREOTYPE', 'process': 'CLASS_STEREOTYPE',
     'category': 'CLASS_STEREOTYPE', 'mixin': 'CLASS_STEREOTYPE', 'phaseMixin': 'CLASS_STEREOTYPE',
     'roleMixin': 'CLASS_STEREOTYPE', 'historicalRoleMixin': 'CLASS_STEREOTYPE', 'kind': 'CLASS_STEREOTYPE',
@@ -17,21 +23,22 @@ reserved = {
     'mode': 'CLASS_STEREOTYPE', 'intrisicMode': 'CLASS_STEREOTYPE', 'extrinsicMode': 'CLASS_STEREOTYPE',
     'subkind': 'CLASS_STEREOTYPE', 'phase': 'CLASS_STEREOTYPE', 'role': 'CLASS_STEREOTYPE', 'historicalRole': 'CLASS_STEREOTYPE',
 
-    # Estereótipos de relação
+    # Estereótipos de relação do trabalho
     'material': 'RELATION_STEREOTYPE', 'derivation': 'RELATION_STEREOTYPE', 'comparative': 'RELATION_STEREOTYPE',
     'mediation': 'RELATION_STEREOTYPE', 'characterization': 'RELATION_STEREOTYPE', 'externalDependence': 'RELATION_STEREOTYPE',
-    'componentOf': 'RELATION_STEREOTYPE', 'memberOf': 'RELATION_STEREOTYPE', 'subCollectionOf': 'RELATION_STEREOTYPE',
-    'subQualityOf': 'RELATION_STEREOTYPE', 'instantiation': 'RELATION_STEREOTYPE', 'termination': 'RELATION_STEREOTYPE',
-    'participational': 'RELATION_STEREOTYPE', 'participation': 'RELATION_STEREOTYPE', 'historicalDependence': 'RELATION_STEREOTYPE',
-    'creation': 'RELATION_STEREOTYPE', 'manifestation': 'RELATION_STEREOTYPE', 'bringsAbout': 'RELATION_STEREOTYPE',
-    'triggers': 'RELATION_STEREOTYPE', 'composition': 'RELATION_STEREOTYPE', 'aggregation': 'RELATION_STEREOTYPE',
-    'inherence': 'RELATION_STEREOTYPE', 'value': 'RELATION_STEREOTYPE', 'formal': 'RELATION_STEREOTYPE', 'constitution': 'RELATION_STEREOTYPE',
+    'componentOf': 'RELATION_STEREOTYPE', 'memberOf': 'RELATION_STEREOTYPE',
+    'subCollectionOf': 'RELATION_STEREOTYPE', 'subQualityOf': 'RELATION_STEREOTYPE', 'instantiation': 'RELATION_STEREOTYPE',
+    'termination': 'RELATION_STEREOTYPE', 'participational': 'RELATION_STEREOTYPE', 'participation': 'RELATION_STEREOTYPE',
+    'historicalDependence': 'RELATION_STEREOTYPE', 'creation': 'RELATION_STEREOTYPE', 'manifestation': 'RELATION_STEREOTYPE',
+    'bringsAbout': 'RELATION_STEREOTYPE', 'triggers': 'RELATION_STEREOTYPE', 'composition': 'RELATION_STEREOTYPE',
+    'aggregation': 'RELATION_STEREOTYPE', 'inherence': 'RELATION_STEREOTYPE', 'value': 'RELATION_STEREOTYPE',
+    'formal': 'RELATION_STEREOTYPE', 'constitution': 'RELATION_STEREOTYPE',
 
-    # Meta-atributos
+    # Meta-atributos do trabalho
     'ordered': 'META_ATTRIBUTE', 'const': 'META_ATTRIBUTE', 'derived': 'META_ATTRIBUTE',
     'subsets': 'META_ATTRIBUTE', 'redefines': 'META_ATTRIBUTE',
 
-    # Tipos de dados nativos
+    # Tipos de dados nativos do trabalho
     'number': 'DATA_TYPE', 'string': 'DATA_TYPE', 'boolean': 'DATA_TYPE',
     'date': 'DATA_TYPE', 'time': 'DATA_TYPE', 'datetime': 'DATA_TYPE'
 }
@@ -48,7 +55,6 @@ tokens = [
 # 3. Regras Léxicas
 # ==========================================================
 
-# Símbolos especiais (com a adição do --<>)
 t_SPECIAL_SYMBOL = r'<>--|--<>|<o>--|--|\.\.|\{|\}|\(|\)|\[|\]|\*|@|:'
 
 def t_NUMBER(t):
@@ -56,10 +62,8 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
-# Regra para novos tipos. Deve vir antes de IDENTIFIER para ter prioridade.
 def t_NEW_TYPE(t):
     r'[A-Za-zÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑáàâãéèêíïóôõöúçñ]+DataType'
-    # Validação para garantir que não há números ou sublinhados
     if '_' in t.value or any(char.isdigit() for char in t.value):
         mensagem = (
             f"Erro Léxico: O nome de tipo '{t.value}' na linha {t.lexer.lineno} tem formato inválido. "
@@ -69,32 +73,34 @@ def t_NEW_TYPE(t):
         return None
     return t
 
-# Regra única e final para todos os outros identificadores
+# Regra para identificadores - AGORA INCLUINDO O HÍFEN
 def t_IDENTIFIER(t):
-    r'[A-Za-zÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ_][A-Za-z0-9ÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ_]*'
+    r'[a-zA-Z_][a-zA-Z0-9_-]*'
     
-    # Checa se é uma palavra reservada
     t.type = reserved.get(t.value, 'IDENTIFIER')
+    
+    # Se for uma palavra reservada (incluindo as com hífen), retorna
     if t.type != 'IDENTIFIER':
         return t
 
-    has_number = re.search(r'\d', t.value)
+    # Se não for palavra reservada, verifica se tem hífen (o que é um erro)
+    if '-' in t.value:
+        mensagem = f"Erro Léxico: O identificador '{t.value}' na linha {t.lexer.lineno} não pode conter hífens, pois não é uma palavra reservada."
+        erros_lexicos.append(mensagem)
+        return None
 
-    # Nomes sem números são válidos como Classe ou Relação
+    # Lógica para nomes com e sem números (igual à anterior)
+    has_number = re.search(r'\d', t.value)
     if not has_number:
         if re.match(r'^[A-ZÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]', t.value):
             t.type = 'CLASS_NAME'
         else:
             t.type = 'RELATION_NAME'
         return t
-
-    # Nomes com números: podem ser instâncias válidas ou erros
     else:
-        # Se um nome termina com número, é uma INSTÂNCIA VÁLIDA
         if re.fullmatch(r'[A-Za-zÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ_]+[0-9]+', t.value):
             t.type = 'INSTANCE_NAME'
             return t
-        # Se tem número mas não apenas no final, é um ERRO
         else:
             if re.match(r'^[A-ZÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]', t.value):
                 mensagem = f"Erro Léxico: O nome de classe '{t.value}' na linha {t.lexer.lineno} não pode conter números."

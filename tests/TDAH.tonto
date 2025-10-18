@@ -2,11 +2,6 @@ import TDAH
 
 package TDAH
 
--- TODO
--- Este arquivo usa classes com números (ex: "Criterion_A1a"), o que viola
--- a regra "sem números" do documento do trabalho.
--- Por isso, o analisador vai (corretamente) apontar esses nomes como erros.
-
 category Hyperactivity_Symptom
 
 category Neurologically_Based_Condition specializes Medical_Condition 

@@ -2,11 +2,6 @@ import alergiaalimentar
 
 package alergiaalimentar
 
--- TODO
--- Esse arquivo usa umas palavras com hífen (tipo "functional-complexes").
--- No documento do trabalho, isso não aparece, então o analisador vai apontar como erro.
--- Deixei assim pra seguir o que o professor pediu no PDF.
-
 kind Paciente
 
 kind Alimento
