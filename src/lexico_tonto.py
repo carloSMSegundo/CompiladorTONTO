@@ -5,17 +5,13 @@ import re
 # 1. Palavras reservadas e estereótipos
 # ==========================================================
 reserved = {
-    # Palavras reservadas do trabalho
+    # Palavras reservadas
     'genset': 'RESERVED_WORD', 'disjoint': 'RESERVED_WORD', 'complete': 'RESERVED_WORD',
-    'general': 'RESERVED_WORD', 'specifics': 'RESERVED_WORD', 'where': 'RESERVED_WORD', 'package': 'RESERVED_WORD',
-    'of': 'RESERVED_WORD',
+    'general': 'RESERVED_WORD', 'specifics': 'RESERVED_WORD', 'where': 'RESERVED_WORD', 
+    'package': 'RESERVED_WORD', 'import': 'RESERVED_WORD', 'functional-complexes': 'RESERVED_WORD',
+    'intrinsic-modes': 'RESERVED_WORD', 'relators': 'RESERVED_WORD',
 
-    # Palavras-chave de Natureza Ontológica (com hífen), baseadas nos exemplos
-    'functional-complexes': 'RESERVED_WORD',
-    'intrinsic-modes': 'RESERVED_WORD',
-    'relators': 'RESERVED_WORD',
-
-    # Estereótipos de classe do trabalho
+    # Estereótipos de classe
     'event': 'CLASS_STEREOTYPE', 'situation': 'CLASS_STEREOTYPE', 'process': 'CLASS_STEREOTYPE',
     'category': 'CLASS_STEREOTYPE', 'mixin': 'CLASS_STEREOTYPE', 'phaseMixin': 'CLASS_STEREOTYPE',
     'roleMixin': 'CLASS_STEREOTYPE', 'historicalRoleMixin': 'CLASS_STEREOTYPE', 'kind': 'CLASS_STEREOTYPE',
@@ -23,10 +19,10 @@ reserved = {
     'mode': 'CLASS_STEREOTYPE', 'intrisicMode': 'CLASS_STEREOTYPE', 'extrinsicMode': 'CLASS_STEREOTYPE',
     'subkind': 'CLASS_STEREOTYPE', 'phase': 'CLASS_STEREOTYPE', 'role': 'CLASS_STEREOTYPE', 'historicalRole': 'CLASS_STEREOTYPE',
 
-    # Estereótipos de relação do trabalho
+    # Estereótipos de relação
     'material': 'RELATION_STEREOTYPE', 'derivation': 'RELATION_STEREOTYPE', 'comparative': 'RELATION_STEREOTYPE',
-    'mediation': 'RELATION_STEREOTYPE', 'characterization': 'RELATION_STEREOTYPE', 'externalDependence': 'RELATION_STEREOTYPE',
-    'componentOf': 'RELATION_STEREOTYPE', 'memberOf': 'RELATION_STEREOTYPE',
+    'mediation': 'RELATION_STEREOTYPE', 'characterization': 'RELATION_STEREOTYPE',
+    'externalDependence': 'RELATION_STEREOTYPE', 'componentOf': 'RELATION_STEREOTYPE', 'memberOf': 'RELATION_STEREOTYPE',
     'subCollectionOf': 'RELATION_STEREOTYPE', 'subQualityOf': 'RELATION_STEREOTYPE', 'instantiation': 'RELATION_STEREOTYPE',
     'termination': 'RELATION_STEREOTYPE', 'participational': 'RELATION_STEREOTYPE', 'participation': 'RELATION_STEREOTYPE',
     'historicalDependence': 'RELATION_STEREOTYPE', 'creation': 'RELATION_STEREOTYPE', 'manifestation': 'RELATION_STEREOTYPE',
@@ -34,11 +30,11 @@ reserved = {
     'aggregation': 'RELATION_STEREOTYPE', 'inherence': 'RELATION_STEREOTYPE', 'value': 'RELATION_STEREOTYPE',
     'formal': 'RELATION_STEREOTYPE', 'constitution': 'RELATION_STEREOTYPE',
 
-    # Meta-atributos do trabalho
+    # Meta-atributos
     'ordered': 'META_ATTRIBUTE', 'const': 'META_ATTRIBUTE', 'derived': 'META_ATTRIBUTE',
     'subsets': 'META_ATTRIBUTE', 'redefines': 'META_ATTRIBUTE',
 
-    # Tipos de dados nativos do trabalho
+    # Tipos de dados nativos
     'number': 'DATA_TYPE', 'string': 'DATA_TYPE', 'boolean': 'DATA_TYPE',
     'date': 'DATA_TYPE', 'time': 'DATA_TYPE', 'datetime': 'DATA_TYPE'
 }
@@ -55,7 +51,8 @@ tokens = [
 # 3. Regras Léxicas
 # ==========================================================
 
-t_SPECIAL_SYMBOL = r'<>--|--<>|<o>--|--|\.\.|\{|\}|\(|\)|\[|\]|\*|@|:'
+# Símbolos especiais
+t_SPECIAL_SYMBOL = r'<>--|--<>|<o>--|--|\.\.|\{|\}|\(|\)|\[|\]|\*|@|\.'
 
 def t_NUMBER(t):
     r'\d+'
@@ -73,7 +70,7 @@ def t_NEW_TYPE(t):
         return None
     return t
 
-# Regra para identificadores - AGORA INCLUINDO O HÍFEN
+# Regra para identificadores - incluindo hífen APENAS para as palavras reservadas
 def t_IDENTIFIER(t):
     r'[a-zA-Z_][a-zA-Z0-9_-]*'
     
@@ -89,7 +86,7 @@ def t_IDENTIFIER(t):
         erros_lexicos.append(mensagem)
         return None
 
-    # Lógica para nomes com e sem números (igual à anterior)
+    # Lógica para nomes com e sem números
     has_number = re.search(r'\d', t.value)
     if not has_number:
         if re.match(r'^[A-ZÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]', t.value):
@@ -118,7 +115,7 @@ def t_comment(t):
     pass
 
 t_ignore = ' \t'
-t_ignore_PUNCTUATION = r"[.,'\"!?]"
+t_ignore_PUNCTUATION = r"[,':\"!?]"
 
 def t_newline(t):
     r'\n+'
