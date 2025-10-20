@@ -36,6 +36,10 @@ O analisador foi implementado em **Python**, utilizando a biblioteca **PLY**, um
 
 <pre>source venv/bin/activate</pre>
 
+**Windows (WSL):**
+
+<pre>source venv/bin/activate</pre>
+
 **Linux/macOS:**
 
 <pre>source venv/bin/activate.fish</pre>
@@ -64,6 +68,20 @@ Os resultados serão salvos na pasta `outputs/`:
 - `erros_lexicos.txt` — relatório de erros léxicos encontrados.
 
 ---
+
+### 4️⃣ Possíveis Problemas
+Verifique se instalou corretamente as dependências
+(Passo 3)
+Caso tenha algum problema, verifique sua versão do Python
+**Windows WSL:**
+<pre>sudo apt install python3.12-venv -y</pre>
+Em seguida
+<pre>
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+</pre>
+Depois, tente rodar novamente o projeto.
 
 ## 📄 Licença
 
