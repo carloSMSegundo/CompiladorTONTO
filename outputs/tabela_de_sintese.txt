@@ -1,9 +1,3 @@
---- Tabela de Síntese ---
-Contagem dos elementos encontrados no código-fonte.
-----------------------------------------
-Classes                       : 8
-Relações                      : 4
-Palavras-Chave (Estereótipos) : 5
-Indivíduos (Instâncias)       : 0
-Palavras Reservadas           : 1
-Meta-Atributos                : 0
+--- Tabela de Síntese da Análise Sintática ---
+Recursos encontrados no modelo Tonto.
+==================================================

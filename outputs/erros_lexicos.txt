@@ -1,1 +1,11 @@
-Nenhum erro léxico encontrado.
+--- Erros Léxicos Encontrados ---
+Erro Léxico: caractere inesperado '.' na linha 17.
+Erro Léxico: caractere inesperado '$' na linha 21.
+Erro Léxico: caractere inesperado 'é' na linha 21.
+Erro Léxico: caractere inesperado '.' na linha 21.
+Erro Léxico: caractere inesperado '$' na linha 23.
+Erro Léxico: caractere inesperado '.' na linha 39.
+Erro Léxico: caractere inesperado '$' na linha 43.
+Erro Léxico: caractere inesperado 'é' na linha 43.
+Erro Léxico: caractere inesperado '.' na linha 43.
+Erro Léxico: caractere inesperado '$' na linha 45.

@@ -1,0 +1,2 @@
+--- Erros Sintáticos Encontrados ---
+[ERRO SINTÁTICO] Token inesperado 'specializes' na linha 32

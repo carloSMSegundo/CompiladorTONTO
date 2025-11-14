@@ -1,0 +1,15 @@
+--- Tabela de Síntese Sintática ---
+
+Pacotes: 1
+  - UniversidadeModelo
+
+Classes encontradas: 1
+  - University (estereótipo=kind), atributos=2
+
+Tipos (DataTypes): 0
+
+Enums: 0
+
+Generalizações: 0
+
+Relações externas: 0
