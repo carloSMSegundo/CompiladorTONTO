@@ -1,279 +1,303 @@
-# parser_tonto.py
+# src/parser_tonto.py
 import ply.yacc as yacc
-from lexico_tonto import tokens
+from lexico_tonto import tokens, build_lexer
 
-# Síntese sintática e lista de erros
+# Estrutura para o relatório
 sintese = {
     "pacotes": [],
-    "classes": {},      # nome -> {estereotipo, atributos, relacoes_internas}
-    "tipos": {},       # nome -> atributos
-    "enums": {},       # nome -> [valores]
-    "generalizacoes": [],  # list of dicts
-    "relacoes_externas": []  # list of dicts
+    "classes": {},
+    "tipos": {},
+    "enums": {},
+    "generalizacoes": [],
+    "relacoes_externas": []
 }
 erros_sintaticos = []
 
-# ----------------------------
-# programa
-# ----------------------------
+
+# ========================================================================
+# 1. ESTRUTURA PRINCIPAL
+# ========================================================================
+
 def p_program(p):
-    'program : package_decl elementos'
-    p[0] = ("program", p[1], p[2])
+    '''program : imports_opt package_decl elementos'''
+    p[0] = ("program", p[2], p[3])
 
-# ----------------------------
-# package
-# ----------------------------
+
+def p_imports_opt(p):
+    '''imports_opt : imports_opt import_decl
+                   | import_decl
+                   | empty'''
+    pass
+
+
 def p_package_decl(p):
-    'package_decl : RESERVED_WORD CLASS_NAME'
-    if p[1] != 'package':
-        erros_sintaticos.append(f"Esperado 'package', encontrado '{p[1]}'.")
-    else:
+    # Correção: Aceita nome minúsculo (alergiaalimentar)
+    '''package_decl : KW_PACKAGE identifier_any
+                    | empty'''
+    if len(p) == 3:
         sintese["pacotes"].append(p[2])
-    p[0] = ("package", p[2])
+        p[0] = ("package", p[2])
+    else:
+        p[0] = None
 
-# ----------------------------
-# elementos (vários elementos: classes, tipos, enums, generalizacoes, relacoes)
-# ----------------------------
+
 def p_elementos(p):
-    '''
-    elementos : elementos elemento
-              | elemento
-    '''
+    '''elementos : elementos elemento
+                 | elemento'''
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[2])
-        p[0] = p[1]
+        p[1].append(p[2]); p[0] = p[1]
+
 
 def p_elemento(p):
-    '''
-    elemento : class_decl
-             | datatype_decl
-             | enum_decl
-             | generalizacao
-             | relation_decl
-    '''
+    '''elemento : class_decl
+                | datatype_decl
+                | enum_decl
+                | genset_decl
+                | relation_decl_external
+                | import_decl'''
     p[0] = p[1]
 
-# ----------------------------
-# class_decl
-# suportamos duas formas: com atributos entre { ... } ou vazio { }
-# ----------------------------
+
+def p_import_decl(p):
+    # Correção: Aceita nome minúsculo (import alergiaalimentar)
+    'import_decl : KW_IMPORT identifier_any'
+    p[0] = ("import", p[2])
+
+
+# ========================================================================
+# 2. CLASSES
+# ========================================================================
+
 def p_class_decl(p):
-    '''
-    class_decl : CLASS_STEREOTYPE CLASS_NAME SPECIAL_SYMBOL atributos SPECIAL_SYMBOL
-               | CLASS_STEREOTYPE CLASS_NAME SPECIAL_SYMBOL SPECIAL_SYMBOL
-    '''
+    '''class_decl : CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt'''
     nome = p[2]
     est = p[1]
-    if len(p) == 6:
-        # p[3] = '{', p[5] = '}'
-        if p[3] != '{' and p[3] != '{':
-            pass
-        attrs = p[4]
-    else:
-        attrs = []
-    sintese["classes"][nome] = {"estereotipo": est, "atributos": attrs, "relacoes_internas": []}
+    heranca = p[4];
+    corpo = p[5]
+    attrs, rels = [], []
+
+    if corpo:
+        for item in corpo:
+            if item[0] == 'atributo':
+                attrs.append(item)
+            elif item[0] == 'relacao_interna':
+                rels.append(item)
+
+    sintese["classes"][nome] = {"estereotipo": est, "heranca": heranca, "atributos": attrs, "relacoes_internas": rels}
     p[0] = ("class", nome)
 
-# ----------------------------
-# atributos (lista)
-# um atributo é name : tipo
-# usamos RELATION_NAME (lex marca atributos minúsculos)
-# ----------------------------
-def p_atributos(p):
-    '''
-    atributos : atributos atributo
-              | atributo
-    '''
+
+def p_nature_opt(p):
+    '''nature_opt : KW_OF RELATION_NAME
+                  | empty'''
+    # Lê "of functional-complexes" (RELATION_NAME pega minúsculas com hífens)
+    pass
+
+
+def p_inheritance_opt(p):
+    '''inheritance_opt : KW_SPECIALIZES class_list
+                       | empty'''
+    if len(p) == 3:
+        p[0] = p[2]
+    else:
+        p[0] = None
+
+
+def p_body_opt(p):
+    '''body_opt : LBRACE class_body RBRACE
+                | empty'''
+    if len(p) == 4:
+        p[0] = p[2]
+    else:
+        p[0] = None
+
+
+def p_class_body(p):
+    '''class_body : class_body member
+                  | member'''
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[2])
-        p[0] = p[1]
+        p[1].append(p[2]); p[0] = p[1]
 
-def p_atributo(p):
-    'atributo : RELATION_NAME SPECIAL_SYMBOL tipo'
-    # p[2] deve ser ':'
-    p[0] = (p[1], p[3])
 
-def p_tipo(p):
-    '''
-    tipo : DATA_TYPE
-         | NEW_TYPE
-         | CLASS_NAME
-    '''
+def p_member(p):
+    '''member : atributo
+              | internal_relation'''
     p[0] = p[1]
 
-# ----------------------------
-# datatype_decl (novos tipos)
-# ex: EnderecoDataType { campo: string }
-# ----------------------------
+
+# ========================================================================
+# 3. ATRIBUTOS
+# ========================================================================
+
+def p_atributo(p):
+    '''atributo : RELATION_NAME COLON tipo meta_attribs_opt'''
+    p[0] = ("atributo", p[1], p[3])
+
+
+def p_meta_attribs_opt(p):
+    '''meta_attribs_opt : LBRACE RELATION_NAME RBRACE
+                        | LBRACE RBRACE
+                        | empty'''
+    pass
+
+
+def p_tipo(p):
+    '''tipo : DATA_TYPE
+            | NEW_TYPE
+            | CLASS_NAME'''
+    p[0] = p[1]
+
+
+# ========================================================================
+# 4. RELAÇÕES INTERNAS
+# ========================================================================
+
+def p_internal_relation(p):
+    '''internal_relation : opt_at cardinality REL_SYM cardinality CLASS_NAME
+                         | opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+                         | opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+                         | REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+                         | opt_at REL_SYM CLASS_NAME'''
+    target = p[len(p) - 1]
+    p[0] = ("relacao_interna", target)
+
+
+# ========================================================================
+# 5. TIPOS, ENUMS E GENSETS
+# ========================================================================
+
 def p_datatype_decl(p):
-    'datatype_decl : NEW_TYPE SPECIAL_SYMBOL atributos SPECIAL_SYMBOL'
-    # p[2] == '{', p[4] == '}'
+    'datatype_decl : NEW_TYPE LBRACE atributos_dt RBRACE'
     sintese["tipos"][p[1]] = p[3]
     p[0] = ("datatype", p[1])
 
-# ----------------------------
-# enum_decl
-# ex: enum EyeColor { Blue, Green }
-# ----------------------------
-def p_enum_decl(p):
-    'enum_decl : RESERVED_WORD CLASS_NAME SPECIAL_SYMBOL lista_enum SPECIAL_SYMBOL'
-    if p[1] != 'enum':
-        erros_sintaticos.append(f"Esperado 'enum' antes de {p[2]}.")
+
+def p_atributos_dt(p):
+    '''atributos_dt : atributos_dt atributo
+                    | atributo'''
+    if len(p) == 2:
+        p[0] = [p[1]]
     else:
-        sintese["enums"][p[2]] = p[4]
+        p[1].append(p[2]); p[0] = p[1]
+
+
+def p_enum_decl(p):
+    'enum_decl : KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE'
+    sintese["enums"][p[2]] = p[4]
     p[0] = ("enum", p[2])
 
+
 def p_lista_enum(p):
-    '''
-    lista_enum : lista_enum SPECIAL_SYMBOL CLASS_NAME
-               | CLASS_NAME
-    '''
-    # note: usamos SPECIAL_SYMBOL para vírgula (lex gera ',' como SPECIAL_SYMBOL com value ',')
+    '''lista_enum : lista_enum COMMA CLASS_NAME
+                  | CLASS_NAME'''
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[3])
-        p[0] = p[1]
+        p[1].append(p[3]); p[0] = p[1]
 
-# ----------------------------
-# generalizacao (duas formas)
-# Forma inline: disjoint complete genset Nome where A, B
-# Forma em bloco: genset Nome { general Parent; specifics Child, Other }
-# ----------------------------
-def p_generalizacao_inline(p):
-    'generalizacao : RESERVED_WORD RESERVED_WORD RESERVED_WORD CLASS_NAME RESERVED_WORD class_list'
-    # ex: disjoint complete genset Person where Parent, Child
-    # p[1] disjoint, p[2] complete, p[3] genset, p[5] where
-    if p[3] != 'genset':
-        erros_sintaticos.append("Esperado 'genset' em generalização inline.")
-    sintese["generalizacoes"].append({
-        "nome": p[4],
-        "modifiers": [p[1], p[2]],
-        "classes": p[7]
-    })
-    p[0] = ("genset_inline", p[4])
+
+def p_genset_decl(p):
+    '''genset_decl : genset_inline
+                   | genset_block'''
+    p[0] = p[1]
+
+
+def p_genset_modifiers(p):
+    '''genset_modifiers : KW_DISJOINT KW_COMPLETE
+                        | KW_DISJOINT
+                        | KW_COMPLETE
+                        | empty'''
+    pass
+
+
+def p_genset_inline(p):
+    # Correção: Genset name pode ser minúsculo (identifier_any)
+    '''genset_inline : genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME'''
+    sintese["generalizacoes"].append({"nome": p[3], "tipo": "inline"})
+    p[0] = ("genset", p[3])
+
+
+def p_genset_block(p):
+    # Correção: Genset name pode ser minúsculo (identifier_any)
+    '''genset_block : genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE'''
+    sintese["generalizacoes"].append({"nome": p[3], "tipo": "block"})
+    p[0] = ("genset_block", p[3])
+
+
+def p_general_decl(p):
+    'general_decl : KW_GENERAL CLASS_NAME'
+    p[0] = p[2]
+
+
+def p_specifics_decl(p):
+    'specifics_decl : KW_SPECIFICS class_list'
+    p[0] = p[2]
+
 
 def p_class_list(p):
-    '''
-    class_list : CLASS_NAME
-               | class_list SPECIAL_SYMBOL CLASS_NAME
-    '''
+    '''class_list : class_list COMMA CLASS_NAME
+                  | CLASS_NAME'''
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        # p[2] should be ',' (SPECIAL_SYMBOL value)
-        p[1].append(p[3])
-        p[0] = p[1]
+        p[1].append(p[3]); p[0] = p[1]
 
-def p_generalizacao_block(p):
-    'generalizacao : RESERVED_WORD CLASS_NAME SPECIAL_SYMBOL general_block SPECIAL_SYMBOL'
-    # ex: genset PersonGroup { general Parent specifics A, B }
-    nome = p[2]
-    body = p[4]
-    sintese["generalizacoes"].append({"nome": nome, "body": body})
-    p[0] = ("genset_block", nome)
 
-def p_general_block(p):
-    '''
-    general_block : general_spec specifics_spec
-    '''
-    p[0] = {"general": p[1], "specifics": p[2]}
+# ========================================================================
+# 6. RELAÇÕES EXTERNAS E AUXILIARES
+# ========================================================================
 
-def p_general_spec(p):
-    'general_spec : RESERVED_WORD CLASS_NAME'
-    if p[1] != 'general':
-        erros_sintaticos.append("Esperado 'general' em bloco de generalização.")
-    p[0] = p[2]
+def p_relation_decl_external(p):
+    '''relation_decl_external : opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+                              | opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+                              | RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME'''
+    sintese["relacoes_externas"].append({"raw": "relação externa"})
+    p[0] = ("relation", "ok")
 
-def p_specifics_spec(p):
-    'specifics_spec : RESERVED_WORD class_list'
-    if p[1] != 'specifics':
-        erros_sintaticos.append("Esperado 'specifics' em bloco de generalização.")
-    p[0] = p[2]
-
-# ----------------------------
-# relations (externas e internas)
-# Externa: optional '@' RELATION_STEREOTYPE relation_name? relation_body
-# Interna (dentro de class_decl) não é totalmente implementada aqui, mas parser aceita uma linha com stereotipo + cardinalidades + target
-# ----------------------------
-def p_relation_decl(p):
-    '''
-    relation_decl : opt_at SIGNED_RELATION
-                 | RELATION_STEREOTYPE SIGNED_RELATION
-                 | RESERVED_WORD SIGNED_RELATION
-    '''
-    # SIGNED_RELATION is a helper nonterminal
-    # p may be variable length; normalize
-    if len(p) == 3:
-        body = p[2]
-        prefix = p[1]
-    else:
-        prefix = None
-        body = p[2]
-    sintese["relacoes_externas"].append({"prefix": prefix, "body": body})
-    p[0] = ("relation", body)
 
 def p_opt_at(p):
-    'opt_at : SPECIAL_SYMBOL'
-    # expects '@'
-    if p[1] != '@':
-        erros_sintaticos.append("Esperado '@' antes do estereótipo de relação.")
+    '''opt_at : AT RELATION_STEREOTYPE
+              | RELATION_STEREOTYPE
+              | empty'''
+    pass
+
+
+def p_cardinality(p):
+    '''cardinality : LBRACKET NUMBER RBRACKET
+                   | LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+                   | LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+                   | LBRACKET STAR RBRACKET'''
+    pass
+
+
+def p_identifier_any(p):
+    '''identifier_any : CLASS_NAME
+                      | RELATION_NAME'''
     p[0] = p[1]
 
-def p_signed_relation(p):
-    '''
-    SIGNED_RELATION : RELATION_STEREOTYPE relation_body
-                    | RESERVED_WORD relation_body
-                    | relation_body
-    '''
-    if len(p) == 3:
-        p[0] = (p[1], p[2])
-    else:
-        p[0] = p[1]
 
-def p_relation_body(p):
-    '''
-    relation_body : CLASS_NAME relation_symbol CLASS_NAME
-                  | CLASS_NAME
-    '''
-    # relation_symbol is SPECIAL_SYMBOL values like '--' or '<>--'
-    if len(p) == 4:
-        p[0] = {"src": p[1], "symbol": p[2], "dst": p[3]}
-    else:
-        p[0] = {"single": p[1]}
+def p_empty(p):
+    'empty :'
+    pass
 
-# ----------------------------
-# catch-all token for relation symbol
-# We let parser accept any SPECIAL_SYMBOL token in these positions and will inspect its .value
-# ----------------------------
-def p_relation_symbol(p):
-    'relation_symbol : SPECIAL_SYMBOL'
-    p[0] = p[1]
 
-# ----------------------------
-# erro
-# ----------------------------
 def p_error(p):
     if p:
-        erros_sintaticos.append(f"[ERRO SINTÁTICO] Token inesperado '{p.value}' na linha {p.lineno}")
+        erros_sintaticos.append(f"[ERRO SINTÁTICO] Token inesperado '{p.value}' ({p.type}) na linha {p.lineno}")
     else:
         erros_sintaticos.append("[ERRO SINTÁTICO] Final inesperado do arquivo.")
 
-# ----------------------------
-# Construção do parser
-# ----------------------------
+
+# ========================================================================
+# BUILD
+# ========================================================================
 parser = yacc.yacc()
 
 def analisar_sintaxe(codigo):
-    """
-    Recebe o texto completo e realiza a análise sintática.
-    Retorna: (sintese, erros_sintaticos, arvore)
-    """
-    # Reset das estruturas
     sintese["pacotes"].clear()
     sintese["classes"].clear()
     sintese["tipos"].clear()
@@ -282,8 +306,6 @@ def analisar_sintaxe(codigo):
     sintese["relacoes_externas"].clear()
     erros_sintaticos.clear()
 
-    # Deixa o PLY criar o próprio lexer
-    arvore = parser.parse(codigo)
-
-    return sintese, erros_sintaticos, arvore
-
+    lexer_fresco = build_lexer()
+    parser.parse(codigo, lexer=lexer_fresco)
+    return sintese, erros_sintaticos, parser
