@@ -1,3 +1,0 @@
---- Tabela de Síntese da Análise Sintática ---
-Recursos encontrados no modelo Tonto.
-==================================================

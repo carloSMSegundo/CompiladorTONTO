@@ -1,5 +1,6 @@
 # src/parser_tonto.py
 import ply.yacc as yacc
+import os
 from lexico_tonto import tokens, build_lexer
 
 # Estrutura para o relatório
@@ -31,7 +32,6 @@ def p_imports_opt(p):
 
 
 def p_package_decl(p):
-    # Correção: Aceita nome minúsculo (alergiaalimentar)
     '''package_decl : KW_PACKAGE identifier_any
                     | empty'''
     if len(p) == 3:
@@ -61,7 +61,6 @@ def p_elemento(p):
 
 
 def p_import_decl(p):
-    # Correção: Aceita nome minúsculo (import alergiaalimentar)
     'import_decl : KW_IMPORT identifier_any'
     p[0] = ("import", p[2])
 
@@ -92,7 +91,6 @@ def p_class_decl(p):
 def p_nature_opt(p):
     '''nature_opt : KW_OF RELATION_NAME
                   | empty'''
-    # Lê "of functional-complexes" (RELATION_NAME pega minúsculas com hífens)
     pass
 
 
@@ -215,14 +213,12 @@ def p_genset_modifiers(p):
 
 
 def p_genset_inline(p):
-    # Correção: Genset name pode ser minúsculo (identifier_any)
     '''genset_inline : genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME'''
     sintese["generalizacoes"].append({"nome": p[3], "tipo": "inline"})
     p[0] = ("genset", p[3])
 
 
 def p_genset_block(p):
-    # Correção: Genset name pode ser minúsculo (identifier_any)
     '''genset_block : genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE'''
     sintese["generalizacoes"].append({"nome": p[3], "tipo": "block"})
     p[0] = ("genset_block", p[3])
@@ -295,9 +291,9 @@ def p_error(p):
 # ========================================================================
 # BUILD
 # ========================================================================
-parser = yacc.yacc()
 
 def analisar_sintaxe(codigo):
+    # 1. Reset das estruturas
     sintese["pacotes"].clear()
     sintese["classes"].clear()
     sintese["tipos"].clear()
@@ -306,6 +302,18 @@ def analisar_sintaxe(codigo):
     sintese["relacoes_externas"].clear()
     erros_sintaticos.clear()
 
+    # 2. Remove parsetab.py antigo para forçar regeneração do parser.out
+    arquivos_para_remover = ["parsetab.py", os.path.join("src", "parsetab.py")]
+    for arq in arquivos_para_remover:
+        if os.path.exists(arq):
+            try:
+                os.remove(arq)
+            except:
+                pass
+
+    # 3. Build
     lexer_fresco = build_lexer()
+    parser = yacc.yacc()  # Gera parser.out na raiz por padrão
+
     parser.parse(codigo, lexer=lexer_fresco)
     return sintese, erros_sintaticos, parser
