@@ -1,23 +1,40 @@
---- Início do Bloco de Código Válido ---
+package ModeloDeDominio
 
-package UniversidadeModelo
+// Teste de importação (deve ser o segundo elemento)
+import OutroPacote
 
-kind University {
-nome: string
-endereco: EnderecoDataType
+// --- CORREÇÃO DO ERRO 1: Testa o keyword 'datatype' ---
+datatype CoordenadaDataType {
+    latitude: number
+    longitude: number { derived } // Atributo com meta-atributo
 }
 
-role Professor specializes Pessoa
+enum CoresBasicas { Vermelho, Amarelo, Azul }
 
-relator ContratoEmprego {
-@mediation
-[1] -- empregado -- [1] Professor
+// --- CORREÇÃO DO ERRO 2: Testa atributos com cardinalidade e sem ---
+kind Elemento {
+    nome: string [1] // Atributo com cardinalidade explícita
+    localizacao: CoordenadaDataType
+    corPrincipal: CoresBasicas [0..1]
+    dataCriacao: date { const } // Atributo sem cardinalidade (default é [1])
 }
---- Teste de Convenção de Instância ---
-A linha abaixo deve ser reconhecida como INSTANCE_NAME.
 
-instanciaDeContrato123
---- Teste de Erro Léxico ---
-O caractere '$' na linha abaixo deve gerar um erro léxico.
+// Classes para Generalização
+phase ElementoAtivo specializes Elemento
+phase ElementoInativo specializes Elemento
 
-$
+// Generalização em Bloco
+disjoint complete genset EstadoDoElemento {
+    general Elemento
+    specifics ElementoAtivo, ElementoInativo
+}
+
+// Relação Interna (Internal Relation - Composition com nome)
+kind Container {
+    @componentOf
+    // [Card. Origem] <Símbolo> NomeRelação -- [Card. Destino] ClasseDestino
+    [1] <o>-- contemComponentes -- [1..*] Elemento
+}
+
+// Relação Externa
+@mediation relation AssociacaoExterna [0..*] -- [1] Elemento

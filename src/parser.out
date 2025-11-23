@@ -36,121 +36,125 @@ Rule 23    class_body -> class_body member
 Rule 24    class_body -> member
 Rule 25    member -> atributo
 Rule 26    member -> internal_relation
-Rule 27    atributo -> RELATION_NAME COLON tipo meta_attribs_opt
-Rule 28    meta_attribs_opt -> LBRACE RELATION_NAME RBRACE
-Rule 29    meta_attribs_opt -> LBRACE RBRACE
-Rule 30    meta_attribs_opt -> empty
-Rule 31    tipo -> DATA_TYPE
-Rule 32    tipo -> NEW_TYPE
-Rule 33    tipo -> CLASS_NAME
-Rule 34    internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME
-Rule 35    internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-Rule 36    internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-Rule 37    internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-Rule 38    internal_relation -> opt_at REL_SYM CLASS_NAME
-Rule 39    datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE
-Rule 40    atributos_dt -> atributos_dt atributo
-Rule 41    atributos_dt -> atributo
-Rule 42    enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE
-Rule 43    lista_enum -> lista_enum COMMA CLASS_NAME
-Rule 44    lista_enum -> CLASS_NAME
-Rule 45    genset_decl -> genset_inline
-Rule 46    genset_decl -> genset_block
-Rule 47    genset_modifiers -> KW_DISJOINT KW_COMPLETE
-Rule 48    genset_modifiers -> KW_DISJOINT
-Rule 49    genset_modifiers -> KW_COMPLETE
-Rule 50    genset_modifiers -> empty
-Rule 51    genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
-Rule 52    genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE
-Rule 53    general_decl -> KW_GENERAL CLASS_NAME
-Rule 54    specifics_decl -> KW_SPECIFICS class_list
-Rule 55    class_list -> class_list COMMA CLASS_NAME
-Rule 56    class_list -> CLASS_NAME
-Rule 57    relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
-Rule 58    relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-Rule 59    relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
-Rule 60    opt_at -> AT RELATION_STEREOTYPE
-Rule 61    opt_at -> RELATION_STEREOTYPE
-Rule 62    opt_at -> empty
-Rule 63    cardinality -> LBRACKET NUMBER RBRACKET
-Rule 64    cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-Rule 65    cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-Rule 66    cardinality -> LBRACKET STAR RBRACKET
-Rule 67    identifier_any -> CLASS_NAME
-Rule 68    identifier_any -> RELATION_NAME
-Rule 69    empty -> <empty>
+Rule 27    cardinality_opt -> cardinality
+Rule 28    cardinality_opt -> empty
+Rule 29    atributo -> RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt
+Rule 30    meta_attribs_opt -> LBRACE RELATION_NAME RBRACE
+Rule 31    meta_attribs_opt -> LBRACE RBRACE
+Rule 32    meta_attribs_opt -> empty
+Rule 33    tipo -> DATA_TYPE
+Rule 34    tipo -> NEW_TYPE
+Rule 35    tipo -> CLASS_NAME
+Rule 36    internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME
+Rule 37    internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+Rule 38    internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+Rule 39    internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+Rule 40    internal_relation -> opt_at REL_SYM CLASS_NAME
+Rule 41    datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE
+Rule 42    atributos_dt -> atributos_dt atributo
+Rule 43    atributos_dt -> atributo
+Rule 44    enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE
+Rule 45    lista_enum -> lista_enum COMMA CLASS_NAME
+Rule 46    lista_enum -> CLASS_NAME
+Rule 47    genset_decl -> genset_inline
+Rule 48    genset_decl -> genset_block
+Rule 49    genset_modifiers -> KW_DISJOINT KW_COMPLETE
+Rule 50    genset_modifiers -> KW_DISJOINT
+Rule 51    genset_modifiers -> KW_COMPLETE
+Rule 52    genset_modifiers -> empty
+Rule 53    genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
+Rule 54    genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE
+Rule 55    general_decl -> KW_GENERAL CLASS_NAME
+Rule 56    specifics_decl -> KW_SPECIFICS class_list
+Rule 57    class_list -> class_list COMMA CLASS_NAME
+Rule 58    class_list -> CLASS_NAME
+Rule 59    relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+Rule 60    relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+Rule 61    relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+Rule 62    opt_at -> AT RELATION_STEREOTYPE
+Rule 63    opt_at -> RELATION_STEREOTYPE
+Rule 64    opt_at -> empty
+Rule 65    cardinality -> LBRACKET NUMBER RBRACKET
+Rule 66    cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+Rule 67    cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+Rule 68    cardinality -> LBRACKET STAR RBRACKET
+Rule 69    identifier_any -> CLASS_NAME
+Rule 70    identifier_any -> RELATION_NAME
+Rule 71    empty -> <empty>
 
 Terminals, with rules where they appear
 
-AT                   : 60
-CLASS_NAME           : 16 33 34 35 36 37 38 42 43 44 51 53 55 56 57 57 58 58 59 59 67
+AT                   : 62
+CLASS_NAME           : 16 35 36 37 38 39 40 44 45 46 53 55 57 58 59 59 60 60 61 61 69
 CLASS_STEREOTYPE     : 16
-COLON                : 27
-COMMA                : 43 55
-DATA_TYPE            : 31
+COLON                : 29
+COMMA                : 45 57
+DATA_TYPE            : 33
 INSTANCE_NAME        : 
-KW_COMPLETE          : 47 49
-KW_DISJOINT          : 47 48
-KW_ENUM              : 42
-KW_GENERAL           : 53
-KW_GENSET            : 51 52
+KW_COMPLETE          : 49 51
+KW_DATATYPE          : 41
+KW_DISJOINT          : 49 50
+KW_ENUM              : 44
+KW_GENERAL           : 55
+KW_GENSET            : 53 54
 KW_IMPORT            : 15
 KW_OF                : 17
 KW_PACKAGE           : 5
-KW_RELATION          : 57 58 59
-KW_SPECIALIZES       : 19 51
-KW_SPECIFICS         : 54
-KW_WHERE             : 51
-LBRACE               : 21 28 29 39 42 52
-LBRACKET             : 63 64 65 66
+KW_RELATION          : 59 60 61
+KW_SPECIALIZES       : 19 53
+KW_SPECIFICS         : 56
+KW_WHERE             : 53
+LBRACE               : 21 30 31 41 44 54
+LBRACKET             : 65 66 67 68
 LPAREN               : 
-NEW_TYPE             : 32 39
-NUMBER               : 63 64 65 65
-RANGE_DOTS           : 64 65
-RBRACE               : 21 28 29 39 42 52
-RBRACKET             : 63 64 65 66
-RELATION_NAME        : 17 27 28 35 36 37 58 68
-RELATION_STEREOTYPE  : 59 60 61
-REL_SYM              : 34 35 35 36 36 37 37 38 57 58 58 59
+NEW_TYPE             : 34 41
+NUMBER               : 65 66 67 67
+RANGE_DOTS           : 66 67
+RBRACE               : 21 30 31 41 44 54
+RBRACKET             : 65 66 67 68
+RELATION_NAME        : 17 29 30 37 38 39 60 70
+RELATION_STEREOTYPE  : 61 62 63
+REL_SYM              : 36 37 37 38 38 39 39 40 59 60 60 61
 RPAREN               : 
 SPECIAL_SYMBOL       : 
-STAR                 : 64 66
+STAR                 : 66 68
 error                : 
 
 Nonterminals, with rules where they appear
 
-atributo             : 25 40 41
-atributos_dt         : 39 40
+atributo             : 25 42 43
+atributos_dt         : 41 42
 body_opt             : 16
-cardinality          : 34 34 35 35 36 37 57 57 58 58 59 59
+cardinality          : 27 36 36 37 37 38 39 59 59 60 60 61 61
+cardinality_opt      : 29
 class_body           : 21 23
 class_decl           : 9
-class_list           : 19 51 54 55
+class_list           : 19 53 56 57
 datatype_decl        : 10
 elemento             : 7 8
 elementos            : 1 7
-empty                : 4 6 18 20 22 30 50 62
+empty                : 4 6 18 20 22 28 32 52 64
 enum_decl            : 11
-general_decl         : 52
-genset_block         : 46
+general_decl         : 54
+genset_block         : 48
 genset_decl          : 12
-genset_inline        : 45
-genset_modifiers     : 51 52
-identifier_any       : 5 15 51 52
+genset_inline        : 47
+genset_modifiers     : 53 54
+identifier_any       : 5 15 53 54
 import_decl          : 2 3 14
 imports_opt          : 1 2
 inheritance_opt      : 16
 internal_relation    : 26
-lista_enum           : 42 43
+lista_enum           : 44 45
 member               : 23 24
-meta_attribs_opt     : 27
+meta_attribs_opt     : 29
 nature_opt           : 16
-opt_at               : 34 35 36 38 57 58
+opt_at               : 36 37 38 40 59 60
 package_decl         : 1
 program              : 0
 relation_decl_external : 13
-specifics_decl       : 52
-tipo                 : 27
+specifics_decl       : 54
+tipo                 : 29
 
 Parsing method: LALR
 
@@ -162,22 +166,22 @@ state 0
     (3) imports_opt -> . import_decl
     (4) imports_opt -> . empty
     (15) import_decl -> . KW_IMPORT identifier_any
-    (69) empty -> .
+    (71) empty -> .
 
   ! shift/reduce conflict for KW_IMPORT resolved as shift
     KW_IMPORT       shift and go to state 5
-    KW_PACKAGE      reduce using rule 69 (empty -> .)
-    CLASS_STEREOTYPE reduce using rule 69 (empty -> .)
-    NEW_TYPE        reduce using rule 69 (empty -> .)
-    KW_ENUM         reduce using rule 69 (empty -> .)
-    RELATION_STEREOTYPE reduce using rule 69 (empty -> .)
-    AT              reduce using rule 69 (empty -> .)
-    KW_DISJOINT     reduce using rule 69 (empty -> .)
-    KW_COMPLETE     reduce using rule 69 (empty -> .)
-    KW_RELATION     reduce using rule 69 (empty -> .)
-    KW_GENSET       reduce using rule 69 (empty -> .)
+    KW_PACKAGE      reduce using rule 71 (empty -> .)
+    CLASS_STEREOTYPE reduce using rule 71 (empty -> .)
+    KW_DATATYPE     reduce using rule 71 (empty -> .)
+    KW_ENUM         reduce using rule 71 (empty -> .)
+    RELATION_STEREOTYPE reduce using rule 71 (empty -> .)
+    AT              reduce using rule 71 (empty -> .)
+    KW_DISJOINT     reduce using rule 71 (empty -> .)
+    KW_COMPLETE     reduce using rule 71 (empty -> .)
+    KW_RELATION     reduce using rule 71 (empty -> .)
+    KW_GENSET       reduce using rule 71 (empty -> .)
 
-  ! KW_IMPORT       [ reduce using rule 69 (empty -> .) ]
+  ! KW_IMPORT       [ reduce using rule 71 (empty -> .) ]
 
     program                        shift and go to state 1
     imports_opt                    shift and go to state 2
@@ -197,22 +201,22 @@ state 2
     (5) package_decl -> . KW_PACKAGE identifier_any
     (6) package_decl -> . empty
     (15) import_decl -> . KW_IMPORT identifier_any
-    (69) empty -> .
+    (71) empty -> .
 
   ! shift/reduce conflict for KW_IMPORT resolved as shift
     KW_PACKAGE      shift and go to state 8
     KW_IMPORT       shift and go to state 5
-    CLASS_STEREOTYPE reduce using rule 69 (empty -> .)
-    NEW_TYPE        reduce using rule 69 (empty -> .)
-    KW_ENUM         reduce using rule 69 (empty -> .)
-    RELATION_STEREOTYPE reduce using rule 69 (empty -> .)
-    AT              reduce using rule 69 (empty -> .)
-    KW_DISJOINT     reduce using rule 69 (empty -> .)
-    KW_COMPLETE     reduce using rule 69 (empty -> .)
-    KW_RELATION     reduce using rule 69 (empty -> .)
-    KW_GENSET       reduce using rule 69 (empty -> .)
+    CLASS_STEREOTYPE reduce using rule 71 (empty -> .)
+    KW_DATATYPE     reduce using rule 71 (empty -> .)
+    KW_ENUM         reduce using rule 71 (empty -> .)
+    RELATION_STEREOTYPE reduce using rule 71 (empty -> .)
+    AT              reduce using rule 71 (empty -> .)
+    KW_DISJOINT     reduce using rule 71 (empty -> .)
+    KW_COMPLETE     reduce using rule 71 (empty -> .)
+    KW_RELATION     reduce using rule 71 (empty -> .)
+    KW_GENSET       reduce using rule 71 (empty -> .)
 
-  ! KW_IMPORT       [ reduce using rule 69 (empty -> .) ]
+  ! KW_IMPORT       [ reduce using rule 71 (empty -> .) ]
 
     package_decl                   shift and go to state 6
     import_decl                    shift and go to state 7
@@ -225,7 +229,7 @@ state 3
     KW_PACKAGE      reduce using rule 3 (imports_opt -> import_decl .)
     KW_IMPORT       reduce using rule 3 (imports_opt -> import_decl .)
     CLASS_STEREOTYPE reduce using rule 3 (imports_opt -> import_decl .)
-    NEW_TYPE        reduce using rule 3 (imports_opt -> import_decl .)
+    KW_DATATYPE     reduce using rule 3 (imports_opt -> import_decl .)
     KW_ENUM         reduce using rule 3 (imports_opt -> import_decl .)
     RELATION_STEREOTYPE reduce using rule 3 (imports_opt -> import_decl .)
     AT              reduce using rule 3 (imports_opt -> import_decl .)
@@ -242,7 +246,7 @@ state 4
     KW_PACKAGE      reduce using rule 4 (imports_opt -> empty .)
     KW_IMPORT       reduce using rule 4 (imports_opt -> empty .)
     CLASS_STEREOTYPE reduce using rule 4 (imports_opt -> empty .)
-    NEW_TYPE        reduce using rule 4 (imports_opt -> empty .)
+    KW_DATATYPE     reduce using rule 4 (imports_opt -> empty .)
     KW_ENUM         reduce using rule 4 (imports_opt -> empty .)
     RELATION_STEREOTYPE reduce using rule 4 (imports_opt -> empty .)
     AT              reduce using rule 4 (imports_opt -> empty .)
@@ -255,8 +259,8 @@ state 4
 state 5
 
     (15) import_decl -> KW_IMPORT . identifier_any
-    (67) identifier_any -> . CLASS_NAME
-    (68) identifier_any -> . RELATION_NAME
+    (69) identifier_any -> . CLASS_NAME
+    (70) identifier_any -> . RELATION_NAME
 
     CLASS_NAME      shift and go to state 11
     RELATION_NAME   shift and go to state 12
@@ -275,35 +279,35 @@ state 6
     (13) elemento -> . relation_decl_external
     (14) elemento -> . import_decl
     (16) class_decl -> . CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt
-    (39) datatype_decl -> . NEW_TYPE LBRACE atributos_dt RBRACE
-    (42) enum_decl -> . KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE
-    (45) genset_decl -> . genset_inline
-    (46) genset_decl -> . genset_block
-    (57) relation_decl_external -> . opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
-    (58) relation_decl_external -> . opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (59) relation_decl_external -> . RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+    (41) datatype_decl -> . KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE
+    (44) enum_decl -> . KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE
+    (47) genset_decl -> . genset_inline
+    (48) genset_decl -> . genset_block
+    (59) relation_decl_external -> . opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+    (60) relation_decl_external -> . opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (61) relation_decl_external -> . RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
     (15) import_decl -> . KW_IMPORT identifier_any
-    (51) genset_inline -> . genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
-    (52) genset_block -> . genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE
-    (60) opt_at -> . AT RELATION_STEREOTYPE
-    (61) opt_at -> . RELATION_STEREOTYPE
-    (62) opt_at -> . empty
-    (47) genset_modifiers -> . KW_DISJOINT KW_COMPLETE
-    (48) genset_modifiers -> . KW_DISJOINT
-    (49) genset_modifiers -> . KW_COMPLETE
-    (50) genset_modifiers -> . empty
-    (69) empty -> .
+    (53) genset_inline -> . genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
+    (54) genset_block -> . genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE
+    (62) opt_at -> . AT RELATION_STEREOTYPE
+    (63) opt_at -> . RELATION_STEREOTYPE
+    (64) opt_at -> . empty
+    (49) genset_modifiers -> . KW_DISJOINT KW_COMPLETE
+    (50) genset_modifiers -> . KW_DISJOINT
+    (51) genset_modifiers -> . KW_COMPLETE
+    (52) genset_modifiers -> . empty
+    (71) empty -> .
 
     CLASS_STEREOTYPE shift and go to state 21
-    NEW_TYPE        shift and go to state 22
+    KW_DATATYPE     shift and go to state 22
     KW_ENUM         shift and go to state 23
     RELATION_STEREOTYPE shift and go to state 27
     KW_IMPORT       shift and go to state 5
     AT              shift and go to state 29
     KW_DISJOINT     shift and go to state 31
     KW_COMPLETE     shift and go to state 32
-    KW_RELATION     reduce using rule 69 (empty -> .)
-    KW_GENSET       reduce using rule 69 (empty -> .)
+    KW_RELATION     reduce using rule 71 (empty -> .)
+    KW_GENSET       reduce using rule 71 (empty -> .)
 
     elementos                      shift and go to state 13
     elemento                       shift and go to state 14
@@ -326,7 +330,7 @@ state 7
     KW_PACKAGE      reduce using rule 2 (imports_opt -> imports_opt import_decl .)
     KW_IMPORT       reduce using rule 2 (imports_opt -> imports_opt import_decl .)
     CLASS_STEREOTYPE reduce using rule 2 (imports_opt -> imports_opt import_decl .)
-    NEW_TYPE        reduce using rule 2 (imports_opt -> imports_opt import_decl .)
+    KW_DATATYPE     reduce using rule 2 (imports_opt -> imports_opt import_decl .)
     KW_ENUM         reduce using rule 2 (imports_opt -> imports_opt import_decl .)
     RELATION_STEREOTYPE reduce using rule 2 (imports_opt -> imports_opt import_decl .)
     AT              reduce using rule 2 (imports_opt -> imports_opt import_decl .)
@@ -339,8 +343,8 @@ state 7
 state 8
 
     (5) package_decl -> KW_PACKAGE . identifier_any
-    (67) identifier_any -> . CLASS_NAME
-    (68) identifier_any -> . RELATION_NAME
+    (69) identifier_any -> . CLASS_NAME
+    (70) identifier_any -> . RELATION_NAME
 
     CLASS_NAME      shift and go to state 11
     RELATION_NAME   shift and go to state 12
@@ -352,7 +356,7 @@ state 9
     (6) package_decl -> empty .
 
     CLASS_STEREOTYPE reduce using rule 6 (package_decl -> empty .)
-    NEW_TYPE        reduce using rule 6 (package_decl -> empty .)
+    KW_DATATYPE     reduce using rule 6 (package_decl -> empty .)
     KW_ENUM         reduce using rule 6 (package_decl -> empty .)
     RELATION_STEREOTYPE reduce using rule 6 (package_decl -> empty .)
     KW_IMPORT       reduce using rule 6 (package_decl -> empty .)
@@ -370,7 +374,7 @@ state 10
     KW_PACKAGE      reduce using rule 15 (import_decl -> KW_IMPORT identifier_any .)
     KW_IMPORT       reduce using rule 15 (import_decl -> KW_IMPORT identifier_any .)
     CLASS_STEREOTYPE reduce using rule 15 (import_decl -> KW_IMPORT identifier_any .)
-    NEW_TYPE        reduce using rule 15 (import_decl -> KW_IMPORT identifier_any .)
+    KW_DATATYPE     reduce using rule 15 (import_decl -> KW_IMPORT identifier_any .)
     KW_ENUM         reduce using rule 15 (import_decl -> KW_IMPORT identifier_any .)
     RELATION_STEREOTYPE reduce using rule 15 (import_decl -> KW_IMPORT identifier_any .)
     AT              reduce using rule 15 (import_decl -> KW_IMPORT identifier_any .)
@@ -383,42 +387,42 @@ state 10
 
 state 11
 
-    (67) identifier_any -> CLASS_NAME .
+    (69) identifier_any -> CLASS_NAME .
 
-    KW_PACKAGE      reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    KW_IMPORT       reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    CLASS_STEREOTYPE reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    NEW_TYPE        reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    KW_ENUM         reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    AT              reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    KW_DISJOINT     reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    KW_COMPLETE     reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    KW_RELATION     reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    KW_GENSET       reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    $end            reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    KW_WHERE        reduce using rule 67 (identifier_any -> CLASS_NAME .)
-    LBRACE          reduce using rule 67 (identifier_any -> CLASS_NAME .)
+    KW_PACKAGE      reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    KW_IMPORT       reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    CLASS_STEREOTYPE reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    KW_DATATYPE     reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    KW_ENUM         reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    AT              reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    KW_DISJOINT     reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    KW_COMPLETE     reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    KW_RELATION     reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    KW_GENSET       reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    $end            reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    KW_WHERE        reduce using rule 69 (identifier_any -> CLASS_NAME .)
+    LBRACE          reduce using rule 69 (identifier_any -> CLASS_NAME .)
 
 
 state 12
 
-    (68) identifier_any -> RELATION_NAME .
+    (70) identifier_any -> RELATION_NAME .
 
-    KW_PACKAGE      reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    KW_IMPORT       reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    CLASS_STEREOTYPE reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    NEW_TYPE        reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    KW_ENUM         reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    RELATION_STEREOTYPE reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    AT              reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    KW_DISJOINT     reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    KW_COMPLETE     reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    KW_RELATION     reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    KW_GENSET       reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    $end            reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    KW_WHERE        reduce using rule 68 (identifier_any -> RELATION_NAME .)
-    LBRACE          reduce using rule 68 (identifier_any -> RELATION_NAME .)
+    KW_PACKAGE      reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    KW_IMPORT       reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    CLASS_STEREOTYPE reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    KW_DATATYPE     reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    KW_ENUM         reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    RELATION_STEREOTYPE reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    AT              reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    KW_DISJOINT     reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    KW_COMPLETE     reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    KW_RELATION     reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    KW_GENSET       reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    $end            reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    KW_WHERE        reduce using rule 70 (identifier_any -> RELATION_NAME .)
+    LBRACE          reduce using rule 70 (identifier_any -> RELATION_NAME .)
 
 
 state 13
@@ -432,36 +436,36 @@ state 13
     (13) elemento -> . relation_decl_external
     (14) elemento -> . import_decl
     (16) class_decl -> . CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt
-    (39) datatype_decl -> . NEW_TYPE LBRACE atributos_dt RBRACE
-    (42) enum_decl -> . KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE
-    (45) genset_decl -> . genset_inline
-    (46) genset_decl -> . genset_block
-    (57) relation_decl_external -> . opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
-    (58) relation_decl_external -> . opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (59) relation_decl_external -> . RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+    (41) datatype_decl -> . KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE
+    (44) enum_decl -> . KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE
+    (47) genset_decl -> . genset_inline
+    (48) genset_decl -> . genset_block
+    (59) relation_decl_external -> . opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+    (60) relation_decl_external -> . opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (61) relation_decl_external -> . RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
     (15) import_decl -> . KW_IMPORT identifier_any
-    (51) genset_inline -> . genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
-    (52) genset_block -> . genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE
-    (60) opt_at -> . AT RELATION_STEREOTYPE
-    (61) opt_at -> . RELATION_STEREOTYPE
-    (62) opt_at -> . empty
-    (47) genset_modifiers -> . KW_DISJOINT KW_COMPLETE
-    (48) genset_modifiers -> . KW_DISJOINT
-    (49) genset_modifiers -> . KW_COMPLETE
-    (50) genset_modifiers -> . empty
-    (69) empty -> .
+    (53) genset_inline -> . genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
+    (54) genset_block -> . genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE
+    (62) opt_at -> . AT RELATION_STEREOTYPE
+    (63) opt_at -> . RELATION_STEREOTYPE
+    (64) opt_at -> . empty
+    (49) genset_modifiers -> . KW_DISJOINT KW_COMPLETE
+    (50) genset_modifiers -> . KW_DISJOINT
+    (51) genset_modifiers -> . KW_COMPLETE
+    (52) genset_modifiers -> . empty
+    (71) empty -> .
 
     $end            reduce using rule 1 (program -> imports_opt package_decl elementos .)
     CLASS_STEREOTYPE shift and go to state 21
-    NEW_TYPE        shift and go to state 22
+    KW_DATATYPE     shift and go to state 22
     KW_ENUM         shift and go to state 23
     RELATION_STEREOTYPE shift and go to state 27
     KW_IMPORT       shift and go to state 5
     AT              shift and go to state 29
     KW_DISJOINT     shift and go to state 31
     KW_COMPLETE     shift and go to state 32
-    KW_RELATION     reduce using rule 69 (empty -> .)
-    KW_GENSET       reduce using rule 69 (empty -> .)
+    KW_RELATION     reduce using rule 71 (empty -> .)
+    KW_GENSET       reduce using rule 71 (empty -> .)
 
     elemento                       shift and go to state 34
     class_decl                     shift and go to state 15
@@ -481,7 +485,7 @@ state 14
     (8) elementos -> elemento .
 
     CLASS_STEREOTYPE reduce using rule 8 (elementos -> elemento .)
-    NEW_TYPE        reduce using rule 8 (elementos -> elemento .)
+    KW_DATATYPE     reduce using rule 8 (elementos -> elemento .)
     KW_ENUM         reduce using rule 8 (elementos -> elemento .)
     RELATION_STEREOTYPE reduce using rule 8 (elementos -> elemento .)
     KW_IMPORT       reduce using rule 8 (elementos -> elemento .)
@@ -498,7 +502,7 @@ state 15
     (9) elemento -> class_decl .
 
     CLASS_STEREOTYPE reduce using rule 9 (elemento -> class_decl .)
-    NEW_TYPE        reduce using rule 9 (elemento -> class_decl .)
+    KW_DATATYPE     reduce using rule 9 (elemento -> class_decl .)
     KW_ENUM         reduce using rule 9 (elemento -> class_decl .)
     RELATION_STEREOTYPE reduce using rule 9 (elemento -> class_decl .)
     KW_IMPORT       reduce using rule 9 (elemento -> class_decl .)
@@ -515,7 +519,7 @@ state 16
     (10) elemento -> datatype_decl .
 
     CLASS_STEREOTYPE reduce using rule 10 (elemento -> datatype_decl .)
-    NEW_TYPE        reduce using rule 10 (elemento -> datatype_decl .)
+    KW_DATATYPE     reduce using rule 10 (elemento -> datatype_decl .)
     KW_ENUM         reduce using rule 10 (elemento -> datatype_decl .)
     RELATION_STEREOTYPE reduce using rule 10 (elemento -> datatype_decl .)
     KW_IMPORT       reduce using rule 10 (elemento -> datatype_decl .)
@@ -532,7 +536,7 @@ state 17
     (11) elemento -> enum_decl .
 
     CLASS_STEREOTYPE reduce using rule 11 (elemento -> enum_decl .)
-    NEW_TYPE        reduce using rule 11 (elemento -> enum_decl .)
+    KW_DATATYPE     reduce using rule 11 (elemento -> enum_decl .)
     KW_ENUM         reduce using rule 11 (elemento -> enum_decl .)
     RELATION_STEREOTYPE reduce using rule 11 (elemento -> enum_decl .)
     KW_IMPORT       reduce using rule 11 (elemento -> enum_decl .)
@@ -549,7 +553,7 @@ state 18
     (12) elemento -> genset_decl .
 
     CLASS_STEREOTYPE reduce using rule 12 (elemento -> genset_decl .)
-    NEW_TYPE        reduce using rule 12 (elemento -> genset_decl .)
+    KW_DATATYPE     reduce using rule 12 (elemento -> genset_decl .)
     KW_ENUM         reduce using rule 12 (elemento -> genset_decl .)
     RELATION_STEREOTYPE reduce using rule 12 (elemento -> genset_decl .)
     KW_IMPORT       reduce using rule 12 (elemento -> genset_decl .)
@@ -566,7 +570,7 @@ state 19
     (13) elemento -> relation_decl_external .
 
     CLASS_STEREOTYPE reduce using rule 13 (elemento -> relation_decl_external .)
-    NEW_TYPE        reduce using rule 13 (elemento -> relation_decl_external .)
+    KW_DATATYPE     reduce using rule 13 (elemento -> relation_decl_external .)
     KW_ENUM         reduce using rule 13 (elemento -> relation_decl_external .)
     RELATION_STEREOTYPE reduce using rule 13 (elemento -> relation_decl_external .)
     KW_IMPORT       reduce using rule 13 (elemento -> relation_decl_external .)
@@ -583,7 +587,7 @@ state 20
     (14) elemento -> import_decl .
 
     CLASS_STEREOTYPE reduce using rule 14 (elemento -> import_decl .)
-    NEW_TYPE        reduce using rule 14 (elemento -> import_decl .)
+    KW_DATATYPE     reduce using rule 14 (elemento -> import_decl .)
     KW_ENUM         reduce using rule 14 (elemento -> import_decl .)
     RELATION_STEREOTYPE reduce using rule 14 (elemento -> import_decl .)
     KW_IMPORT       reduce using rule 14 (elemento -> import_decl .)
@@ -604,109 +608,109 @@ state 21
 
 state 22
 
-    (39) datatype_decl -> NEW_TYPE . LBRACE atributos_dt RBRACE
+    (41) datatype_decl -> KW_DATATYPE . NEW_TYPE LBRACE atributos_dt RBRACE
 
-    LBRACE          shift and go to state 36
+    NEW_TYPE        shift and go to state 36
 
 
 state 23
 
-    (42) enum_decl -> KW_ENUM . CLASS_NAME LBRACE lista_enum RBRACE
+    (44) enum_decl -> KW_ENUM . CLASS_NAME LBRACE lista_enum RBRACE
 
     CLASS_NAME      shift and go to state 37
 
 
 state 24
 
-    (45) genset_decl -> genset_inline .
+    (47) genset_decl -> genset_inline .
 
-    CLASS_STEREOTYPE reduce using rule 45 (genset_decl -> genset_inline .)
-    NEW_TYPE        reduce using rule 45 (genset_decl -> genset_inline .)
-    KW_ENUM         reduce using rule 45 (genset_decl -> genset_inline .)
-    RELATION_STEREOTYPE reduce using rule 45 (genset_decl -> genset_inline .)
-    KW_IMPORT       reduce using rule 45 (genset_decl -> genset_inline .)
-    AT              reduce using rule 45 (genset_decl -> genset_inline .)
-    KW_DISJOINT     reduce using rule 45 (genset_decl -> genset_inline .)
-    KW_COMPLETE     reduce using rule 45 (genset_decl -> genset_inline .)
-    KW_RELATION     reduce using rule 45 (genset_decl -> genset_inline .)
-    KW_GENSET       reduce using rule 45 (genset_decl -> genset_inline .)
-    $end            reduce using rule 45 (genset_decl -> genset_inline .)
+    CLASS_STEREOTYPE reduce using rule 47 (genset_decl -> genset_inline .)
+    KW_DATATYPE     reduce using rule 47 (genset_decl -> genset_inline .)
+    KW_ENUM         reduce using rule 47 (genset_decl -> genset_inline .)
+    RELATION_STEREOTYPE reduce using rule 47 (genset_decl -> genset_inline .)
+    KW_IMPORT       reduce using rule 47 (genset_decl -> genset_inline .)
+    AT              reduce using rule 47 (genset_decl -> genset_inline .)
+    KW_DISJOINT     reduce using rule 47 (genset_decl -> genset_inline .)
+    KW_COMPLETE     reduce using rule 47 (genset_decl -> genset_inline .)
+    KW_RELATION     reduce using rule 47 (genset_decl -> genset_inline .)
+    KW_GENSET       reduce using rule 47 (genset_decl -> genset_inline .)
+    $end            reduce using rule 47 (genset_decl -> genset_inline .)
 
 
 state 25
 
-    (46) genset_decl -> genset_block .
+    (48) genset_decl -> genset_block .
 
-    CLASS_STEREOTYPE reduce using rule 46 (genset_decl -> genset_block .)
-    NEW_TYPE        reduce using rule 46 (genset_decl -> genset_block .)
-    KW_ENUM         reduce using rule 46 (genset_decl -> genset_block .)
-    RELATION_STEREOTYPE reduce using rule 46 (genset_decl -> genset_block .)
-    KW_IMPORT       reduce using rule 46 (genset_decl -> genset_block .)
-    AT              reduce using rule 46 (genset_decl -> genset_block .)
-    KW_DISJOINT     reduce using rule 46 (genset_decl -> genset_block .)
-    KW_COMPLETE     reduce using rule 46 (genset_decl -> genset_block .)
-    KW_RELATION     reduce using rule 46 (genset_decl -> genset_block .)
-    KW_GENSET       reduce using rule 46 (genset_decl -> genset_block .)
-    $end            reduce using rule 46 (genset_decl -> genset_block .)
+    CLASS_STEREOTYPE reduce using rule 48 (genset_decl -> genset_block .)
+    KW_DATATYPE     reduce using rule 48 (genset_decl -> genset_block .)
+    KW_ENUM         reduce using rule 48 (genset_decl -> genset_block .)
+    RELATION_STEREOTYPE reduce using rule 48 (genset_decl -> genset_block .)
+    KW_IMPORT       reduce using rule 48 (genset_decl -> genset_block .)
+    AT              reduce using rule 48 (genset_decl -> genset_block .)
+    KW_DISJOINT     reduce using rule 48 (genset_decl -> genset_block .)
+    KW_COMPLETE     reduce using rule 48 (genset_decl -> genset_block .)
+    KW_RELATION     reduce using rule 48 (genset_decl -> genset_block .)
+    KW_GENSET       reduce using rule 48 (genset_decl -> genset_block .)
+    $end            reduce using rule 48 (genset_decl -> genset_block .)
 
 
 state 26
 
-    (57) relation_decl_external -> opt_at . KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
-    (58) relation_decl_external -> opt_at . KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (59) relation_decl_external -> opt_at . KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+    (60) relation_decl_external -> opt_at . KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
 
     KW_RELATION     shift and go to state 38
 
 
 state 27
 
-    (59) relation_decl_external -> RELATION_STEREOTYPE . KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
-    (61) opt_at -> RELATION_STEREOTYPE .
+    (61) relation_decl_external -> RELATION_STEREOTYPE . KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+    (63) opt_at -> RELATION_STEREOTYPE .
 
   ! shift/reduce conflict for KW_RELATION resolved as shift
     KW_RELATION     shift and go to state 39
 
-  ! KW_RELATION     [ reduce using rule 61 (opt_at -> RELATION_STEREOTYPE .) ]
+  ! KW_RELATION     [ reduce using rule 63 (opt_at -> RELATION_STEREOTYPE .) ]
 
 
 state 28
 
-    (51) genset_inline -> genset_modifiers . KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
-    (52) genset_block -> genset_modifiers . KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE
+    (53) genset_inline -> genset_modifiers . KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
+    (54) genset_block -> genset_modifiers . KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE
 
     KW_GENSET       shift and go to state 40
 
 
 state 29
 
-    (60) opt_at -> AT . RELATION_STEREOTYPE
+    (62) opt_at -> AT . RELATION_STEREOTYPE
 
     RELATION_STEREOTYPE shift and go to state 41
 
 
 state 30
 
-    (62) opt_at -> empty .
-    (50) genset_modifiers -> empty .
+    (64) opt_at -> empty .
+    (52) genset_modifiers -> empty .
 
-    KW_RELATION     reduce using rule 62 (opt_at -> empty .)
-    KW_GENSET       reduce using rule 50 (genset_modifiers -> empty .)
+    KW_RELATION     reduce using rule 64 (opt_at -> empty .)
+    KW_GENSET       reduce using rule 52 (genset_modifiers -> empty .)
 
 
 state 31
 
-    (47) genset_modifiers -> KW_DISJOINT . KW_COMPLETE
-    (48) genset_modifiers -> KW_DISJOINT .
+    (49) genset_modifiers -> KW_DISJOINT . KW_COMPLETE
+    (50) genset_modifiers -> KW_DISJOINT .
 
     KW_COMPLETE     shift and go to state 42
-    KW_GENSET       reduce using rule 48 (genset_modifiers -> KW_DISJOINT .)
+    KW_GENSET       reduce using rule 50 (genset_modifiers -> KW_DISJOINT .)
 
 
 state 32
 
-    (49) genset_modifiers -> KW_COMPLETE .
+    (51) genset_modifiers -> KW_COMPLETE .
 
-    KW_GENSET       reduce using rule 49 (genset_modifiers -> KW_COMPLETE .)
+    KW_GENSET       reduce using rule 51 (genset_modifiers -> KW_COMPLETE .)
 
 
 state 33
@@ -714,7 +718,7 @@ state 33
     (5) package_decl -> KW_PACKAGE identifier_any .
 
     CLASS_STEREOTYPE reduce using rule 5 (package_decl -> KW_PACKAGE identifier_any .)
-    NEW_TYPE        reduce using rule 5 (package_decl -> KW_PACKAGE identifier_any .)
+    KW_DATATYPE     reduce using rule 5 (package_decl -> KW_PACKAGE identifier_any .)
     KW_ENUM         reduce using rule 5 (package_decl -> KW_PACKAGE identifier_any .)
     RELATION_STEREOTYPE reduce using rule 5 (package_decl -> KW_PACKAGE identifier_any .)
     KW_IMPORT       reduce using rule 5 (package_decl -> KW_PACKAGE identifier_any .)
@@ -730,7 +734,7 @@ state 34
     (7) elementos -> elementos elemento .
 
     CLASS_STEREOTYPE reduce using rule 7 (elementos -> elementos elemento .)
-    NEW_TYPE        reduce using rule 7 (elementos -> elementos elemento .)
+    KW_DATATYPE     reduce using rule 7 (elementos -> elementos elemento .)
     KW_ENUM         reduce using rule 7 (elementos -> elementos elemento .)
     RELATION_STEREOTYPE reduce using rule 7 (elementos -> elementos elemento .)
     KW_IMPORT       reduce using rule 7 (elementos -> elementos elemento .)
@@ -747,86 +751,81 @@ state 35
     (16) class_decl -> CLASS_STEREOTYPE CLASS_NAME . nature_opt inheritance_opt body_opt
     (17) nature_opt -> . KW_OF RELATION_NAME
     (18) nature_opt -> . empty
-    (69) empty -> .
+    (71) empty -> .
 
     KW_OF           shift and go to state 44
-    KW_SPECIALIZES  reduce using rule 69 (empty -> .)
-    LBRACE          reduce using rule 69 (empty -> .)
-    CLASS_STEREOTYPE reduce using rule 69 (empty -> .)
-    NEW_TYPE        reduce using rule 69 (empty -> .)
-    KW_ENUM         reduce using rule 69 (empty -> .)
-    RELATION_STEREOTYPE reduce using rule 69 (empty -> .)
-    KW_IMPORT       reduce using rule 69 (empty -> .)
-    AT              reduce using rule 69 (empty -> .)
-    KW_DISJOINT     reduce using rule 69 (empty -> .)
-    KW_COMPLETE     reduce using rule 69 (empty -> .)
-    KW_RELATION     reduce using rule 69 (empty -> .)
-    KW_GENSET       reduce using rule 69 (empty -> .)
-    $end            reduce using rule 69 (empty -> .)
+    KW_SPECIALIZES  reduce using rule 71 (empty -> .)
+    LBRACE          reduce using rule 71 (empty -> .)
+    CLASS_STEREOTYPE reduce using rule 71 (empty -> .)
+    KW_DATATYPE     reduce using rule 71 (empty -> .)
+    KW_ENUM         reduce using rule 71 (empty -> .)
+    RELATION_STEREOTYPE reduce using rule 71 (empty -> .)
+    KW_IMPORT       reduce using rule 71 (empty -> .)
+    AT              reduce using rule 71 (empty -> .)
+    KW_DISJOINT     reduce using rule 71 (empty -> .)
+    KW_COMPLETE     reduce using rule 71 (empty -> .)
+    KW_RELATION     reduce using rule 71 (empty -> .)
+    KW_GENSET       reduce using rule 71 (empty -> .)
+    $end            reduce using rule 71 (empty -> .)
 
     nature_opt                     shift and go to state 43
     empty                          shift and go to state 45
 
 state 36
 
-    (39) datatype_decl -> NEW_TYPE LBRACE . atributos_dt RBRACE
-    (40) atributos_dt -> . atributos_dt atributo
-    (41) atributos_dt -> . atributo
-    (27) atributo -> . RELATION_NAME COLON tipo meta_attribs_opt
+    (41) datatype_decl -> KW_DATATYPE NEW_TYPE . LBRACE atributos_dt RBRACE
 
-    RELATION_NAME   shift and go to state 48
+    LBRACE          shift and go to state 46
 
-    atributos_dt                   shift and go to state 46
-    atributo                       shift and go to state 47
 
 state 37
 
-    (42) enum_decl -> KW_ENUM CLASS_NAME . LBRACE lista_enum RBRACE
+    (44) enum_decl -> KW_ENUM CLASS_NAME . LBRACE lista_enum RBRACE
 
-    LBRACE          shift and go to state 49
+    LBRACE          shift and go to state 47
 
 
 state 38
 
-    (57) relation_decl_external -> opt_at KW_RELATION . CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
-    (58) relation_decl_external -> opt_at KW_RELATION . CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (59) relation_decl_external -> opt_at KW_RELATION . CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+    (60) relation_decl_external -> opt_at KW_RELATION . CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
 
-    CLASS_NAME      shift and go to state 50
+    CLASS_NAME      shift and go to state 48
 
 
 state 39
 
-    (59) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION . CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
+    (61) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION . CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
 
-    CLASS_NAME      shift and go to state 51
+    CLASS_NAME      shift and go to state 49
 
 
 state 40
 
-    (51) genset_inline -> genset_modifiers KW_GENSET . identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
-    (52) genset_block -> genset_modifiers KW_GENSET . identifier_any LBRACE general_decl specifics_decl RBRACE
-    (67) identifier_any -> . CLASS_NAME
-    (68) identifier_any -> . RELATION_NAME
+    (53) genset_inline -> genset_modifiers KW_GENSET . identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
+    (54) genset_block -> genset_modifiers KW_GENSET . identifier_any LBRACE general_decl specifics_decl RBRACE
+    (69) identifier_any -> . CLASS_NAME
+    (70) identifier_any -> . RELATION_NAME
 
     CLASS_NAME      shift and go to state 11
     RELATION_NAME   shift and go to state 12
 
-    identifier_any                 shift and go to state 52
+    identifier_any                 shift and go to state 50
 
 state 41
 
-    (60) opt_at -> AT RELATION_STEREOTYPE .
+    (62) opt_at -> AT RELATION_STEREOTYPE .
 
-    KW_RELATION     reduce using rule 60 (opt_at -> AT RELATION_STEREOTYPE .)
-    REL_SYM         reduce using rule 60 (opt_at -> AT RELATION_STEREOTYPE .)
-    LBRACKET        reduce using rule 60 (opt_at -> AT RELATION_STEREOTYPE .)
+    KW_RELATION     reduce using rule 62 (opt_at -> AT RELATION_STEREOTYPE .)
+    REL_SYM         reduce using rule 62 (opt_at -> AT RELATION_STEREOTYPE .)
+    LBRACKET        reduce using rule 62 (opt_at -> AT RELATION_STEREOTYPE .)
 
 
 state 42
 
-    (47) genset_modifiers -> KW_DISJOINT KW_COMPLETE .
+    (49) genset_modifiers -> KW_DISJOINT KW_COMPLETE .
 
-    KW_GENSET       reduce using rule 47 (genset_modifiers -> KW_DISJOINT KW_COMPLETE .)
+    KW_GENSET       reduce using rule 49 (genset_modifiers -> KW_DISJOINT KW_COMPLETE .)
 
 
 state 43
@@ -834,30 +833,30 @@ state 43
     (16) class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt . inheritance_opt body_opt
     (19) inheritance_opt -> . KW_SPECIALIZES class_list
     (20) inheritance_opt -> . empty
-    (69) empty -> .
+    (71) empty -> .
 
-    KW_SPECIALIZES  shift and go to state 54
-    LBRACE          reduce using rule 69 (empty -> .)
-    CLASS_STEREOTYPE reduce using rule 69 (empty -> .)
-    NEW_TYPE        reduce using rule 69 (empty -> .)
-    KW_ENUM         reduce using rule 69 (empty -> .)
-    RELATION_STEREOTYPE reduce using rule 69 (empty -> .)
-    KW_IMPORT       reduce using rule 69 (empty -> .)
-    AT              reduce using rule 69 (empty -> .)
-    KW_DISJOINT     reduce using rule 69 (empty -> .)
-    KW_COMPLETE     reduce using rule 69 (empty -> .)
-    KW_RELATION     reduce using rule 69 (empty -> .)
-    KW_GENSET       reduce using rule 69 (empty -> .)
-    $end            reduce using rule 69 (empty -> .)
+    KW_SPECIALIZES  shift and go to state 52
+    LBRACE          reduce using rule 71 (empty -> .)
+    CLASS_STEREOTYPE reduce using rule 71 (empty -> .)
+    KW_DATATYPE     reduce using rule 71 (empty -> .)
+    KW_ENUM         reduce using rule 71 (empty -> .)
+    RELATION_STEREOTYPE reduce using rule 71 (empty -> .)
+    KW_IMPORT       reduce using rule 71 (empty -> .)
+    AT              reduce using rule 71 (empty -> .)
+    KW_DISJOINT     reduce using rule 71 (empty -> .)
+    KW_COMPLETE     reduce using rule 71 (empty -> .)
+    KW_RELATION     reduce using rule 71 (empty -> .)
+    KW_GENSET       reduce using rule 71 (empty -> .)
+    $end            reduce using rule 71 (empty -> .)
 
-    inheritance_opt                shift and go to state 53
-    empty                          shift and go to state 55
+    inheritance_opt                shift and go to state 51
+    empty                          shift and go to state 53
 
 state 44
 
     (17) nature_opt -> KW_OF . RELATION_NAME
 
-    RELATION_NAME   shift and go to state 56
+    RELATION_NAME   shift and go to state 54
 
 
 state 45
@@ -867,7 +866,7 @@ state 45
     KW_SPECIALIZES  reduce using rule 18 (nature_opt -> empty .)
     LBRACE          reduce using rule 18 (nature_opt -> empty .)
     CLASS_STEREOTYPE reduce using rule 18 (nature_opt -> empty .)
-    NEW_TYPE        reduce using rule 18 (nature_opt -> empty .)
+    KW_DATATYPE     reduce using rule 18 (nature_opt -> empty .)
     KW_ENUM         reduce using rule 18 (nature_opt -> empty .)
     RELATION_STEREOTYPE reduce using rule 18 (nature_opt -> empty .)
     KW_IMPORT       reduce using rule 18 (nature_opt -> empty .)
@@ -881,114 +880,100 @@ state 45
 
 state 46
 
-    (39) datatype_decl -> NEW_TYPE LBRACE atributos_dt . RBRACE
-    (40) atributos_dt -> atributos_dt . atributo
-    (27) atributo -> . RELATION_NAME COLON tipo meta_attribs_opt
+    (41) datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE . atributos_dt RBRACE
+    (42) atributos_dt -> . atributos_dt atributo
+    (43) atributos_dt -> . atributo
+    (29) atributo -> . RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt
 
-    RBRACE          shift and go to state 57
-    RELATION_NAME   shift and go to state 48
+    RELATION_NAME   shift and go to state 57
 
-    atributo                       shift and go to state 58
+    atributos_dt                   shift and go to state 55
+    atributo                       shift and go to state 56
 
 state 47
 
-    (41) atributos_dt -> atributo .
+    (44) enum_decl -> KW_ENUM CLASS_NAME LBRACE . lista_enum RBRACE
+    (45) lista_enum -> . lista_enum COMMA CLASS_NAME
+    (46) lista_enum -> . CLASS_NAME
 
-    RBRACE          reduce using rule 41 (atributos_dt -> atributo .)
-    RELATION_NAME   reduce using rule 41 (atributos_dt -> atributo .)
+    CLASS_NAME      shift and go to state 58
 
+    lista_enum                     shift and go to state 59
 
 state 48
 
-    (27) atributo -> RELATION_NAME . COLON tipo meta_attribs_opt
+    (59) relation_decl_external -> opt_at KW_RELATION CLASS_NAME . cardinality REL_SYM cardinality CLASS_NAME
+    (60) relation_decl_external -> opt_at KW_RELATION CLASS_NAME . cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
 
-    COLON           shift and go to state 59
+    LBRACKET        shift and go to state 61
 
+    cardinality                    shift and go to state 60
 
 state 49
 
-    (42) enum_decl -> KW_ENUM CLASS_NAME LBRACE . lista_enum RBRACE
-    (43) lista_enum -> . lista_enum COMMA CLASS_NAME
-    (44) lista_enum -> . CLASS_NAME
+    (61) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME . cardinality REL_SYM cardinality CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
 
-    CLASS_NAME      shift and go to state 60
-
-    lista_enum                     shift and go to state 61
-
-state 50
-
-    (57) relation_decl_external -> opt_at KW_RELATION CLASS_NAME . cardinality REL_SYM cardinality CLASS_NAME
-    (58) relation_decl_external -> opt_at KW_RELATION CLASS_NAME . cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
-
-    LBRACKET        shift and go to state 63
+    LBRACKET        shift and go to state 61
 
     cardinality                    shift and go to state 62
 
+state 50
+
+    (53) genset_inline -> genset_modifiers KW_GENSET identifier_any . KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
+    (54) genset_block -> genset_modifiers KW_GENSET identifier_any . LBRACE general_decl specifics_decl RBRACE
+
+    KW_WHERE        shift and go to state 63
+    LBRACE          shift and go to state 64
+
+
 state 51
-
-    (59) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME . cardinality REL_SYM cardinality CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
-
-    LBRACKET        shift and go to state 63
-
-    cardinality                    shift and go to state 64
-
-state 52
-
-    (51) genset_inline -> genset_modifiers KW_GENSET identifier_any . KW_WHERE class_list KW_SPECIALIZES CLASS_NAME
-    (52) genset_block -> genset_modifiers KW_GENSET identifier_any . LBRACE general_decl specifics_decl RBRACE
-
-    KW_WHERE        shift and go to state 65
-    LBRACE          shift and go to state 66
-
-
-state 53
 
     (16) class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt . body_opt
     (21) body_opt -> . LBRACE class_body RBRACE
     (22) body_opt -> . empty
-    (69) empty -> .
+    (71) empty -> .
 
-    LBRACE          shift and go to state 68
-    CLASS_STEREOTYPE reduce using rule 69 (empty -> .)
-    NEW_TYPE        reduce using rule 69 (empty -> .)
-    KW_ENUM         reduce using rule 69 (empty -> .)
-    RELATION_STEREOTYPE reduce using rule 69 (empty -> .)
-    KW_IMPORT       reduce using rule 69 (empty -> .)
-    AT              reduce using rule 69 (empty -> .)
-    KW_DISJOINT     reduce using rule 69 (empty -> .)
-    KW_COMPLETE     reduce using rule 69 (empty -> .)
-    KW_RELATION     reduce using rule 69 (empty -> .)
-    KW_GENSET       reduce using rule 69 (empty -> .)
-    $end            reduce using rule 69 (empty -> .)
+    LBRACE          shift and go to state 66
+    CLASS_STEREOTYPE reduce using rule 71 (empty -> .)
+    KW_DATATYPE     reduce using rule 71 (empty -> .)
+    KW_ENUM         reduce using rule 71 (empty -> .)
+    RELATION_STEREOTYPE reduce using rule 71 (empty -> .)
+    KW_IMPORT       reduce using rule 71 (empty -> .)
+    AT              reduce using rule 71 (empty -> .)
+    KW_DISJOINT     reduce using rule 71 (empty -> .)
+    KW_COMPLETE     reduce using rule 71 (empty -> .)
+    KW_RELATION     reduce using rule 71 (empty -> .)
+    KW_GENSET       reduce using rule 71 (empty -> .)
+    $end            reduce using rule 71 (empty -> .)
 
-    body_opt                       shift and go to state 67
-    empty                          shift and go to state 69
+    body_opt                       shift and go to state 65
+    empty                          shift and go to state 67
 
-state 54
+state 52
 
     (19) inheritance_opt -> KW_SPECIALIZES . class_list
-    (55) class_list -> . class_list COMMA CLASS_NAME
-    (56) class_list -> . CLASS_NAME
+    (57) class_list -> . class_list COMMA CLASS_NAME
+    (58) class_list -> . CLASS_NAME
 
-    CLASS_NAME      shift and go to state 71
+    CLASS_NAME      shift and go to state 69
 
-    class_list                     shift and go to state 70
+    class_list                     shift and go to state 68
 
-state 55
+state 53
 
     (20) inheritance_opt -> empty .
 
     LBRACE          reduce using rule 20 (inheritance_opt -> empty .)
     CLASS_STEREOTYPE reduce using rule 20 (inheritance_opt -> empty .)
-    NEW_TYPE        reduce using rule 20 (inheritance_opt -> empty .)
+    KW_DATATYPE     reduce using rule 20 (inheritance_opt -> empty .)
     KW_ENUM         reduce using rule 20 (inheritance_opt -> empty .)
     RELATION_STEREOTYPE reduce using rule 20 (inheritance_opt -> empty .)
     KW_IMPORT       reduce using rule 20 (inheritance_opt -> empty .)
@@ -1000,14 +985,14 @@ state 55
     $end            reduce using rule 20 (inheritance_opt -> empty .)
 
 
-state 56
+state 54
 
     (17) nature_opt -> KW_OF RELATION_NAME .
 
     KW_SPECIALIZES  reduce using rule 17 (nature_opt -> KW_OF RELATION_NAME .)
     LBRACE          reduce using rule 17 (nature_opt -> KW_OF RELATION_NAME .)
     CLASS_STEREOTYPE reduce using rule 17 (nature_opt -> KW_OF RELATION_NAME .)
-    NEW_TYPE        reduce using rule 17 (nature_opt -> KW_OF RELATION_NAME .)
+    KW_DATATYPE     reduce using rule 17 (nature_opt -> KW_OF RELATION_NAME .)
     KW_ENUM         reduce using rule 17 (nature_opt -> KW_OF RELATION_NAME .)
     RELATION_STEREOTYPE reduce using rule 17 (nature_opt -> KW_OF RELATION_NAME .)
     KW_IMPORT       reduce using rule 17 (nature_opt -> KW_OF RELATION_NAME .)
@@ -1019,112 +1004,100 @@ state 56
     $end            reduce using rule 17 (nature_opt -> KW_OF RELATION_NAME .)
 
 
+state 55
+
+    (41) datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt . RBRACE
+    (42) atributos_dt -> atributos_dt . atributo
+    (29) atributo -> . RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt
+
+    RBRACE          shift and go to state 70
+    RELATION_NAME   shift and go to state 57
+
+    atributo                       shift and go to state 71
+
+state 56
+
+    (43) atributos_dt -> atributo .
+
+    RBRACE          reduce using rule 43 (atributos_dt -> atributo .)
+    RELATION_NAME   reduce using rule 43 (atributos_dt -> atributo .)
+
+
 state 57
 
-    (39) datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .
+    (29) atributo -> RELATION_NAME . COLON tipo cardinality_opt meta_attribs_opt
 
-    CLASS_STEREOTYPE reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    NEW_TYPE        reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    KW_ENUM         reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    RELATION_STEREOTYPE reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    KW_IMPORT       reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    AT              reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    KW_DISJOINT     reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    KW_COMPLETE     reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    KW_RELATION     reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    KW_GENSET       reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
-    $end            reduce using rule 39 (datatype_decl -> NEW_TYPE LBRACE atributos_dt RBRACE .)
+    COLON           shift and go to state 72
 
 
 state 58
 
-    (40) atributos_dt -> atributos_dt atributo .
+    (46) lista_enum -> CLASS_NAME .
 
-    RBRACE          reduce using rule 40 (atributos_dt -> atributos_dt atributo .)
-    RELATION_NAME   reduce using rule 40 (atributos_dt -> atributos_dt atributo .)
+    RBRACE          reduce using rule 46 (lista_enum -> CLASS_NAME .)
+    COMMA           reduce using rule 46 (lista_enum -> CLASS_NAME .)
 
 
 state 59
 
-    (27) atributo -> RELATION_NAME COLON . tipo meta_attribs_opt
-    (31) tipo -> . DATA_TYPE
-    (32) tipo -> . NEW_TYPE
-    (33) tipo -> . CLASS_NAME
+    (44) enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum . RBRACE
+    (45) lista_enum -> lista_enum . COMMA CLASS_NAME
 
-    DATA_TYPE       shift and go to state 73
-    NEW_TYPE        shift and go to state 74
-    CLASS_NAME      shift and go to state 75
+    RBRACE          shift and go to state 73
+    COMMA           shift and go to state 74
 
-    tipo                           shift and go to state 72
 
 state 60
 
-    (44) lista_enum -> CLASS_NAME .
+    (59) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality . REL_SYM cardinality CLASS_NAME
+    (60) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
 
-    RBRACE          reduce using rule 44 (lista_enum -> CLASS_NAME .)
-    COMMA           reduce using rule 44 (lista_enum -> CLASS_NAME .)
+    REL_SYM         shift and go to state 75
 
 
 state 61
 
-    (42) enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum . RBRACE
-    (43) lista_enum -> lista_enum . COMMA CLASS_NAME
+    (65) cardinality -> LBRACKET . NUMBER RBRACKET
+    (66) cardinality -> LBRACKET . NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> LBRACKET . NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> LBRACKET . STAR RBRACKET
 
-    RBRACE          shift and go to state 76
-    COMMA           shift and go to state 77
+    NUMBER          shift and go to state 76
+    STAR            shift and go to state 77
 
 
 state 62
 
-    (57) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality . REL_SYM cardinality CLASS_NAME
-    (58) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (61) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality . REL_SYM cardinality CLASS_NAME
 
     REL_SYM         shift and go to state 78
 
 
 state 63
 
-    (63) cardinality -> LBRACKET . NUMBER RBRACKET
-    (64) cardinality -> LBRACKET . NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> LBRACKET . NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> LBRACKET . STAR RBRACKET
+    (53) genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE . class_list KW_SPECIALIZES CLASS_NAME
+    (57) class_list -> . class_list COMMA CLASS_NAME
+    (58) class_list -> . CLASS_NAME
 
-    NUMBER          shift and go to state 79
-    STAR            shift and go to state 80
+    CLASS_NAME      shift and go to state 69
 
+    class_list                     shift and go to state 79
 
 state 64
 
-    (59) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality . REL_SYM cardinality CLASS_NAME
+    (54) genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE . general_decl specifics_decl RBRACE
+    (55) general_decl -> . KW_GENERAL CLASS_NAME
 
-    REL_SYM         shift and go to state 81
+    KW_GENERAL      shift and go to state 81
 
+    general_decl                   shift and go to state 80
 
 state 65
-
-    (51) genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE . class_list KW_SPECIALIZES CLASS_NAME
-    (55) class_list -> . class_list COMMA CLASS_NAME
-    (56) class_list -> . CLASS_NAME
-
-    CLASS_NAME      shift and go to state 71
-
-    class_list                     shift and go to state 82
-
-state 66
-
-    (52) genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE . general_decl specifics_decl RBRACE
-    (53) general_decl -> . KW_GENERAL CLASS_NAME
-
-    KW_GENERAL      shift and go to state 84
-
-    general_decl                   shift and go to state 83
-
-state 67
 
     (16) class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt .
 
     CLASS_STEREOTYPE reduce using rule 16 (class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt .)
-    NEW_TYPE        reduce using rule 16 (class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt .)
+    KW_DATATYPE     reduce using rule 16 (class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt .)
     KW_ENUM         reduce using rule 16 (class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt .)
     RELATION_STEREOTYPE reduce using rule 16 (class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt .)
     KW_IMPORT       reduce using rule 16 (class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt .)
@@ -1136,46 +1109,46 @@ state 67
     $end            reduce using rule 16 (class_decl -> CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt .)
 
 
-state 68
+state 66
 
     (21) body_opt -> LBRACE . class_body RBRACE
     (23) class_body -> . class_body member
     (24) class_body -> . member
     (25) member -> . atributo
     (26) member -> . internal_relation
-    (27) atributo -> . RELATION_NAME COLON tipo meta_attribs_opt
-    (34) internal_relation -> . opt_at cardinality REL_SYM cardinality CLASS_NAME
-    (35) internal_relation -> . opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (36) internal_relation -> . opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (37) internal_relation -> . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (38) internal_relation -> . opt_at REL_SYM CLASS_NAME
-    (60) opt_at -> . AT RELATION_STEREOTYPE
-    (61) opt_at -> . RELATION_STEREOTYPE
-    (62) opt_at -> . empty
-    (69) empty -> .
+    (29) atributo -> . RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt
+    (36) internal_relation -> . opt_at cardinality REL_SYM cardinality CLASS_NAME
+    (37) internal_relation -> . opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (38) internal_relation -> . opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (39) internal_relation -> . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (40) internal_relation -> . opt_at REL_SYM CLASS_NAME
+    (62) opt_at -> . AT RELATION_STEREOTYPE
+    (63) opt_at -> . RELATION_STEREOTYPE
+    (64) opt_at -> . empty
+    (71) empty -> .
 
   ! shift/reduce conflict for REL_SYM resolved as shift
-    RELATION_NAME   shift and go to state 48
-    REL_SYM         shift and go to state 90
+    RELATION_NAME   shift and go to state 57
+    REL_SYM         shift and go to state 87
     AT              shift and go to state 29
-    RELATION_STEREOTYPE shift and go to state 91
-    LBRACKET        reduce using rule 69 (empty -> .)
+    RELATION_STEREOTYPE shift and go to state 88
+    LBRACKET        reduce using rule 71 (empty -> .)
 
-  ! REL_SYM         [ reduce using rule 69 (empty -> .) ]
+  ! REL_SYM         [ reduce using rule 71 (empty -> .) ]
 
-    class_body                     shift and go to state 85
-    member                         shift and go to state 86
-    atributo                       shift and go to state 87
-    internal_relation              shift and go to state 88
-    opt_at                         shift and go to state 89
-    empty                          shift and go to state 92
+    class_body                     shift and go to state 82
+    member                         shift and go to state 83
+    atributo                       shift and go to state 84
+    internal_relation              shift and go to state 85
+    opt_at                         shift and go to state 86
+    empty                          shift and go to state 89
 
-state 69
+state 67
 
     (22) body_opt -> empty .
 
     CLASS_STEREOTYPE reduce using rule 22 (body_opt -> empty .)
-    NEW_TYPE        reduce using rule 22 (body_opt -> empty .)
+    KW_DATATYPE     reduce using rule 22 (body_opt -> empty .)
     KW_ENUM         reduce using rule 22 (body_opt -> empty .)
     RELATION_STEREOTYPE reduce using rule 22 (body_opt -> empty .)
     KW_IMPORT       reduce using rule 22 (body_opt -> empty .)
@@ -1187,14 +1160,14 @@ state 69
     $end            reduce using rule 22 (body_opt -> empty .)
 
 
-state 70
+state 68
 
     (19) inheritance_opt -> KW_SPECIALIZES class_list .
-    (55) class_list -> class_list . COMMA CLASS_NAME
+    (57) class_list -> class_list . COMMA CLASS_NAME
 
     LBRACE          reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
     CLASS_STEREOTYPE reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
-    NEW_TYPE        reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
+    KW_DATATYPE     reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
     KW_ENUM         reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
     RELATION_STEREOTYPE reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
     KW_IMPORT       reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
@@ -1204,214 +1177,194 @@ state 70
     KW_RELATION     reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
     KW_GENSET       reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
     $end            reduce using rule 19 (inheritance_opt -> KW_SPECIALIZES class_list .)
-    COMMA           shift and go to state 93
+    COMMA           shift and go to state 90
+
+
+state 69
+
+    (58) class_list -> CLASS_NAME .
+
+    COMMA           reduce using rule 58 (class_list -> CLASS_NAME .)
+    LBRACE          reduce using rule 58 (class_list -> CLASS_NAME .)
+    CLASS_STEREOTYPE reduce using rule 58 (class_list -> CLASS_NAME .)
+    KW_DATATYPE     reduce using rule 58 (class_list -> CLASS_NAME .)
+    KW_ENUM         reduce using rule 58 (class_list -> CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 58 (class_list -> CLASS_NAME .)
+    KW_IMPORT       reduce using rule 58 (class_list -> CLASS_NAME .)
+    AT              reduce using rule 58 (class_list -> CLASS_NAME .)
+    KW_DISJOINT     reduce using rule 58 (class_list -> CLASS_NAME .)
+    KW_COMPLETE     reduce using rule 58 (class_list -> CLASS_NAME .)
+    KW_RELATION     reduce using rule 58 (class_list -> CLASS_NAME .)
+    KW_GENSET       reduce using rule 58 (class_list -> CLASS_NAME .)
+    $end            reduce using rule 58 (class_list -> CLASS_NAME .)
+    KW_SPECIALIZES  reduce using rule 58 (class_list -> CLASS_NAME .)
+    RBRACE          reduce using rule 58 (class_list -> CLASS_NAME .)
+
+
+state 70
+
+    (41) datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .
+
+    CLASS_STEREOTYPE reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    KW_DATATYPE     reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    KW_ENUM         reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    RELATION_STEREOTYPE reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    KW_IMPORT       reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    AT              reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    KW_DISJOINT     reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    KW_COMPLETE     reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    KW_RELATION     reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    KW_GENSET       reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
+    $end            reduce using rule 41 (datatype_decl -> KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE .)
 
 
 state 71
 
-    (56) class_list -> CLASS_NAME .
+    (42) atributos_dt -> atributos_dt atributo .
 
-    COMMA           reduce using rule 56 (class_list -> CLASS_NAME .)
-    LBRACE          reduce using rule 56 (class_list -> CLASS_NAME .)
-    CLASS_STEREOTYPE reduce using rule 56 (class_list -> CLASS_NAME .)
-    NEW_TYPE        reduce using rule 56 (class_list -> CLASS_NAME .)
-    KW_ENUM         reduce using rule 56 (class_list -> CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 56 (class_list -> CLASS_NAME .)
-    KW_IMPORT       reduce using rule 56 (class_list -> CLASS_NAME .)
-    AT              reduce using rule 56 (class_list -> CLASS_NAME .)
-    KW_DISJOINT     reduce using rule 56 (class_list -> CLASS_NAME .)
-    KW_COMPLETE     reduce using rule 56 (class_list -> CLASS_NAME .)
-    KW_RELATION     reduce using rule 56 (class_list -> CLASS_NAME .)
-    KW_GENSET       reduce using rule 56 (class_list -> CLASS_NAME .)
-    $end            reduce using rule 56 (class_list -> CLASS_NAME .)
-    KW_SPECIALIZES  reduce using rule 56 (class_list -> CLASS_NAME .)
-    RBRACE          reduce using rule 56 (class_list -> CLASS_NAME .)
+    RBRACE          reduce using rule 42 (atributos_dt -> atributos_dt atributo .)
+    RELATION_NAME   reduce using rule 42 (atributos_dt -> atributos_dt atributo .)
 
 
 state 72
 
-    (27) atributo -> RELATION_NAME COLON tipo . meta_attribs_opt
-    (28) meta_attribs_opt -> . LBRACE RELATION_NAME RBRACE
-    (29) meta_attribs_opt -> . LBRACE RBRACE
-    (30) meta_attribs_opt -> . empty
-    (69) empty -> .
+    (29) atributo -> RELATION_NAME COLON . tipo cardinality_opt meta_attribs_opt
+    (33) tipo -> . DATA_TYPE
+    (34) tipo -> . NEW_TYPE
+    (35) tipo -> . CLASS_NAME
 
-    LBRACE          shift and go to state 95
-    RBRACE          reduce using rule 69 (empty -> .)
-    RELATION_NAME   reduce using rule 69 (empty -> .)
-    REL_SYM         reduce using rule 69 (empty -> .)
-    AT              reduce using rule 69 (empty -> .)
-    RELATION_STEREOTYPE reduce using rule 69 (empty -> .)
-    LBRACKET        reduce using rule 69 (empty -> .)
+    DATA_TYPE       shift and go to state 92
+    NEW_TYPE        shift and go to state 93
+    CLASS_NAME      shift and go to state 94
 
-    meta_attribs_opt               shift and go to state 94
-    empty                          shift and go to state 96
+    tipo                           shift and go to state 91
 
 state 73
 
-    (31) tipo -> DATA_TYPE .
+    (44) enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .
 
-    LBRACE          reduce using rule 31 (tipo -> DATA_TYPE .)
-    RBRACE          reduce using rule 31 (tipo -> DATA_TYPE .)
-    RELATION_NAME   reduce using rule 31 (tipo -> DATA_TYPE .)
-    REL_SYM         reduce using rule 31 (tipo -> DATA_TYPE .)
-    AT              reduce using rule 31 (tipo -> DATA_TYPE .)
-    RELATION_STEREOTYPE reduce using rule 31 (tipo -> DATA_TYPE .)
-    LBRACKET        reduce using rule 31 (tipo -> DATA_TYPE .)
+    CLASS_STEREOTYPE reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    KW_DATATYPE     reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    KW_ENUM         reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    RELATION_STEREOTYPE reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    KW_IMPORT       reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    AT              reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    KW_DISJOINT     reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    KW_COMPLETE     reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    KW_RELATION     reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    KW_GENSET       reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    $end            reduce using rule 44 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
 
 
 state 74
 
-    (32) tipo -> NEW_TYPE .
+    (45) lista_enum -> lista_enum COMMA . CLASS_NAME
 
-    LBRACE          reduce using rule 32 (tipo -> NEW_TYPE .)
-    RBRACE          reduce using rule 32 (tipo -> NEW_TYPE .)
-    RELATION_NAME   reduce using rule 32 (tipo -> NEW_TYPE .)
-    REL_SYM         reduce using rule 32 (tipo -> NEW_TYPE .)
-    AT              reduce using rule 32 (tipo -> NEW_TYPE .)
-    RELATION_STEREOTYPE reduce using rule 32 (tipo -> NEW_TYPE .)
-    LBRACKET        reduce using rule 32 (tipo -> NEW_TYPE .)
+    CLASS_NAME      shift and go to state 95
 
 
 state 75
 
-    (33) tipo -> CLASS_NAME .
+    (59) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM . cardinality CLASS_NAME
+    (60) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM . RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
 
-    LBRACE          reduce using rule 33 (tipo -> CLASS_NAME .)
-    RBRACE          reduce using rule 33 (tipo -> CLASS_NAME .)
-    RELATION_NAME   reduce using rule 33 (tipo -> CLASS_NAME .)
-    REL_SYM         reduce using rule 33 (tipo -> CLASS_NAME .)
-    AT              reduce using rule 33 (tipo -> CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 33 (tipo -> CLASS_NAME .)
-    LBRACKET        reduce using rule 33 (tipo -> CLASS_NAME .)
+    RELATION_NAME   shift and go to state 97
+    LBRACKET        shift and go to state 61
 
+    cardinality                    shift and go to state 96
 
 state 76
 
-    (42) enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .
+    (65) cardinality -> LBRACKET NUMBER . RBRACKET
+    (66) cardinality -> LBRACKET NUMBER . RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> LBRACKET NUMBER . RANGE_DOTS NUMBER RBRACKET
 
-    CLASS_STEREOTYPE reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    NEW_TYPE        reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    KW_ENUM         reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    RELATION_STEREOTYPE reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    KW_IMPORT       reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    AT              reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    KW_DISJOINT     reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    KW_COMPLETE     reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    KW_RELATION     reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    KW_GENSET       reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
-    $end            reduce using rule 42 (enum_decl -> KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE .)
+    RBRACKET        shift and go to state 98
+    RANGE_DOTS      shift and go to state 99
 
 
 state 77
 
-    (43) lista_enum -> lista_enum COMMA . CLASS_NAME
+    (68) cardinality -> LBRACKET STAR . RBRACKET
 
-    CLASS_NAME      shift and go to state 97
+    RBRACKET        shift and go to state 100
 
 
 state 78
 
-    (57) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM . cardinality CLASS_NAME
-    (58) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM . RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
+    (61) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM . cardinality CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
 
-    RELATION_NAME   shift and go to state 99
-    LBRACKET        shift and go to state 63
+    LBRACKET        shift and go to state 61
 
-    cardinality                    shift and go to state 98
+    cardinality                    shift and go to state 101
 
 state 79
 
-    (63) cardinality -> LBRACKET NUMBER . RBRACKET
-    (64) cardinality -> LBRACKET NUMBER . RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> LBRACKET NUMBER . RANGE_DOTS NUMBER RBRACKET
+    (53) genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list . KW_SPECIALIZES CLASS_NAME
+    (57) class_list -> class_list . COMMA CLASS_NAME
 
-    RBRACKET        shift and go to state 100
-    RANGE_DOTS      shift and go to state 101
+    KW_SPECIALIZES  shift and go to state 102
+    COMMA           shift and go to state 90
 
 
 state 80
 
-    (66) cardinality -> LBRACKET STAR . RBRACKET
+    (54) genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl . specifics_decl RBRACE
+    (56) specifics_decl -> . KW_SPECIFICS class_list
 
-    RBRACKET        shift and go to state 102
+    KW_SPECIFICS    shift and go to state 104
 
+    specifics_decl                 shift and go to state 103
 
 state 81
 
-    (59) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM . cardinality CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
+    (55) general_decl -> KW_GENERAL . CLASS_NAME
 
-    LBRACKET        shift and go to state 63
+    CLASS_NAME      shift and go to state 105
 
-    cardinality                    shift and go to state 103
 
 state 82
-
-    (51) genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list . KW_SPECIALIZES CLASS_NAME
-    (55) class_list -> class_list . COMMA CLASS_NAME
-
-    KW_SPECIALIZES  shift and go to state 104
-    COMMA           shift and go to state 93
-
-
-state 83
-
-    (52) genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl . specifics_decl RBRACE
-    (54) specifics_decl -> . KW_SPECIFICS class_list
-
-    KW_SPECIFICS    shift and go to state 106
-
-    specifics_decl                 shift and go to state 105
-
-state 84
-
-    (53) general_decl -> KW_GENERAL . CLASS_NAME
-
-    CLASS_NAME      shift and go to state 107
-
-
-state 85
 
     (21) body_opt -> LBRACE class_body . RBRACE
     (23) class_body -> class_body . member
     (25) member -> . atributo
     (26) member -> . internal_relation
-    (27) atributo -> . RELATION_NAME COLON tipo meta_attribs_opt
-    (34) internal_relation -> . opt_at cardinality REL_SYM cardinality CLASS_NAME
-    (35) internal_relation -> . opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (36) internal_relation -> . opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (37) internal_relation -> . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (38) internal_relation -> . opt_at REL_SYM CLASS_NAME
-    (60) opt_at -> . AT RELATION_STEREOTYPE
-    (61) opt_at -> . RELATION_STEREOTYPE
-    (62) opt_at -> . empty
-    (69) empty -> .
+    (29) atributo -> . RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt
+    (36) internal_relation -> . opt_at cardinality REL_SYM cardinality CLASS_NAME
+    (37) internal_relation -> . opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (38) internal_relation -> . opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (39) internal_relation -> . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (40) internal_relation -> . opt_at REL_SYM CLASS_NAME
+    (62) opt_at -> . AT RELATION_STEREOTYPE
+    (63) opt_at -> . RELATION_STEREOTYPE
+    (64) opt_at -> . empty
+    (71) empty -> .
 
   ! shift/reduce conflict for REL_SYM resolved as shift
-    RBRACE          shift and go to state 108
-    RELATION_NAME   shift and go to state 48
-    REL_SYM         shift and go to state 90
+    RBRACE          shift and go to state 106
+    RELATION_NAME   shift and go to state 57
+    REL_SYM         shift and go to state 87
     AT              shift and go to state 29
-    RELATION_STEREOTYPE shift and go to state 91
-    LBRACKET        reduce using rule 69 (empty -> .)
+    RELATION_STEREOTYPE shift and go to state 88
+    LBRACKET        reduce using rule 71 (empty -> .)
 
-  ! REL_SYM         [ reduce using rule 69 (empty -> .) ]
+  ! REL_SYM         [ reduce using rule 71 (empty -> .) ]
 
-    member                         shift and go to state 109
-    atributo                       shift and go to state 87
-    internal_relation              shift and go to state 88
-    opt_at                         shift and go to state 89
-    empty                          shift and go to state 92
+    member                         shift and go to state 107
+    atributo                       shift and go to state 84
+    internal_relation              shift and go to state 85
+    opt_at                         shift and go to state 86
+    empty                          shift and go to state 89
 
-state 86
+state 83
 
     (24) class_body -> member .
 
@@ -1423,7 +1376,7 @@ state 86
     LBRACKET        reduce using rule 24 (class_body -> member .)
 
 
-state 87
+state 84
 
     (25) member -> atributo .
 
@@ -1435,7 +1388,7 @@ state 87
     LBRACKET        reduce using rule 25 (member -> atributo .)
 
 
-state 88
+state 85
 
     (26) member -> internal_relation .
 
@@ -1447,176 +1400,220 @@ state 88
     LBRACKET        reduce using rule 26 (member -> internal_relation .)
 
 
+state 86
+
+    (36) internal_relation -> opt_at . cardinality REL_SYM cardinality CLASS_NAME
+    (37) internal_relation -> opt_at . cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (38) internal_relation -> opt_at . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (40) internal_relation -> opt_at . REL_SYM CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
+
+    REL_SYM         shift and go to state 109
+    LBRACKET        shift and go to state 61
+
+    cardinality                    shift and go to state 108
+
+state 87
+
+    (39) internal_relation -> REL_SYM . RELATION_NAME REL_SYM cardinality CLASS_NAME
+
+    RELATION_NAME   shift and go to state 110
+
+
+state 88
+
+    (63) opt_at -> RELATION_STEREOTYPE .
+
+    REL_SYM         reduce using rule 63 (opt_at -> RELATION_STEREOTYPE .)
+    LBRACKET        reduce using rule 63 (opt_at -> RELATION_STEREOTYPE .)
+
+
 state 89
 
-    (34) internal_relation -> opt_at . cardinality REL_SYM cardinality CLASS_NAME
-    (35) internal_relation -> opt_at . cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (36) internal_relation -> opt_at . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (38) internal_relation -> opt_at . REL_SYM CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
+    (64) opt_at -> empty .
 
-    REL_SYM         shift and go to state 111
-    LBRACKET        shift and go to state 63
+    REL_SYM         reduce using rule 64 (opt_at -> empty .)
+    LBRACKET        reduce using rule 64 (opt_at -> empty .)
 
-    cardinality                    shift and go to state 110
 
 state 90
 
-    (37) internal_relation -> REL_SYM . RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (57) class_list -> class_list COMMA . CLASS_NAME
 
-    RELATION_NAME   shift and go to state 112
+    CLASS_NAME      shift and go to state 111
 
 
 state 91
 
-    (61) opt_at -> RELATION_STEREOTYPE .
+    (29) atributo -> RELATION_NAME COLON tipo . cardinality_opt meta_attribs_opt
+    (27) cardinality_opt -> . cardinality
+    (28) cardinality_opt -> . empty
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
+    (71) empty -> .
 
-    REL_SYM         reduce using rule 61 (opt_at -> RELATION_STEREOTYPE .)
-    LBRACKET        reduce using rule 61 (opt_at -> RELATION_STEREOTYPE .)
+  ! shift/reduce conflict for LBRACKET resolved as shift
+    LBRACKET        shift and go to state 61
+    LBRACE          reduce using rule 71 (empty -> .)
+    RBRACE          reduce using rule 71 (empty -> .)
+    RELATION_NAME   reduce using rule 71 (empty -> .)
+    REL_SYM         reduce using rule 71 (empty -> .)
+    AT              reduce using rule 71 (empty -> .)
+    RELATION_STEREOTYPE reduce using rule 71 (empty -> .)
 
+  ! LBRACKET        [ reduce using rule 71 (empty -> .) ]
+
+    cardinality_opt                shift and go to state 112
+    cardinality                    shift and go to state 113
+    empty                          shift and go to state 114
 
 state 92
 
-    (62) opt_at -> empty .
+    (33) tipo -> DATA_TYPE .
 
-    REL_SYM         reduce using rule 62 (opt_at -> empty .)
-    LBRACKET        reduce using rule 62 (opt_at -> empty .)
+    LBRACKET        reduce using rule 33 (tipo -> DATA_TYPE .)
+    LBRACE          reduce using rule 33 (tipo -> DATA_TYPE .)
+    RBRACE          reduce using rule 33 (tipo -> DATA_TYPE .)
+    RELATION_NAME   reduce using rule 33 (tipo -> DATA_TYPE .)
+    REL_SYM         reduce using rule 33 (tipo -> DATA_TYPE .)
+    AT              reduce using rule 33 (tipo -> DATA_TYPE .)
+    RELATION_STEREOTYPE reduce using rule 33 (tipo -> DATA_TYPE .)
 
 
 state 93
 
-    (55) class_list -> class_list COMMA . CLASS_NAME
+    (34) tipo -> NEW_TYPE .
 
-    CLASS_NAME      shift and go to state 113
+    LBRACKET        reduce using rule 34 (tipo -> NEW_TYPE .)
+    LBRACE          reduce using rule 34 (tipo -> NEW_TYPE .)
+    RBRACE          reduce using rule 34 (tipo -> NEW_TYPE .)
+    RELATION_NAME   reduce using rule 34 (tipo -> NEW_TYPE .)
+    REL_SYM         reduce using rule 34 (tipo -> NEW_TYPE .)
+    AT              reduce using rule 34 (tipo -> NEW_TYPE .)
+    RELATION_STEREOTYPE reduce using rule 34 (tipo -> NEW_TYPE .)
 
 
 state 94
 
-    (27) atributo -> RELATION_NAME COLON tipo meta_attribs_opt .
+    (35) tipo -> CLASS_NAME .
 
-    RBRACE          reduce using rule 27 (atributo -> RELATION_NAME COLON tipo meta_attribs_opt .)
-    RELATION_NAME   reduce using rule 27 (atributo -> RELATION_NAME COLON tipo meta_attribs_opt .)
-    REL_SYM         reduce using rule 27 (atributo -> RELATION_NAME COLON tipo meta_attribs_opt .)
-    AT              reduce using rule 27 (atributo -> RELATION_NAME COLON tipo meta_attribs_opt .)
-    RELATION_STEREOTYPE reduce using rule 27 (atributo -> RELATION_NAME COLON tipo meta_attribs_opt .)
-    LBRACKET        reduce using rule 27 (atributo -> RELATION_NAME COLON tipo meta_attribs_opt .)
+    LBRACKET        reduce using rule 35 (tipo -> CLASS_NAME .)
+    LBRACE          reduce using rule 35 (tipo -> CLASS_NAME .)
+    RBRACE          reduce using rule 35 (tipo -> CLASS_NAME .)
+    RELATION_NAME   reduce using rule 35 (tipo -> CLASS_NAME .)
+    REL_SYM         reduce using rule 35 (tipo -> CLASS_NAME .)
+    AT              reduce using rule 35 (tipo -> CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 35 (tipo -> CLASS_NAME .)
 
 
 state 95
 
-    (28) meta_attribs_opt -> LBRACE . RELATION_NAME RBRACE
-    (29) meta_attribs_opt -> LBRACE . RBRACE
+    (45) lista_enum -> lista_enum COMMA CLASS_NAME .
 
-    RELATION_NAME   shift and go to state 114
-    RBRACE          shift and go to state 115
+    RBRACE          reduce using rule 45 (lista_enum -> lista_enum COMMA CLASS_NAME .)
+    COMMA           reduce using rule 45 (lista_enum -> lista_enum COMMA CLASS_NAME .)
 
 
 state 96
 
-    (30) meta_attribs_opt -> empty .
+    (59) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality . CLASS_NAME
 
-    RBRACE          reduce using rule 30 (meta_attribs_opt -> empty .)
-    RELATION_NAME   reduce using rule 30 (meta_attribs_opt -> empty .)
-    REL_SYM         reduce using rule 30 (meta_attribs_opt -> empty .)
-    AT              reduce using rule 30 (meta_attribs_opt -> empty .)
-    RELATION_STEREOTYPE reduce using rule 30 (meta_attribs_opt -> empty .)
-    LBRACKET        reduce using rule 30 (meta_attribs_opt -> empty .)
+    CLASS_NAME      shift and go to state 115
 
 
 state 97
 
-    (43) lista_enum -> lista_enum COMMA CLASS_NAME .
+    (60) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME . REL_SYM cardinality CLASS_NAME
 
-    RBRACE          reduce using rule 43 (lista_enum -> lista_enum COMMA CLASS_NAME .)
-    COMMA           reduce using rule 43 (lista_enum -> lista_enum COMMA CLASS_NAME .)
+    REL_SYM         shift and go to state 116
 
 
 state 98
 
-    (57) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality . CLASS_NAME
+    (65) cardinality -> LBRACKET NUMBER RBRACKET .
 
-    CLASS_NAME      shift and go to state 116
+    REL_SYM         reduce using rule 65 (cardinality -> LBRACKET NUMBER RBRACKET .)
+    CLASS_NAME      reduce using rule 65 (cardinality -> LBRACKET NUMBER RBRACKET .)
+    LBRACE          reduce using rule 65 (cardinality -> LBRACKET NUMBER RBRACKET .)
+    RBRACE          reduce using rule 65 (cardinality -> LBRACKET NUMBER RBRACKET .)
+    RELATION_NAME   reduce using rule 65 (cardinality -> LBRACKET NUMBER RBRACKET .)
+    AT              reduce using rule 65 (cardinality -> LBRACKET NUMBER RBRACKET .)
+    RELATION_STEREOTYPE reduce using rule 65 (cardinality -> LBRACKET NUMBER RBRACKET .)
+    LBRACKET        reduce using rule 65 (cardinality -> LBRACKET NUMBER RBRACKET .)
 
 
 state 99
 
-    (58) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME . REL_SYM cardinality CLASS_NAME
+    (66) cardinality -> LBRACKET NUMBER RANGE_DOTS . STAR RBRACKET
+    (67) cardinality -> LBRACKET NUMBER RANGE_DOTS . NUMBER RBRACKET
 
-    REL_SYM         shift and go to state 117
+    STAR            shift and go to state 118
+    NUMBER          shift and go to state 117
 
 
 state 100
 
-    (63) cardinality -> LBRACKET NUMBER RBRACKET .
+    (68) cardinality -> LBRACKET STAR RBRACKET .
 
-    REL_SYM         reduce using rule 63 (cardinality -> LBRACKET NUMBER RBRACKET .)
-    CLASS_NAME      reduce using rule 63 (cardinality -> LBRACKET NUMBER RBRACKET .)
+    REL_SYM         reduce using rule 68 (cardinality -> LBRACKET STAR RBRACKET .)
+    CLASS_NAME      reduce using rule 68 (cardinality -> LBRACKET STAR RBRACKET .)
+    LBRACE          reduce using rule 68 (cardinality -> LBRACKET STAR RBRACKET .)
+    RBRACE          reduce using rule 68 (cardinality -> LBRACKET STAR RBRACKET .)
+    RELATION_NAME   reduce using rule 68 (cardinality -> LBRACKET STAR RBRACKET .)
+    AT              reduce using rule 68 (cardinality -> LBRACKET STAR RBRACKET .)
+    RELATION_STEREOTYPE reduce using rule 68 (cardinality -> LBRACKET STAR RBRACKET .)
+    LBRACKET        reduce using rule 68 (cardinality -> LBRACKET STAR RBRACKET .)
 
 
 state 101
 
-    (64) cardinality -> LBRACKET NUMBER RANGE_DOTS . STAR RBRACKET
-    (65) cardinality -> LBRACKET NUMBER RANGE_DOTS . NUMBER RBRACKET
+    (61) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality . CLASS_NAME
 
-    STAR            shift and go to state 119
-    NUMBER          shift and go to state 118
+    CLASS_NAME      shift and go to state 119
 
 
 state 102
 
-    (66) cardinality -> LBRACKET STAR RBRACKET .
-
-    REL_SYM         reduce using rule 66 (cardinality -> LBRACKET STAR RBRACKET .)
-    CLASS_NAME      reduce using rule 66 (cardinality -> LBRACKET STAR RBRACKET .)
-
-
-state 103
-
-    (59) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality . CLASS_NAME
+    (53) genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES . CLASS_NAME
 
     CLASS_NAME      shift and go to state 120
 
 
+state 103
+
+    (54) genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl . RBRACE
+
+    RBRACE          shift and go to state 121
+
+
 state 104
 
-    (51) genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES . CLASS_NAME
+    (56) specifics_decl -> KW_SPECIFICS . class_list
+    (57) class_list -> . class_list COMMA CLASS_NAME
+    (58) class_list -> . CLASS_NAME
 
-    CLASS_NAME      shift and go to state 121
+    CLASS_NAME      shift and go to state 69
 
+    class_list                     shift and go to state 122
 
 state 105
 
-    (52) genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl . RBRACE
+    (55) general_decl -> KW_GENERAL CLASS_NAME .
 
-    RBRACE          shift and go to state 122
+    KW_SPECIFICS    reduce using rule 55 (general_decl -> KW_GENERAL CLASS_NAME .)
 
 
 state 106
 
-    (54) specifics_decl -> KW_SPECIFICS . class_list
-    (55) class_list -> . class_list COMMA CLASS_NAME
-    (56) class_list -> . CLASS_NAME
-
-    CLASS_NAME      shift and go to state 71
-
-    class_list                     shift and go to state 123
-
-state 107
-
-    (53) general_decl -> KW_GENERAL CLASS_NAME .
-
-    KW_SPECIFICS    reduce using rule 53 (general_decl -> KW_GENERAL CLASS_NAME .)
-
-
-state 108
-
     (21) body_opt -> LBRACE class_body RBRACE .
 
     CLASS_STEREOTYPE reduce using rule 21 (body_opt -> LBRACE class_body RBRACE .)
-    NEW_TYPE        reduce using rule 21 (body_opt -> LBRACE class_body RBRACE .)
+    KW_DATATYPE     reduce using rule 21 (body_opt -> LBRACE class_body RBRACE .)
     KW_ENUM         reduce using rule 21 (body_opt -> LBRACE class_body RBRACE .)
     RELATION_STEREOTYPE reduce using rule 21 (body_opt -> LBRACE class_body RBRACE .)
     KW_IMPORT       reduce using rule 21 (body_opt -> LBRACE class_body RBRACE .)
@@ -1628,7 +1625,7 @@ state 108
     $end            reduce using rule 21 (body_opt -> LBRACE class_body RBRACE .)
 
 
-state 109
+state 107
 
     (23) class_body -> class_body member .
 
@@ -1640,375 +1637,465 @@ state 109
     LBRACKET        reduce using rule 23 (class_body -> class_body member .)
 
 
+state 108
+
+    (36) internal_relation -> opt_at cardinality . REL_SYM cardinality CLASS_NAME
+    (37) internal_relation -> opt_at cardinality . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+
+    REL_SYM         shift and go to state 123
+
+
+state 109
+
+    (38) internal_relation -> opt_at REL_SYM . RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (40) internal_relation -> opt_at REL_SYM . CLASS_NAME
+
+    RELATION_NAME   shift and go to state 124
+    CLASS_NAME      shift and go to state 125
+
+
 state 110
 
-    (34) internal_relation -> opt_at cardinality . REL_SYM cardinality CLASS_NAME
-    (35) internal_relation -> opt_at cardinality . REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (39) internal_relation -> REL_SYM RELATION_NAME . REL_SYM cardinality CLASS_NAME
 
-    REL_SYM         shift and go to state 124
+    REL_SYM         shift and go to state 126
 
 
 state 111
 
-    (36) internal_relation -> opt_at REL_SYM . RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (38) internal_relation -> opt_at REL_SYM . CLASS_NAME
+    (57) class_list -> class_list COMMA CLASS_NAME .
 
-    RELATION_NAME   shift and go to state 125
-    CLASS_NAME      shift and go to state 126
+    COMMA           reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    LBRACE          reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    CLASS_STEREOTYPE reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    KW_DATATYPE     reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    KW_ENUM         reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    KW_IMPORT       reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    AT              reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    KW_DISJOINT     reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    KW_COMPLETE     reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    KW_RELATION     reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    KW_GENSET       reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    $end            reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    KW_SPECIALIZES  reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
+    RBRACE          reduce using rule 57 (class_list -> class_list COMMA CLASS_NAME .)
 
 
 state 112
 
-    (37) internal_relation -> REL_SYM RELATION_NAME . REL_SYM cardinality CLASS_NAME
+    (29) atributo -> RELATION_NAME COLON tipo cardinality_opt . meta_attribs_opt
+    (30) meta_attribs_opt -> . LBRACE RELATION_NAME RBRACE
+    (31) meta_attribs_opt -> . LBRACE RBRACE
+    (32) meta_attribs_opt -> . empty
+    (71) empty -> .
 
-    REL_SYM         shift and go to state 127
+    LBRACE          shift and go to state 128
+    RBRACE          reduce using rule 71 (empty -> .)
+    RELATION_NAME   reduce using rule 71 (empty -> .)
+    REL_SYM         reduce using rule 71 (empty -> .)
+    AT              reduce using rule 71 (empty -> .)
+    RELATION_STEREOTYPE reduce using rule 71 (empty -> .)
+    LBRACKET        reduce using rule 71 (empty -> .)
 
+    meta_attribs_opt               shift and go to state 127
+    empty                          shift and go to state 129
 
 state 113
 
-    (55) class_list -> class_list COMMA CLASS_NAME .
+    (27) cardinality_opt -> cardinality .
 
-    COMMA           reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    LBRACE          reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    CLASS_STEREOTYPE reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    NEW_TYPE        reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    KW_ENUM         reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    KW_IMPORT       reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    AT              reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    KW_DISJOINT     reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    KW_COMPLETE     reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    KW_RELATION     reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    KW_GENSET       reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    $end            reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    KW_SPECIALIZES  reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
-    RBRACE          reduce using rule 55 (class_list -> class_list COMMA CLASS_NAME .)
+    LBRACE          reduce using rule 27 (cardinality_opt -> cardinality .)
+    RBRACE          reduce using rule 27 (cardinality_opt -> cardinality .)
+    RELATION_NAME   reduce using rule 27 (cardinality_opt -> cardinality .)
+    REL_SYM         reduce using rule 27 (cardinality_opt -> cardinality .)
+    AT              reduce using rule 27 (cardinality_opt -> cardinality .)
+    RELATION_STEREOTYPE reduce using rule 27 (cardinality_opt -> cardinality .)
+    LBRACKET        reduce using rule 27 (cardinality_opt -> cardinality .)
 
 
 state 114
 
-    (28) meta_attribs_opt -> LBRACE RELATION_NAME . RBRACE
+    (28) cardinality_opt -> empty .
 
-    RBRACE          shift and go to state 128
+    LBRACE          reduce using rule 28 (cardinality_opt -> empty .)
+    RBRACE          reduce using rule 28 (cardinality_opt -> empty .)
+    RELATION_NAME   reduce using rule 28 (cardinality_opt -> empty .)
+    REL_SYM         reduce using rule 28 (cardinality_opt -> empty .)
+    AT              reduce using rule 28 (cardinality_opt -> empty .)
+    RELATION_STEREOTYPE reduce using rule 28 (cardinality_opt -> empty .)
+    LBRACKET        reduce using rule 28 (cardinality_opt -> empty .)
 
 
 state 115
 
-    (29) meta_attribs_opt -> LBRACE RBRACE .
+    (59) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .
 
-    RBRACE          reduce using rule 29 (meta_attribs_opt -> LBRACE RBRACE .)
-    RELATION_NAME   reduce using rule 29 (meta_attribs_opt -> LBRACE RBRACE .)
-    REL_SYM         reduce using rule 29 (meta_attribs_opt -> LBRACE RBRACE .)
-    AT              reduce using rule 29 (meta_attribs_opt -> LBRACE RBRACE .)
-    RELATION_STEREOTYPE reduce using rule 29 (meta_attribs_opt -> LBRACE RBRACE .)
-    LBRACKET        reduce using rule 29 (meta_attribs_opt -> LBRACE RBRACE .)
+    CLASS_STEREOTYPE reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_DATATYPE     reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_ENUM         reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_IMPORT       reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    AT              reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_DISJOINT     reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_COMPLETE     reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_RELATION     reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_GENSET       reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    $end            reduce using rule 59 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
 
 
 state 116
 
-    (57) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .
+    (60) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM . cardinality CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
 
-    CLASS_STEREOTYPE reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    NEW_TYPE        reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_ENUM         reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_IMPORT       reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    AT              reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_DISJOINT     reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_COMPLETE     reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_RELATION     reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_GENSET       reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    $end            reduce using rule 57 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    LBRACKET        shift and go to state 61
 
+    cardinality                    shift and go to state 130
 
 state 117
 
-    (58) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM . cardinality CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
-
-    LBRACKET        shift and go to state 63
-
-    cardinality                    shift and go to state 129
-
-state 118
-
-    (65) cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER . RBRACKET
-
-    RBRACKET        shift and go to state 130
-
-
-state 119
-
-    (64) cardinality -> LBRACKET NUMBER RANGE_DOTS STAR . RBRACKET
+    (67) cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER . RBRACKET
 
     RBRACKET        shift and go to state 131
 
 
+state 118
+
+    (66) cardinality -> LBRACKET NUMBER RANGE_DOTS STAR . RBRACKET
+
+    RBRACKET        shift and go to state 132
+
+
+state 119
+
+    (61) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .
+
+    CLASS_STEREOTYPE reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_DATATYPE     reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_ENUM         reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_IMPORT       reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    AT              reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_DISJOINT     reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_COMPLETE     reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_RELATION     reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    KW_GENSET       reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    $end            reduce using rule 61 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+
+
 state 120
 
-    (59) relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .
+    (53) genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .
 
-    CLASS_STEREOTYPE reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    NEW_TYPE        reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_ENUM         reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_IMPORT       reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    AT              reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_DISJOINT     reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_COMPLETE     reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_RELATION     reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    KW_GENSET       reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
-    $end            reduce using rule 59 (relation_decl_external -> RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME .)
+    CLASS_STEREOTYPE reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    KW_DATATYPE     reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    KW_ENUM         reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    KW_IMPORT       reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    AT              reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    KW_DISJOINT     reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    KW_COMPLETE     reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    KW_RELATION     reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    KW_GENSET       reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    $end            reduce using rule 53 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
 
 
 state 121
 
-    (51) genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .
+    (54) genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .
 
-    CLASS_STEREOTYPE reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    NEW_TYPE        reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    KW_ENUM         reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    KW_IMPORT       reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    AT              reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    KW_DISJOINT     reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    KW_COMPLETE     reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    KW_RELATION     reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    KW_GENSET       reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
-    $end            reduce using rule 51 (genset_inline -> genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME .)
+    CLASS_STEREOTYPE reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    KW_DATATYPE     reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    KW_ENUM         reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    RELATION_STEREOTYPE reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    KW_IMPORT       reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    AT              reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    KW_DISJOINT     reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    KW_COMPLETE     reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    KW_RELATION     reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    KW_GENSET       reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    $end            reduce using rule 54 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
 
 
 state 122
 
-    (52) genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .
+    (56) specifics_decl -> KW_SPECIFICS class_list .
+    (57) class_list -> class_list . COMMA CLASS_NAME
 
-    CLASS_STEREOTYPE reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    NEW_TYPE        reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    KW_ENUM         reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    RELATION_STEREOTYPE reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    KW_IMPORT       reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    AT              reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    KW_DISJOINT     reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    KW_COMPLETE     reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    KW_RELATION     reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    KW_GENSET       reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
-    $end            reduce using rule 52 (genset_block -> genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE .)
+    RBRACE          reduce using rule 56 (specifics_decl -> KW_SPECIFICS class_list .)
+    COMMA           shift and go to state 90
 
 
 state 123
 
-    (54) specifics_decl -> KW_SPECIFICS class_list .
-    (55) class_list -> class_list . COMMA CLASS_NAME
+    (36) internal_relation -> opt_at cardinality REL_SYM . cardinality CLASS_NAME
+    (37) internal_relation -> opt_at cardinality REL_SYM . RELATION_NAME REL_SYM cardinality CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
 
-    RBRACE          reduce using rule 54 (specifics_decl -> KW_SPECIFICS class_list .)
-    COMMA           shift and go to state 93
+    RELATION_NAME   shift and go to state 134
+    LBRACKET        shift and go to state 61
 
+    cardinality                    shift and go to state 133
 
 state 124
 
-    (34) internal_relation -> opt_at cardinality REL_SYM . cardinality CLASS_NAME
-    (35) internal_relation -> opt_at cardinality REL_SYM . RELATION_NAME REL_SYM cardinality CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
+    (38) internal_relation -> opt_at REL_SYM RELATION_NAME . REL_SYM cardinality CLASS_NAME
 
-    RELATION_NAME   shift and go to state 133
-    LBRACKET        shift and go to state 63
+    REL_SYM         shift and go to state 135
 
-    cardinality                    shift and go to state 132
 
 state 125
 
-    (36) internal_relation -> opt_at REL_SYM RELATION_NAME . REL_SYM cardinality CLASS_NAME
+    (40) internal_relation -> opt_at REL_SYM CLASS_NAME .
 
-    REL_SYM         shift and go to state 134
+    RBRACE          reduce using rule 40 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
+    RELATION_NAME   reduce using rule 40 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
+    REL_SYM         reduce using rule 40 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
+    AT              reduce using rule 40 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 40 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
+    LBRACKET        reduce using rule 40 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
 
 
 state 126
 
-    (38) internal_relation -> opt_at REL_SYM CLASS_NAME .
+    (39) internal_relation -> REL_SYM RELATION_NAME REL_SYM . cardinality CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
 
-    RBRACE          reduce using rule 38 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
-    RELATION_NAME   reduce using rule 38 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
-    REL_SYM         reduce using rule 38 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
-    AT              reduce using rule 38 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 38 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
-    LBRACKET        reduce using rule 38 (internal_relation -> opt_at REL_SYM CLASS_NAME .)
+    LBRACKET        shift and go to state 61
 
+    cardinality                    shift and go to state 136
 
 state 127
 
-    (37) internal_relation -> REL_SYM RELATION_NAME REL_SYM . cardinality CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
+    (29) atributo -> RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt .
 
-    LBRACKET        shift and go to state 63
+    RBRACE          reduce using rule 29 (atributo -> RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt .)
+    RELATION_NAME   reduce using rule 29 (atributo -> RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt .)
+    REL_SYM         reduce using rule 29 (atributo -> RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt .)
+    AT              reduce using rule 29 (atributo -> RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt .)
+    RELATION_STEREOTYPE reduce using rule 29 (atributo -> RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt .)
+    LBRACKET        reduce using rule 29 (atributo -> RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt .)
 
-    cardinality                    shift and go to state 135
 
 state 128
 
-    (28) meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .
+    (30) meta_attribs_opt -> LBRACE . RELATION_NAME RBRACE
+    (31) meta_attribs_opt -> LBRACE . RBRACE
 
-    RBRACE          reduce using rule 28 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
-    RELATION_NAME   reduce using rule 28 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
-    REL_SYM         reduce using rule 28 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
-    AT              reduce using rule 28 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
-    RELATION_STEREOTYPE reduce using rule 28 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
-    LBRACKET        reduce using rule 28 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
+    RELATION_NAME   shift and go to state 137
+    RBRACE          shift and go to state 138
 
 
 state 129
 
-    (58) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality . CLASS_NAME
+    (32) meta_attribs_opt -> empty .
 
-    CLASS_NAME      shift and go to state 136
+    RBRACE          reduce using rule 32 (meta_attribs_opt -> empty .)
+    RELATION_NAME   reduce using rule 32 (meta_attribs_opt -> empty .)
+    REL_SYM         reduce using rule 32 (meta_attribs_opt -> empty .)
+    AT              reduce using rule 32 (meta_attribs_opt -> empty .)
+    RELATION_STEREOTYPE reduce using rule 32 (meta_attribs_opt -> empty .)
+    LBRACKET        reduce using rule 32 (meta_attribs_opt -> empty .)
 
 
 state 130
 
-    (65) cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .
+    (60) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality . CLASS_NAME
 
-    REL_SYM         reduce using rule 65 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
-    CLASS_NAME      reduce using rule 65 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
+    CLASS_NAME      shift and go to state 139
 
 
 state 131
 
-    (64) cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .
+    (67) cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .
 
-    REL_SYM         reduce using rule 64 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
-    CLASS_NAME      reduce using rule 64 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
+    REL_SYM         reduce using rule 67 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
+    CLASS_NAME      reduce using rule 67 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
+    LBRACE          reduce using rule 67 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
+    RBRACE          reduce using rule 67 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
+    RELATION_NAME   reduce using rule 67 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
+    AT              reduce using rule 67 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
+    RELATION_STEREOTYPE reduce using rule 67 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
+    LBRACKET        reduce using rule 67 (cardinality -> LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET .)
 
 
 state 132
 
-    (34) internal_relation -> opt_at cardinality REL_SYM cardinality . CLASS_NAME
+    (66) cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .
 
-    CLASS_NAME      shift and go to state 137
+    REL_SYM         reduce using rule 66 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
+    CLASS_NAME      reduce using rule 66 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
+    LBRACE          reduce using rule 66 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
+    RBRACE          reduce using rule 66 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
+    RELATION_NAME   reduce using rule 66 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
+    AT              reduce using rule 66 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
+    RELATION_STEREOTYPE reduce using rule 66 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
+    LBRACKET        reduce using rule 66 (cardinality -> LBRACKET NUMBER RANGE_DOTS STAR RBRACKET .)
 
 
 state 133
 
-    (35) internal_relation -> opt_at cardinality REL_SYM RELATION_NAME . REL_SYM cardinality CLASS_NAME
-
-    REL_SYM         shift and go to state 138
-
-
-state 134
-
-    (36) internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM . cardinality CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
-
-    LBRACKET        shift and go to state 63
-
-    cardinality                    shift and go to state 139
-
-state 135
-
-    (37) internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality . CLASS_NAME
+    (36) internal_relation -> opt_at cardinality REL_SYM cardinality . CLASS_NAME
 
     CLASS_NAME      shift and go to state 140
 
 
+state 134
+
+    (37) internal_relation -> opt_at cardinality REL_SYM RELATION_NAME . REL_SYM cardinality CLASS_NAME
+
+    REL_SYM         shift and go to state 141
+
+
+state 135
+
+    (38) internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM . cardinality CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
+
+    LBRACKET        shift and go to state 61
+
+    cardinality                    shift and go to state 142
+
 state 136
 
-    (58) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .
-
-    CLASS_STEREOTYPE reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    NEW_TYPE        reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    KW_ENUM         reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    KW_IMPORT       reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    AT              reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    KW_DISJOINT     reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    KW_COMPLETE     reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    KW_RELATION     reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    KW_GENSET       reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    $end            reduce using rule 58 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-
-
-state 137
-
-    (34) internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .
-
-    RBRACE          reduce using rule 34 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
-    RELATION_NAME   reduce using rule 34 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
-    REL_SYM         reduce using rule 34 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
-    AT              reduce using rule 34 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 34 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
-    LBRACKET        reduce using rule 34 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
-
-
-state 138
-
-    (35) internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM . cardinality CLASS_NAME
-    (63) cardinality -> . LBRACKET NUMBER RBRACKET
-    (64) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
-    (65) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
-    (66) cardinality -> . LBRACKET STAR RBRACKET
-
-    LBRACKET        shift and go to state 63
-
-    cardinality                    shift and go to state 141
-
-state 139
-
-    (36) internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality . CLASS_NAME
-
-    CLASS_NAME      shift and go to state 142
-
-
-state 140
-
-    (37) internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .
-
-    RBRACE          reduce using rule 37 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    RELATION_NAME   reduce using rule 37 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    REL_SYM         reduce using rule 37 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    AT              reduce using rule 37 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 37 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    LBRACKET        reduce using rule 37 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-
-
-state 141
-
-    (35) internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality . CLASS_NAME
+    (39) internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality . CLASS_NAME
 
     CLASS_NAME      shift and go to state 143
 
 
+state 137
+
+    (30) meta_attribs_opt -> LBRACE RELATION_NAME . RBRACE
+
+    RBRACE          shift and go to state 144
+
+
+state 138
+
+    (31) meta_attribs_opt -> LBRACE RBRACE .
+
+    RBRACE          reduce using rule 31 (meta_attribs_opt -> LBRACE RBRACE .)
+    RELATION_NAME   reduce using rule 31 (meta_attribs_opt -> LBRACE RBRACE .)
+    REL_SYM         reduce using rule 31 (meta_attribs_opt -> LBRACE RBRACE .)
+    AT              reduce using rule 31 (meta_attribs_opt -> LBRACE RBRACE .)
+    RELATION_STEREOTYPE reduce using rule 31 (meta_attribs_opt -> LBRACE RBRACE .)
+    LBRACKET        reduce using rule 31 (meta_attribs_opt -> LBRACE RBRACE .)
+
+
+state 139
+
+    (60) relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .
+
+    CLASS_STEREOTYPE reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    KW_DATATYPE     reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    KW_ENUM         reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    KW_IMPORT       reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    AT              reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    KW_DISJOINT     reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    KW_COMPLETE     reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    KW_RELATION     reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    KW_GENSET       reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    $end            reduce using rule 60 (relation_decl_external -> opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+
+
+state 140
+
+    (36) internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .
+
+    RBRACE          reduce using rule 36 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
+    RELATION_NAME   reduce using rule 36 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
+    REL_SYM         reduce using rule 36 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
+    AT              reduce using rule 36 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 36 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
+    LBRACKET        reduce using rule 36 (internal_relation -> opt_at cardinality REL_SYM cardinality CLASS_NAME .)
+
+
+state 141
+
+    (37) internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM . cardinality CLASS_NAME
+    (65) cardinality -> . LBRACKET NUMBER RBRACKET
+    (66) cardinality -> . LBRACKET NUMBER RANGE_DOTS STAR RBRACKET
+    (67) cardinality -> . LBRACKET NUMBER RANGE_DOTS NUMBER RBRACKET
+    (68) cardinality -> . LBRACKET STAR RBRACKET
+
+    LBRACKET        shift and go to state 61
+
+    cardinality                    shift and go to state 145
+
 state 142
 
-    (36) internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .
+    (38) internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality . CLASS_NAME
 
-    RBRACE          reduce using rule 36 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    RELATION_NAME   reduce using rule 36 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    REL_SYM         reduce using rule 36 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    AT              reduce using rule 36 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 36 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    LBRACKET        reduce using rule 36 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    CLASS_NAME      shift and go to state 146
 
 
 state 143
 
-    (35) internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .
+    (39) internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .
 
-    RBRACE          reduce using rule 35 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    RELATION_NAME   reduce using rule 35 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    REL_SYM         reduce using rule 35 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    AT              reduce using rule 35 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    RELATION_STEREOTYPE reduce using rule 35 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
-    LBRACKET        reduce using rule 35 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    RBRACE          reduce using rule 39 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    RELATION_NAME   reduce using rule 39 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    REL_SYM         reduce using rule 39 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    AT              reduce using rule 39 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 39 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    LBRACKET        reduce using rule 39 (internal_relation -> REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+
+
+state 144
+
+    (30) meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .
+
+    RBRACE          reduce using rule 30 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
+    RELATION_NAME   reduce using rule 30 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
+    REL_SYM         reduce using rule 30 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
+    AT              reduce using rule 30 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
+    RELATION_STEREOTYPE reduce using rule 30 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
+    LBRACKET        reduce using rule 30 (meta_attribs_opt -> LBRACE RELATION_NAME RBRACE .)
+
+
+state 145
+
+    (37) internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality . CLASS_NAME
+
+    CLASS_NAME      shift and go to state 147
+
+
+state 146
+
+    (38) internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .
+
+    RBRACE          reduce using rule 38 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    RELATION_NAME   reduce using rule 38 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    REL_SYM         reduce using rule 38 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    AT              reduce using rule 38 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 38 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    LBRACKET        reduce using rule 38 (internal_relation -> opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+
+
+state 147
+
+    (37) internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .
+
+    RBRACE          reduce using rule 37 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    RELATION_NAME   reduce using rule 37 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    REL_SYM         reduce using rule 37 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    AT              reduce using rule 37 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    RELATION_STEREOTYPE reduce using rule 37 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
+    LBRACKET        reduce using rule 37 (internal_relation -> opt_at cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME .)
 
 WARNING: 
 WARNING: Conflicts:
@@ -2016,5 +2103,6 @@ WARNING:
 WARNING: shift/reduce conflict for KW_IMPORT in state 0 resolved as shift
 WARNING: shift/reduce conflict for KW_IMPORT in state 2 resolved as shift
 WARNING: shift/reduce conflict for KW_RELATION in state 27 resolved as shift
-WARNING: shift/reduce conflict for REL_SYM in state 68 resolved as shift
-WARNING: shift/reduce conflict for REL_SYM in state 85 resolved as shift
+WARNING: shift/reduce conflict for REL_SYM in state 66 resolved as shift
+WARNING: shift/reduce conflict for REL_SYM in state 82 resolved as shift
+WARNING: shift/reduce conflict for LBRACKET in state 91 resolved as shift

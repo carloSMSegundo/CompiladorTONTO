@@ -1,12 +1,38 @@
---- Teste de Erros de Nomenclatura ---
+// Teste de Erros Léxicos e Sintáticos
 
-kind Universidade1 {
-    nome: string
+package ErrosCriticos
+
+// ERRO LÉXICO 1: Caractere inválido
+# Símbolo '@' não faz parte da sintaxe aqui, mas o Lexer deve detectá-lo
+$
+
+// ERRO LÉXICO 2: Identificador com hífen que não é palavra reservada
+kind Meu-Objeto-Ilegal
+kind ObjetoOk
+
+// ERRO SINTÁTICO 1: Nome de classe em minúscula (deve ser CLASS_NAME, mas é tokenizado como RELATION_NAME)
+// A regra de 'class_decl' espera CLASS_NAME, falhando em 'classe'
+kind classe {
+    // ERRO SINTÁTICO 2: Uso de palavra reservada onde se esperava um identificador (atributo)
+    kind: string
 }
-role Aluno {
-    temMatricula123: string
+
+// ERRO SINTÁTICO 3: Declaração de tipo de dado com nome que contém dígito
+// O Lexer tokeniza 'Tipo123DataType' como CLASS_NAME (pois contém dígito),
+// mas a regra 'datatype_decl' espera NEW_TYPE (DataType, sem dígito).
+datatype Tipo123DataType {
+    campo: string
 }
-kind Pessoa {
-    documento: CPF_123DataType
+
+// ERRO SINTÁTICO 4: Declaração de enum incompleta (falta RBRACE '}')
+enum DiasDaSemana { Segunda, Terca
+
+// ERRO SINTÁTICO 5: Uso de um estereótipo de classe inválido para Relator (kind)
+kind relation Emprego [1] -- [1] Pessoa
+
+// ERRO SINTÁTICO 6: Generalização em Bloco incompleta (falta general/specifics)
+disjoint complete genset Invalido {
 }
-%
+
+// ERRO SINTÁTICO 7: Declaração de pacote incompleta (ausência de nome)
+package

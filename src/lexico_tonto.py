@@ -17,7 +17,8 @@ reserved = {
     'enum': 'KW_ENUM',
     'specializes': 'KW_SPECIALIZES',
     'relation': 'KW_RELATION',
-    'of': 'KW_OF',  # <--- NOVO: Para ler "of functional-complexes"
+    'of': 'KW_OF',
+    'datatype': 'KW_DATATYPE', # <-- ADICIONAR
 
     # Tipos
     'number': 'DATA_TYPE',

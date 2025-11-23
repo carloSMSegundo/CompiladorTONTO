@@ -131,8 +131,13 @@ def p_member(p):
 # 3. ATRIBUTOS
 # ========================================================================
 
+def p_cardinality_opt(p):
+    '''cardinality_opt : cardinality
+                       | empty'''
+    pass
+
 def p_atributo(p):
-    '''atributo : RELATION_NAME COLON tipo meta_attribs_opt'''
+    '''atributo : RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt'''
     p[0] = ("atributo", p[1], p[3])
 
 
@@ -169,9 +174,9 @@ def p_internal_relation(p):
 # ========================================================================
 
 def p_datatype_decl(p):
-    'datatype_decl : NEW_TYPE LBRACE atributos_dt RBRACE'
-    sintese["tipos"][p[1]] = p[3]
-    p[0] = ("datatype", p[1])
+    'datatype_decl : KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE'
+    sintese["tipos"][p[2]] = p[4]
+    p[0] = ("datatype", p[2])
 
 
 def p_atributos_dt(p):
