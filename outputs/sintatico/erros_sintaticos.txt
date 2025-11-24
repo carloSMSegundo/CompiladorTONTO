@@ -1,4 +1,1 @@
---- Erros Sintáticos Encontrados ---
-[ERRO SINTÁTICO] Token inesperado 'classe' (RELATION_NAME) na linha 15
-[ERRO SINTÁTICO] Token inesperado 'kind' (CLASS_STEREOTYPE) na linha 31
-[ERRO SINTÁTICO] Token inesperado '}' (RBRACE) na linha 35
+Nenhum erro sintático encontrado.

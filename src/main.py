@@ -69,11 +69,19 @@ def salvar_sintatico(sintese, erros, pasta_raiz):
 
         f.write(f"\nClasses encontradas: {len(sintese['classes'])}\n")
         for name, meta in sintese['classes'].items():
-            f.write(f"  - {name} (estereótipo={meta.get('estereotipo')}), atributos={len(meta.get('atributos', []))}\n")
+            num_attrs = len(meta.get('atributos', []))
+            num_rels_int = len(meta.get('relacoes_internas', []))
+
+            f.write(
+                f"  - {name} (estereótipo={meta.get('estereotipo')}), atributos={num_attrs}, relacoes_internas={num_rels_int}\n")
 
         f.write(f"\nTipos (DataTypes): {len(sintese['tipos'])}\n")
         for tname, attrs in sintese['tipos'].items():
-            f.write(f"  - {tname} (atributos={len(attrs)})\n")
+            if isinstance(attrs, dict) and "especializa" in attrs:
+                f.write(f"  - {tname} (especializa={attrs['especializa']})\n")
+            else:
+                num_attrs = len(attrs) if isinstance(attrs, list) else 0
+                f.write(f"  - {tname} (atributos={num_attrs})\n")
 
         f.write(f"\nEnums: {len(sintese['enums'])}\n")
         for en, items in sintese['enums'].items():
@@ -85,7 +93,8 @@ def salvar_sintatico(sintese, erros, pasta_raiz):
 
         f.write(f"\nRelações externas: {len(sintese['relacoes_externas'])}\n")
         for r in sintese['relacoes_externas']:
-            f.write(f"  - {r}\n")
+            desc = r.get('raw', 'relação externa detalhe indisponível')
+            f.write(f"  - {desc}\n")
 
     return sintese_path, erro_path
 

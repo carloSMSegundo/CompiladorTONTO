@@ -1,40 +1,21 @@
-package ModeloDeDominio
+package RelacoesTeste
 
-// Teste de importação (deve ser o segundo elemento)
-import OutroPacote
-
-// --- CORREÇÃO DO ERRO 1: Testa o keyword 'datatype' ---
-datatype CoordenadaDataType {
-    latitude: number
-    longitude: number { derived } // Atributo com meta-atributo
+// Classe com Relacão Interna (Agregação)
+kind University {
+    // RELAÇÃO INTERNA: University é composta por Department
+    @componentOf [1] <>-- [1..*] Department
 }
 
-enum CoresBasicas { Vermelho, Amarelo, Azul }
-
-// --- CORREÇÃO DO ERRO 2: Testa atributos com cardinalidade e sem ---
-kind Elemento {
-    nome: string [1] // Atributo com cardinalidade explícita
-    localizacao: CoordenadaDataType
-    corPrincipal: CoresBasicas [0..1]
-    dataCriacao: date { const } // Atributo sem cardinalidade (default é [1])
+// Classe que é o alvo da relação interna e participante da externa
+kind Department {
+    name: string
 }
 
-// Classes para Generalização
-phase ElementoAtivo specializes Elemento
-phase ElementoInativo specializes Elemento
+// Classe participante da relação externa
+kind Employee
 
-// Generalização em Bloco
-disjoint complete genset EstadoDoElemento {
-    general Elemento
-    specifics ElementoAtivo, ElementoInativo
-}
+// RELAÇÃO EXTERNA: Mediação entre EmploymentContract e Employee
+relator EmploymentContract
 
-// Relação Interna (Internal Relation - Composition com nome)
-kind Container {
-    @componentOf
-    // [Card. Origem] <Símbolo> NomeRelação -- [Card. Destino] ClasseDestino
-    [1] <o>-- contemComponentes -- [1..*] Elemento
-}
-
-// Relação Externa
-@mediation relation AssociacaoExterna [0..*] -- [1] Elemento
+@mediation relation EmploymentContract [1..1]
+-- emprega -- [0..*] Employee

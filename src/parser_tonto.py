@@ -47,7 +47,8 @@ def p_elementos(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[2]); p[0] = p[1]
+        p[1].append(p[2]);
+        p[0] = p[1]
 
 
 def p_elemento(p):
@@ -81,9 +82,11 @@ def p_class_decl(p):
         for item in corpo:
             if item[0] == 'atributo':
                 attrs.append(item)
+            # COLETANDO RELAÇÕES INTERNAS
             elif item[0] == 'relacao_interna':
                 rels.append(item)
 
+    # REQUISITO: A síntese deve conter quais relações estão em cada classe (internas)
     sintese["classes"][nome] = {"estereotipo": est, "heranca": heranca, "atributos": attrs, "relacoes_internas": rels}
     p[0] = ("class", nome)
 
@@ -118,7 +121,8 @@ def p_class_body(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[2]); p[0] = p[1]
+        p[1].append(p[2]);
+        p[0] = p[1]
 
 
 def p_member(p):
@@ -135,6 +139,7 @@ def p_cardinality_opt(p):
     '''cardinality_opt : cardinality
                        | empty'''
     pass
+
 
 def p_atributo(p):
     '''atributo : RELATION_NAME COLON tipo cardinality_opt meta_attribs_opt'''
@@ -173,10 +178,29 @@ def p_internal_relation(p):
 # 5. TIPOS, ENUMS E GENSETS
 # ========================================================================
 
+def p_datatype_identifier(p):
+    '''datatype_identifier : NEW_TYPE
+                           | CLASS_NAME'''
+    p[0] = p[1]
+
+
+def p_datatype_target_for_spec(p):
+    '''datatype_target_for_spec : DATA_TYPE
+                                | NEW_TYPE
+                                | CLASS_NAME'''
+    p[0] = p[1]
+
+
 def p_datatype_decl(p):
-    'datatype_decl : KW_DATATYPE NEW_TYPE LBRACE atributos_dt RBRACE'
-    sintese["tipos"][p[2]] = p[4]
-    p[0] = ("datatype", p[2])
+    '''datatype_decl : KW_DATATYPE datatype_identifier LBRACE atributos_dt RBRACE
+                     | KW_DATATYPE datatype_identifier KW_SPECIALIZES datatype_target_for_spec'''
+
+    if len(p) == 6:  # Sintaxe de bloco (com atributos)
+        sintese["tipos"][p[2]] = p[4]
+        p[0] = ("datatype", p[2])
+    elif len(p) == 5:  # Sintaxe de linha (apenas especialização: e.g., datatype Phone specializes number)
+        sintese["tipos"][p[2]] = {"especializa": p[4]}
+        p[0] = ("datatype", p[2])
 
 
 def p_atributos_dt(p):
@@ -185,7 +209,8 @@ def p_atributos_dt(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[2]); p[0] = p[1]
+        p[1].append(p[2]);
+        p[0] = p[1]
 
 
 def p_enum_decl(p):
@@ -200,7 +225,8 @@ def p_lista_enum(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[3]); p[0] = p[1]
+        p[1].append(p[3]);
+        p[0] = p[1]
 
 
 def p_genset_decl(p):
@@ -245,7 +271,8 @@ def p_class_list(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[3]); p[0] = p[1]
+        p[1].append(p[3]);
+        p[0] = p[1]
 
 
 # ========================================================================
@@ -256,7 +283,23 @@ def p_relation_decl_external(p):
     '''relation_decl_external : opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
                               | opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
                               | RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME'''
-    sintese["relacoes_externas"].append({"raw": "relação externa"})
+
+    if len(p) == 10:
+        class1 = p[3]
+        rel_name = p[6]
+        class2 = p[9]
+        desc = f"rel: {rel_name} ({class1} -> {class2})"
+    elif len(p) == 8:
+        class1 = p[3]
+        class2 = p[7]
+        desc = f"rel: ({class1} -> {class2})"
+    else:
+        class1 = p[3]
+        class2 = p[7]
+        desc = f"rel: ({class1} -> {class2})"
+
+    # REQUISITO: A síntese deve detalhar a relação
+    sintese["relacoes_externas"].append({"raw": desc})
     p[0] = ("relation", "ok")
 
 

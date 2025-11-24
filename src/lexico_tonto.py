@@ -122,8 +122,7 @@ def t_IDENTIFIER(t):
     t.type = 'RELATION_NAME'
     return t
 
-
-t_ignore = " \t"
+t_ignore = " \t\n"
 
 
 def t_comment(t):
