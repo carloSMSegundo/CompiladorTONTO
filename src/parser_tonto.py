@@ -212,6 +212,12 @@ def p_atributos_dt(p):
         p[1].append(p[2]);
         p[0] = p[1]
 
+# NOVA REGRA: Permite que elementos de enum sejam INSTANCE_NAME (os que terminam em número) ou CLASS_NAME (os que não)
+def p_enum_element_name(p):
+    '''enum_element_name : CLASS_NAME
+                         | INSTANCE_NAME'''
+    p[0] = p[1]
+
 
 def p_enum_decl(p):
     'enum_decl : KW_ENUM CLASS_NAME LBRACE lista_enum RBRACE'
@@ -220,8 +226,8 @@ def p_enum_decl(p):
 
 
 def p_lista_enum(p):
-    '''lista_enum : lista_enum COMMA CLASS_NAME
-                  | CLASS_NAME'''
+    '''lista_enum : lista_enum COMMA enum_element_name
+                  | enum_element_name'''
     if len(p) == 2:
         p[0] = [p[1]]
     else:

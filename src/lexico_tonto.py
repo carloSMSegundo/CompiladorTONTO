@@ -18,7 +18,7 @@ reserved = {
     'specializes': 'KW_SPECIALIZES',
     'relation': 'KW_RELATION',
     'of': 'KW_OF',
-    'datatype': 'KW_DATATYPE', # <-- ADICIONAR
+    'datatype': 'KW_DATATYPE',
 
     # Tipos
     'number': 'DATA_TYPE',
@@ -105,20 +105,25 @@ def t_NEW_TYPE(t):
 
 
 def t_IDENTIFIER(t):
-    r'[a-zA-Z_][a-zA-Z0-9_\-]*'  # Aceita hífens para "functional-complexes"
+    r'[a-zA-Z_][a-zA-Z0-9_\-]*'
 
     if t.value in reserved:
         t.type = reserved[t.value]
         return t
 
-    if t.value[0].isupper():
-        t.type = 'CLASS_NAME'
-        return t
-
+    # CORREÇÃO CRÍTICA (R4918): A regra de INSTANCE_NAME deve ter prioridade
+    # se o token terminar em dígito, independente da letra inicial.
+    # Isto garante que 'Covid01' seja INSTANCE_NAME e não CLASS_NAME.
     if re.search(r'\d+$', t.value):
         t.type = 'INSTANCE_NAME'
         return t
 
+    # R4914: Class Name (Starts uppercase, NO numbers, since numbers are INSTANCE_NAME)
+    if t.value[0].isupper():
+        t.type = 'CLASS_NAME'
+        return t
+
+    # R4916: Relation Name (Starts lowercase, no ending number)
     t.type = 'RELATION_NAME'
     return t
 
