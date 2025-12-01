@@ -1,1 +1,2 @@
-Nenhum erro léxico encontrado.
+--- Erros Léxicos Encontrados ---
+Erro Léxico: caractere inesperado '$' na linha 5.

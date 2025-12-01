@@ -1,24 +1,6 @@
 --- Tabela de Síntese Sintática ---
 
 Pacotes: 1
-  - ModeloDeProva
+  - ErrosSintaticos
 
-Classes encontradas: 4
-  - Cliente (estereótipo=kind), atributos=4, relacoes_internas=0
-  - Crianca (estereótipo=phase), atributos=0, relacoes_internas=0
-  - Adulto (estereótipo=phase), atributos=0, relacoes_internas=0
-  - ContratoServico (estereótipo=relator), atributos=0, relacoes_internas=2
-    -> Relação Interna: Cliente
-    -> Relação Interna: FuncionarioDaUBS
-
-Tipos (DataTypes): 1
-  - Endereco (atributos=2)
-
-Enums: 1
-  - StatusCivil: Solteiro01, Casado02, Divorciado03
-
-Generalizações: 1
-  - {'nome': 'FasesDaVida', 'tipo': 'block'}
-
-Relações externas: 1
-  - rel: contrata (Cliente -> ContratoServico)
+Classes encontradas: 0
