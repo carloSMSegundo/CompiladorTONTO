@@ -111,23 +111,18 @@ def t_IDENTIFIER(t):
         t.type = reserved[t.value]
         return t
 
-    # CORREÇÃO CRÍTICA (R4918): A regra de INSTANCE_NAME deve ter prioridade
-    # se o token terminar em dígito, independente da letra inicial.
-    # Isto garante que 'Covid01' seja INSTANCE_NAME e não CLASS_NAME.
     if re.search(r'\d+$', t.value):
         t.type = 'INSTANCE_NAME'
         return t
 
-    # R4914: Class Name (Starts uppercase, NO numbers, since numbers are INSTANCE_NAME)
     if t.value[0].isupper():
         t.type = 'CLASS_NAME'
         return t
 
-    # R4916: Relation Name (Starts lowercase, no ending number)
     t.type = 'RELATION_NAME'
     return t
 
-t_ignore = " \t\n"
+t_ignore = " \t"
 
 
 def t_comment(t):

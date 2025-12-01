@@ -1,21 +1,39 @@
-package RelacoesTeste
+package ModeloDeProva
 
-// Classe com Relacão Interna (Agregação)
-kind University {
-    // RELAÇÃO INTERNA: University é composta por Department
-    @componentOf [1] <>-- [1..*] Department
+import Hospital
+
+// R3: Datatype (Forma de bloco)
+datatype Endereco {
+    rua: string [1]
+    cep: number [8]
 }
 
-// Classe que é o alvo da relação interna e participante da externa
-kind Department {
-    name: string
+// R4: Enum (Literais terminando em número, conforme Lexer)
+enum StatusCivil { Solteiro01, Casado02, Divorciado03 }
+
+// R2: Classe com atributos, especialização e tipos customizados
+kind Cliente {
+    nome: string [1]
+    idade: number [1] { derived }
+    estado_civil: StatusCivil // Uso do Enum
+    moradia: Endereco // Uso do Datatype
 }
 
-// Classe participante da relação externa
-kind Employee
+// R2 e R5: Classes para Genset
+phase Crianca specializes Cliente
+phase Adulto specializes Cliente
 
-// RELAÇÃO EXTERNA: Mediação entre EmploymentContract e Employee
-relator EmploymentContract
+// R5: Generalização (Genset em bloco)
+disjoint complete genset FasesDaVida {
+    general Cliente
+    specifics Crianca, Adulto
+}
 
-@mediation relation EmploymentContract [1..1]
--- emprega -- [0..*] Employee
+// R6a: Relações Internas
+relator ContratoServico {
+    @mediation [1] -- [1] Cliente
+    @mediation [1] -- [1] FuncionarioDaUBS 
+}
+
+// R6b: Relação Externa
+@material relation Cliente [1..*] -- contrata -- [1..*] ContratoServico

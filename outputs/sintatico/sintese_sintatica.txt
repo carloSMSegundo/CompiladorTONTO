@@ -1,20 +1,22 @@
 --- Tabela de Síntese Sintática ---
 
 Pacotes: 1
-  - Vacinacao
+  - ModeloDeProva
 
-Classes encontradas: 2
-  - Vacina (estereótipo=kind), atributos=1, relacoes_internas=0
-  - Vacinacao (estereótipo=relator), atributos=0, relacoes_internas=3
+Classes encontradas: 4
+  - Cliente (estereótipo=kind), atributos=4, relacoes_internas=0
+  - Crianca (estereótipo=phase), atributos=0, relacoes_internas=0
+  - Adulto (estereótipo=phase), atributos=0, relacoes_internas=0
+  - ContratoServico (estereótipo=relator), atributos=0, relacoes_internas=2
 
-Tipos (DataTypes): 0
+Tipos (DataTypes): 1
+  - Endereco (atributos=2)
 
 Enums: 1
-  - Tipo_De_Vacina: Covid01, FebreAmarela02, Tetano03, Influenza04
+  - StatusCivil: Solteiro01, Casado02, Divorciado03
 
-Generalizações: 0
+Generalizações: 1
+  - {'nome': 'FasesDaVida', 'tipo': 'block'}
 
-Relações externas: 3
-  - rel: verifica (Enfermeiro -> Vacina)
-  - rel: vacinado_Por (Paciente -> Enfermeiro)
-  - rel: imunizado_Com (Paciente -> Vacina)
+Relações externas: 1
+  - rel: contrata (Cliente -> ContratoServico)
