@@ -70,10 +70,15 @@ def salvar_sintatico(sintese, erros, pasta_raiz):
         f.write(f"\nClasses encontradas: {len(sintese['classes'])}\n")
         for name, meta in sintese['classes'].items():
             num_attrs = len(meta.get('atributos', []))
+            rels_int = meta.get('relacoes_internas', [])
             num_rels_int = len(meta.get('relacoes_internas', []))
 
             f.write(
                 f"  - {name} (estereótipo={meta.get('estereotipo')}), atributos={num_attrs}, relacoes_internas={num_rels_int}\n")
+
+        if num_rels_int > 0:
+                 for rel_type, target_class in rels_int:
+                     f.write(f"    -> Relação Interna: {target_class}\n")
 
         f.write(f"\nTipos (DataTypes): {len(sintese['tipos'])}\n")
         for tname, attrs in sintese['tipos'].items():

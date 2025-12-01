@@ -8,6 +8,8 @@ Classes encontradas: 4
   - Crianca (estereótipo=phase), atributos=0, relacoes_internas=0
   - Adulto (estereótipo=phase), atributos=0, relacoes_internas=0
   - ContratoServico (estereótipo=relator), atributos=0, relacoes_internas=2
+    -> Relação Interna: Cliente
+    -> Relação Interna: FuncionarioDaUBS
 
 Tipos (DataTypes): 1
   - Endereco (atributos=2)

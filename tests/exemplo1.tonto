@@ -1,8 +1,9 @@
+// R1: Pacotes
 package ModeloDeProva
 
 import Hospital
 
-// R3: Datatype (Forma de bloco)
+// R3: Datatype
 datatype Endereco {
     rua: string [1]
     cep: number [8]
