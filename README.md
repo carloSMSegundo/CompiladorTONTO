@@ -1,6 +1,6 @@
-# 🧠 Analisador Léxico para a Linguagem TONTO
+# 🧠 Analisador Léxico e Sintático para a Linguagem TONTO
 
-Este é um projeto de **Analisador Léxico** para a **Textual Ontology Language (TONTO)**, desenvolvido como parte da disciplina de **Compiladores**. O objetivo é reconhecer os componentes léxicos da linguagem — como **palavras reservadas**, **estereótipos**, **símbolos** e **convenções de nomenclatura** — e gerar uma **tabela de símbolos** como saída.
+Este é um projeto de **Analisador Léxico e Sintático** para a **Textual Ontology Language (TONTO)**, desenvolvido como parte da disciplina de **Compiladores**. O objetivo é reconhecer os componentes léxicos da linguagem e verificar a corretude gramatical das estruturas da ontologia, gerando relatórios detalhados.
 
 O analisador foi implementado em **Python**, utilizando a biblioteca **PLY**, uma reimplementação das ferramentas **Lex** e **Yacc**.
 
@@ -8,16 +8,23 @@ O analisador foi implementado em **Python**, utilizando a biblioteca **PLY**, um
 
 ## 🚀 Funcionalidades
 
-- Reconhecimento de Tokens: identifica estereótipos de classe, estereótipos de relação, palavras reservadas e símbolos especiais.  
-- Validação de Nomenclatura: aplica convenções para classes, relações, instâncias e novos tipos de dados.  
-- Tratamento de Erros: captura erros léxicos e fornece mensagens claras com a linha do erro e sugestões de correção.  
-- Geração de Saídas: cria uma tabela de símbolos detalhada em múltiplos formatos (.txt, .csv, .html) e relatório de erros.
+### Análise Léxica
+- **Reconhecimento de Tokens:** identifica estereótipos de classe, estereótipos de relação, palavras reservadas e símbolos especiais.
+- **Validação de Nomenclatura:** aplica convenções para classes, relações, instâncias e novos tipos de dados.
+- **Tratamento de Erros:** captura caracteres inválidos e fornece sugestões de correção.
+- **Relatórios:** gera tabela de símbolos em múltiplos formatos (.txt, .csv, .html).
+
+### Análise Sintática
+- **Validação Estrutural:** verifica a gramática de pacotes, classes, heranças e tipos de dados.
+- **Checagem de Relações:** valida a sintaxe de relações internas (dentro de classes) e externas.
+- **Generalizações:** valida conjuntos de generalização (disjoint/complete).
+- **Relatórios:** gera síntese da estrutura da ontologia e lista de erros sintáticos.
 
 ---
 
 ## 🧠 Tecnologias utilizadas
 
-- Python 3.x  
+- Python 3.x
 - [PLY](http://www.dabeaz.com/ply/)
 
 ---
@@ -60,12 +67,17 @@ Para analisar um arquivo `.tonto`, utilize:
 
 ### 3️⃣ Verificando a Saída
 
-Os resultados serão salvos na pasta `outputs/`:
+Os resultados serão salvos na pasta `outputs/`, organizados em subpastas:
 
-- `tabela_de_simbolos.txt` — tabela de símbolos em formato texto.  
-- `tabela_de_simbolos.csv` — tabela de símbolos em formato CSV.  
-- `tabela_de_simbolos.html` — tabela de símbolos em formato HTML.  
+**Análise Léxica (`outputs/lexico/`):**
+- `tabela_de_simbolos.txt` — tabela de símbolos em formato texto.
+- `tabela_de_simbolos.csv` — tabela de símbolos em formato CSV.
+- `tabela_de_simbolos.html` — tabela de símbolos em formato HTML.
 - `erros_lexicos.txt` — relatório de erros léxicos encontrados.
+
+**Análise Sintática (`outputs/sintatico/`):**
+- `sintese_sintatica.txt` — resumo estrutural (pacotes, classes e relações encontradas).
+- `erros_sintaticos.txt` — relatório de erros gramaticais encontrados.
 
 ---
 
