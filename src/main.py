@@ -3,10 +3,8 @@ import csv
 import argparse
 from lexico_tonto import analisar_arquivo
 from parser_tonto import analisar_sintaxe
-
-# ========================================================================
-# 1. Utilitários para salvar relatórios
-# ========================================================================
+# Importa a nova função (o arquivo semantico_tonto.py deve existir na mesma pasta)
+from semantico_tonto import verificar_semantica 
 
 def salvar_lexico(tabela, erros, pasta_raiz):
     pasta_lexico = os.path.join(pasta_raiz, "lexico")
@@ -70,15 +68,17 @@ def salvar_sintatico(sintese, erros, pasta_raiz):
         f.write(f"\nClasses encontradas: {len(sintese['classes'])}\n")
         for name, meta in sintese['classes'].items():
             num_attrs = len(meta.get('atributos', []))
+            # Ajuste para lidar com a nova estrutura de relacoes_internas (tupla com dict)
             rels_int = meta.get('relacoes_internas', [])
-            num_rels_int = len(meta.get('relacoes_internas', []))
+            num_rels_int = len(rels_int)
 
             f.write(
                 f"  - {name} (estereótipo={meta.get('estereotipo')}), atributos={num_attrs}, relacoes_internas={num_rels_int}\n")
 
         if num_rels_int > 0:
-                 for rel_type, target_class in rels_int:
-                     f.write(f"    -> Relação Interna: {target_class}\n")
+                 for item in rels_int:
+                     dados = item[1]
+                     f.write(f"    -> Relação Interna: {dados.get('raw')}\n")
 
         f.write(f"\nTipos (DataTypes): {len(sintese['tipos'])}\n")
         for tname, attrs in sintese['tipos'].items():
@@ -94,7 +94,8 @@ def salvar_sintatico(sintese, erros, pasta_raiz):
 
         f.write(f"\nGeneralizações: {len(sintese['generalizacoes'])}\n")
         for g in sintese['generalizacoes']:
-            f.write(f"  - {g}\n")
+            mod_str = f" [{', '.join(g.get('modifiers', []))}]" if g.get('modifiers') else ""
+            f.write(f"  - {g['nome']} ({g.get('general')} -> {g.get('specifics')}){mod_str}\n")
 
         f.write(f"\nRelações externas: {len(sintese['relacoes_externas'])}\n")
         for r in sintese['relacoes_externas']:
@@ -103,10 +104,29 @@ def salvar_sintatico(sintese, erros, pasta_raiz):
 
     return sintese_path, erro_path
 
+def salvar_semantico(padroes, erros, pasta_raiz):
+    pasta_sem = os.path.join(pasta_raiz, "semantico")
+    os.makedirs(pasta_sem, exist_ok=True)
+    
+    path = os.path.join(pasta_sem, "relatorio_semantico.txt")
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write("=== RELATÓRIO DE ANÁLISE SEMÂNTICA (ODPs) ===\n\n")
+        
+        f.write("1. PADRÕES IDENTIFICADOS:\n")
+        if padroes:
+            for p in padroes:
+                f.write(f"   {p}\n")
+        else:
+            f.write("   Nenhum padrão ODP completo identificado.\n")
+            
+        f.write("\n2. ERROS E COERÇÕES:\n")
+        if erros:
+            for e in erros:
+                f.write(f"   [!] {e}\n")
+        else:
+            f.write("   Nenhum erro semântico de padrão encontrado.\n")
+    return path
 
-# ========================================================================
-# 2. Função PRINCIPAL
-# ========================================================================
 
 def main(caminho_arquivo, pasta_saida):
     print(f"\nProcessando: {caminho_arquivo}")
@@ -114,7 +134,7 @@ def main(caminho_arquivo, pasta_saida):
 
     # 1) Análise Léxica
     tabela, erros_lex = analisar_arquivo(caminho_arquivo)
-    txt, csv_path, html, err_lex = salvar_lexico(tabela, erros_lex, pasta_saida)
+    salvar_lexico(tabela, erros_lex, pasta_saida)
     print(f"[LÉXICO] Saídas salvas em: {os.path.join(pasta_saida, 'lexico')}")
 
     # 2) Análise Sintática
@@ -122,15 +142,21 @@ def main(caminho_arquivo, pasta_saida):
         codigo = f.read()
 
     sintese, erros_sint, _ = analisar_sintaxe(codigo)
-    sint_path, err_sint = salvar_sintatico(sintese, erros_sint, pasta_saida)
-
+    salvar_sintatico(sintese, erros_sint, pasta_saida)
     print(f"[SINTÁTICO] Relatórios salvos em: {os.path.join(pasta_saida, 'sintatico')}")
+
+    # 3) Análise Semântica
+    print("[SEMÂNTICO] Iniciando validação de padrões ODP...")
+    padroes, erros_sem = verificar_semantica(sintese)
+    salvar_semantico(padroes, erros_sem, pasta_saida)
+    print(f"[SEMÂNTICO] Relatório salvo em: {os.path.join(pasta_saida, 'semantico')}")
+
     print("-" * 40)
     print("Processamento concluído com sucesso! 🚀\n")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Analisador Léxico + Sintático para TONTO")
+    parser = argparse.ArgumentParser(description="Analisador Léxico + Sintático + Semântico para TONTO")
     parser.add_argument("arquivo", help="Caminho para o arquivo .tonto")
     parser.add_argument("--saida", default="outputs", help="Diretório de saída")
     args = parser.parse_args()

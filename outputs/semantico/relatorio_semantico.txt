@@ -1,0 +1,9 @@
+=== RELATÓRIO DE ANÁLISE SEMÂNTICA (ODPs) ===
+
+1. PADRÕES IDENTIFICADOS:
+   [OK] Phase Pattern (Cliente -> ['Crianca', 'Adulto'])
+   [AVISO] Relator Pattern (ContratoServico conecta ['Cliente', 'FuncionarioDaUBS']): Relação Material explícita entre os roles não encontrada.
+
+2. ERROS E COERÇÕES:
+   [!] Erro no Relator Pattern 'ContratoServico': Mediação aponta para 'Cliente' que é 'kind', esperava-se 'role'. -> Coerção: Tratando 'Cliente' como Role temporariamente.
+   [!] Erro no Relator Pattern 'ContratoServico': Mediação aponta para 'FuncionarioDaUBS' que é 'None', esperava-se 'role'. -> Coerção: Tratando 'FuncionarioDaUBS' como Role temporariamente.

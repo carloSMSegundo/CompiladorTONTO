@@ -1,5 +1,1 @@
---- Erros Sintáticos Encontrados ---
-[ERRO SINTÁTICO] Token inesperado 'pessoa' (RELATION_NAME) na linha 9
-[ERRO SINTÁTICO] Token inesperado 'kind' (CLASS_STEREOTYPE) na linha 16
-[ERRO SINTÁTICO] Token inesperado '}' (RBRACE) na linha 24
-[ERRO SINTÁTICO] Final inesperado do arquivo.
+Nenhum erro sintático encontrado.

@@ -1,9 +1,8 @@
-# src/parser_tonto.py
 import ply.yacc as yacc
 import os
 from lexico_tonto import tokens, build_lexer
 
-# Estrutura para o relatório
+# Estrutura para o relatório e análise semântica
 sintese = {
     "pacotes": [],
     "classes": {},
@@ -47,7 +46,7 @@ def p_elementos(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[2]);
+        p[1].append(p[2])
         p[0] = p[1]
 
 
@@ -74,7 +73,7 @@ def p_class_decl(p):
     '''class_decl : CLASS_STEREOTYPE CLASS_NAME nature_opt inheritance_opt body_opt'''
     nome = p[2]
     est = p[1]
-    heranca = p[4];
+    heranca = p[4]
     corpo = p[5]
     attrs, rels = [], []
 
@@ -82,12 +81,16 @@ def p_class_decl(p):
         for item in corpo:
             if item[0] == 'atributo':
                 attrs.append(item)
-            # COLETANDO RELAÇÕES INTERNAS
             elif item[0] == 'relacao_interna':
                 rels.append(item)
 
-    # REQUISITO: A síntese deve conter quais relações estão em cada classe (internas)
-    sintese["classes"][nome] = {"estereotipo": est, "heranca": heranca, "atributos": attrs, "relacoes_internas": rels}
+    # Dados estruturados para o semântico
+    sintese["classes"][nome] = {
+        "estereotipo": est, 
+        "heranca": heranca if heranca else [], 
+        "atributos": attrs, 
+        "relacoes_internas": rels
+    }
     p[0] = ("class", nome)
 
 
@@ -121,7 +124,7 @@ def p_class_body(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[2]);
+        p[1].append(p[2])
         p[0] = p[1]
 
 
@@ -170,8 +173,18 @@ def p_internal_relation(p):
                          | opt_at REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
                          | REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
                          | opt_at REL_SYM CLASS_NAME'''
+    
     target = p[len(p) - 1]
-    p[0] = ("relacao_interna", target)
+    stereotypes = []
+    if p[1]: 
+        stereotypes.append(p[1])
+    
+    # Estrutura rica para o semântico
+    p[0] = ("relacao_interna", {
+        "target": target,
+        "stereotypes": stereotypes,
+        "raw": f"-> {target}"
+    })
 
 
 # ========================================================================
@@ -195,10 +208,10 @@ def p_datatype_decl(p):
     '''datatype_decl : KW_DATATYPE datatype_identifier LBRACE atributos_dt RBRACE
                      | KW_DATATYPE datatype_identifier KW_SPECIALIZES datatype_target_for_spec'''
 
-    if len(p) == 6:  # Sintaxe de bloco (com atributos)
+    if len(p) == 6:
         sintese["tipos"][p[2]] = p[4]
         p[0] = ("datatype", p[2])
-    elif len(p) == 5:  # Sintaxe de linha (apenas especialização: e.g., datatype Phone specializes number)
+    elif len(p) == 5:
         sintese["tipos"][p[2]] = {"especializa": p[4]}
         p[0] = ("datatype", p[2])
 
@@ -209,10 +222,10 @@ def p_atributos_dt(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[2]);
+        p[1].append(p[2])
         p[0] = p[1]
 
-# NOVA REGRA: Permite que elementos de enum sejam INSTANCE_NAME (os que terminam em número) ou CLASS_NAME (os que não)
+
 def p_enum_element_name(p):
     '''enum_element_name : CLASS_NAME
                          | INSTANCE_NAME'''
@@ -231,7 +244,7 @@ def p_lista_enum(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[3]);
+        p[1].append(p[3])
         p[0] = p[1]
 
 
@@ -246,18 +259,43 @@ def p_genset_modifiers(p):
                         | KW_DISJOINT
                         | KW_COMPLETE
                         | empty'''
-    pass
+    # Extração vital dos modificadores
+    if len(p) == 3:
+        p[0] = ['disjoint', 'complete']
+    elif len(p) == 2:
+        if p[1]:
+            p[0] = [p[1]]
+        else:
+            p[0] = []
+    else:
+        p[0] = []
 
 
 def p_genset_inline(p):
     '''genset_inline : genset_modifiers KW_GENSET identifier_any KW_WHERE class_list KW_SPECIALIZES CLASS_NAME'''
-    sintese["generalizacoes"].append({"nome": p[3], "tipo": "inline"})
+    
+    dados_genset = {
+        "nome": p[3],
+        "tipo": "inline",
+        "modifiers": p[1], # Captura disjoint/complete
+        "specifics": p[5],
+        "general": p[7]
+    }
+    sintese["generalizacoes"].append(dados_genset)
     p[0] = ("genset", p[3])
 
 
 def p_genset_block(p):
     '''genset_block : genset_modifiers KW_GENSET identifier_any LBRACE general_decl specifics_decl RBRACE'''
-    sintese["generalizacoes"].append({"nome": p[3], "tipo": "block"})
+    
+    dados_genset = {
+        "nome": p[3],
+        "tipo": "block",
+        "modifiers": p[1], # Captura disjoint/complete
+        "general": p[5],
+        "specifics": p[6]
+    }
+    sintese["generalizacoes"].append(dados_genset)
     p[0] = ("genset_block", p[3])
 
 
@@ -277,7 +315,7 @@ def p_class_list(p):
     if len(p) == 2:
         p[0] = [p[1]]
     else:
-        p[1].append(p[3]);
+        p[1].append(p[3])
         p[0] = p[1]
 
 
@@ -289,23 +327,30 @@ def p_relation_decl_external(p):
     '''relation_decl_external : opt_at KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME
                               | opt_at KW_RELATION CLASS_NAME cardinality REL_SYM RELATION_NAME REL_SYM cardinality CLASS_NAME
                               | RELATION_STEREOTYPE KW_RELATION CLASS_NAME cardinality REL_SYM cardinality CLASS_NAME'''
-
+    
+    rel_data = {}
+    
     if len(p) == 10:
-        class1 = p[3]
-        rel_name = p[6]
-        class2 = p[9]
-        desc = f"rel: {rel_name} ({class1} -> {class2})"
+        rel_data = {
+            "source": p[3],
+            "target": p[9],
+            "name": p[6],
+            "stereotypes": [p[1]] if p[1] else []
+        }
     elif len(p) == 8:
-        class1 = p[3]
-        class2 = p[7]
-        desc = f"rel: ({class1} -> {class2})"
+        stereotype = p[1] if p[1] else None
+        rel_data = {
+            "source": p[3],
+            "target": p[7],
+            "name": None,
+            "stereotypes": [stereotype] if stereotype else []
+        }
     else:
-        class1 = p[3]
-        class2 = p[7]
-        desc = f"rel: ({class1} -> {class2})"
-
-    # REQUISITO: A síntese deve detalhar a relação
-    sintese["relacoes_externas"].append({"raw": desc})
+        # Fallback genérico
+        rel_data = {"source": "?", "target": "?", "name": None, "stereotypes": []}
+    
+    rel_data["raw"] = f"rel: {rel_data.get('name', 'unnamed')} ({rel_data.get('source')} -> {rel_data.get('target')})"
+    sintese["relacoes_externas"].append(rel_data)
     p[0] = ("relation", "ok")
 
 
@@ -313,7 +358,12 @@ def p_opt_at(p):
     '''opt_at : AT RELATION_STEREOTYPE
               | RELATION_STEREOTYPE
               | empty'''
-    pass
+    if len(p) == 3:
+        p[0] = p[2]
+    elif len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = None
 
 
 def p_cardinality(p):
@@ -347,7 +397,6 @@ def p_error(p):
 # ========================================================================
 
 def analisar_sintaxe(codigo):
-    # 1. Reset das estruturas
     sintese["pacotes"].clear()
     sintese["classes"].clear()
     sintese["tipos"].clear()
@@ -356,7 +405,7 @@ def analisar_sintaxe(codigo):
     sintese["relacoes_externas"].clear()
     erros_sintaticos.clear()
 
-    # 2. Remove parsetab.py antigo para forçar regeneração do parser.out
+    # Limpeza para evitar cache antigo
     arquivos_para_remover = ["parsetab.py", os.path.join("src", "parsetab.py")]
     for arq in arquivos_para_remover:
         if os.path.exists(arq):
@@ -365,9 +414,8 @@ def analisar_sintaxe(codigo):
             except:
                 pass
 
-    # 3. Build
     lexer_fresco = build_lexer()
-    parser = yacc.yacc()  # Gera parser.out na raiz por padrão
+    parser = yacc.yacc()
 
     parser.parse(codigo, lexer=lexer_fresco)
     return sintese, erros_sintaticos, parser
