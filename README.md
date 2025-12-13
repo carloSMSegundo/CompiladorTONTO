@@ -1,6 +1,6 @@
-# 🧠 Analisador Léxico e Sintático para a Linguagem TONTO
+# 🧠 Analisador Léxico, Sintático e Semântico para a Linguagem TONTO
 
-Este é um projeto de **Analisador Léxico e Sintático** para a **Textual Ontology Language (TONTO)**, desenvolvido como parte da disciplina de **Compiladores**. O objetivo é reconhecer os componentes léxicos da linguagem e verificar a corretude gramatical das estruturas da ontologia, gerando relatórios detalhados.
+Este é um projeto de **Analisador Léxico, Sintático e Semântico** para a **Textual Ontology Language (TONTO)**, desenvolvido como parte da disciplina de **Compiladores**. O objetivo é reconhecer os componentes léxicos, verificar a corretude gramatical e validar a estrutura lógica (semântica) das ontologias, gerando relatórios detalhados.
 
 O analisador foi implementado em **Python**, utilizando a biblioteca **PLY**, uma reimplementação das ferramentas **Lex** e **Yacc**.
 
@@ -19,6 +19,12 @@ O analisador foi implementado em **Python**, utilizando a biblioteca **PLY**, um
 - **Checagem de Relações:** valida a sintaxe de relações internas (dentro de classes) e externas.
 - **Generalizações:** valida conjuntos de generalização (disjoint/complete).
 - **Relatórios:** gera síntese da estrutura da ontologia e lista de erros sintáticos.
+
+### Análise Semântica
+- **Validação de ODPs:** verifica a conformidade das estruturas de modelagem com os Padrões de Projeto de Ontologias (ODPs), como Phase, RoleMixin e Relator Patterns.
+- **Consistência Lógica:** assegura que as relações e generalizações sigam as regras de contexto (e.g., Relator mediando apenas para Roles).
+- **Técnica de Coerção:** aplica a técnica de coerção para corrigir e reportar erros de consistência semântica, permitindo que a análise continue.
+- **Relatórios:** gera relatório de padrões identificados, erros semânticos e coerções aplicadas.
 
 ---
 
@@ -78,6 +84,9 @@ Os resultados serão salvos na pasta `outputs/`, organizados em subpastas:
 **Análise Sintática (`outputs/sintatico/`):**
 - `sintese_sintatica.txt` — resumo estrutural (pacotes, classes e relações encontradas).
 - `erros_sintaticos.txt` — relatório de erros gramaticais encontrados.
+
+**Análise Semântica (`outputs/semantico/`):**
+- `relatorio_semantico.txt` — padrões identificados, erros de ODPs e coerções aplicadas.
 
 ---
 

@@ -75,7 +75,7 @@ def salvar_sintatico(sintese, erros, pasta_raiz):
             f.write(
                 f"  - {name} (estereótipo={meta.get('estereotipo')}), atributos={num_attrs}, relacoes_internas={num_rels_int}\n")
 
-        if num_rels_int > 0:
+            if num_rels_int > 0:
                  for item in rels_int:
                      dados = item[1]
                      f.write(f"    -> Relação Interna: {dados.get('raw')}\n")

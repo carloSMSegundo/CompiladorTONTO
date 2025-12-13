@@ -1,24 +1,98 @@
 --- Tabela de Síntese Sintática ---
 
 Pacotes: 1
-  - ModeloDeProva
+  - PizzariaMono
 
-Classes encontradas: 4
-  - Cliente (estereótipo=kind), atributos=4, relacoes_internas=0
-  - Crianca (estereótipo=phase), atributos=0, relacoes_internas=0
-  - Adulto (estereótipo=phase), atributos=0, relacoes_internas=0
-  - ContratoServico (estereótipo=relator), atributos=0, relacoes_internas=2
+Classes encontradas: 46
+  - Pessoa (estereótipo=kind), atributos=2, relacoes_internas=0
+  - Empresa (estereótipo=kind), atributos=2, relacoes_internas=0
+  - Item_Da_Pizzaria (estereótipo=kind), atributos=1, relacoes_internas=0
+  - Massa_Da_Pizza (estereótipo=kind), atributos=0, relacoes_internas=0
+  - Cobertura_Da_Pizza (estereótipo=kind), atributos=0, relacoes_internas=0
+  - Borda_Da_Pizza (estereótipo=kind), atributos=0, relacoes_internas=0
+  - Bebida (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Petisco (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Agua (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Refrigerante (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Suco (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Pizza (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Massa_Fina_e_Crocante (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Massa_Pan (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Carne (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Fruto_Do_Mar (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Queijo (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Vegetal (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Borda_Sem_Recheio (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Borda_Recheada (estereótipo=subkind), atributos=1, relacoes_internas=0
+  - Calabresa (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Presunto (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Salame (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Anchova (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Atum (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Camarao (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Mussarela (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Parmesao (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Azeitona (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Pimenta (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Tomate (estereótipo=subkind), atributos=0, relacoes_internas=0
+  - Dono_De_Pizzaria (estereótipo=role), atributos=0, relacoes_internas=0
+  - Funcionario (estereótipo=role), atributos=0, relacoes_internas=0
+  - Pizzaiolo (estereótipo=role), atributos=0, relacoes_internas=0
+  - Atendente (estereótipo=role), atributos=0, relacoes_internas=0
+  - ClienteIndividual (estereótipo=role), atributos=0, relacoes_internas=0
+  - ClienteEmpresarial (estereótipo=role), atributos=0, relacoes_internas=0
+  - Pizzaria (estereótipo=role), atributos=0, relacoes_internas=0
+  - Cliente (estereótipo=roleMixin), atributos=0, relacoes_internas=0
+  - Lista_de_Itens (estereótipo=collective), atributos=0, relacoes_internas=1
+    -> Relação Interna: -> Item_Da_Pizzaria
+  - Composicao_Da_Massa (estereótipo=relator), atributos=0, relacoes_internas=2
+    -> Relação Interna: -> Massa_Da_Pizza
+    -> Relação Interna: -> Pizza
+  - Montagem_Da_Cobertura (estereótipo=relator), atributos=0, relacoes_internas=2
+    -> Relação Interna: -> Cobertura_Da_Pizza
+    -> Relação Interna: -> Pizza
+  - Montagem_Da_Borda (estereótipo=relator), atributos=0, relacoes_internas=2
+    -> Relação Interna: -> Borda_Da_Pizza
+    -> Relação Interna: -> Pizza
+  - Atendimento (estereótipo=relator), atributos=0, relacoes_internas=3
+    -> Relação Interna: -> Atendente
     -> Relação Interna: -> Cliente
-    -> Relação Interna: -> FuncionarioDaUBS
+    -> Relação Interna: -> Lista_de_Itens
+  - Preparo_Da_Pizza (estereótipo=relator), atributos=0, relacoes_internas=2
+    -> Relação Interna: -> Pizzaiolo
+    -> Relação Interna: -> Pizza
+  - Venda_De_Alimento (estereótipo=relator), atributos=0, relacoes_internas=3
+    -> Relação Interna: -> Pizzaria
+    -> Relação Interna: -> Cliente
+    -> Relação Interna: -> Item_Da_Pizzaria
 
-Tipos (DataTypes): 1
-  - Endereco (atributos=2)
+Tipos (DataTypes): 0
 
 Enums: 1
-  - StatusCivil: Solteiro01, Casado02, Divorciado03
+  - Recheio_Da_Borda: Chocolate01, Catupiry02, Molho_Cheddar03
 
-Generalizações: 1
-  - FasesDaVida (Cliente -> ['Crianca', 'Adulto']) [disjoint, complete]
+Generalizações: 12
+  - Papel_Da_Pessoa (Pessoa -> ['ClienteIndividual', 'Dono_De_Pizzaria', 'Funcionario']) [disjoint, complete]
+  - Papel_Do_Funcionario (Funcionario -> ['Pizzaiolo', 'Atendente']) [disjoint, complete]
+  - Tipos_de_Clientes (Cliente -> ['ClienteIndividual', 'ClienteEmpresarial']) [disjoint, complete]
+  - Opcao_De_Bebida (Bebida -> ['Agua', 'Refrigerante', 'Suco']) [disjoint, complete]
+  - Opcao_De_Massa (Massa_Da_Pizza -> ['Massa_Fina_e_Crocante', 'Massa_Pan']) [disjoint, complete]
+  - Opcao_De_Cobertura (Cobertura_Da_Pizza -> ['Carne', 'Fruto_Do_Mar', 'Queijo', 'Vegetal']) [disjoint, complete]
+  - Opcao_De_Borda (Borda_Da_Pizza -> ['Borda_Recheada', 'Borda_Sem_Recheio']) [disjoint, complete]
+  - Opcao_De_Carne (Carne -> ['Calabresa', 'Presunto', 'Salame']) [disjoint, complete]
+  - Opcao_De_Fruto_Do_Mar (Fruto_Do_Mar -> ['Anchova', 'Atum', 'Camarao']) [disjoint, complete]
+  - Opcao_De_Queijo (Queijo -> ['Mussarela', 'Parmesao']) [disjoint, complete]
+  - Opcao_De_Vegetal (Vegetal -> ['Azeitona', 'Pimenta', 'Tomate']) [disjoint, complete]
+  - Tipo_Do_Item (Item_Da_Pizzaria -> ['Pizza', 'Bebida', 'Petisco']) [disjoint, complete]
 
-Relações externas: 1
-  - rel: contrata (Cliente -> ContratoServico)
+Relações externas: 10
+  - rel: tem_Massa (Pizza -> Massa_Da_Pizza)
+  - rel: tem_Cobertura (Pizza -> Cobertura_Da_Pizza)
+  - rel: tem_Borda (Pizza -> Borda_Da_Pizza)
+  - rel: anota (Atendente -> Lista_de_Itens)
+  - rel: solicita (Cliente -> Lista_de_Itens)
+  - rel: atendido_Por (Cliente -> Atendente)
+  - rel: prepara (Pizzaiolo -> Pizza)
+  - rel: compra_Em (Cliente -> Pizzaria)
+  - rel: vende (Pizzaria -> Item_Da_Pizzaria)
+  - rel: compra (Cliente -> Item_Da_Pizzaria)

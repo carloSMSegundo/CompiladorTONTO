@@ -1,9 +1,28 @@
 === RELATÓRIO DE ANÁLISE SEMÂNTICA (ODPs) ===
 
 1. PADRÕES IDENTIFICADOS:
-   [OK] Phase Pattern (Cliente -> ['Crianca', 'Adulto'])
-   [AVISO] Relator Pattern (ContratoServico conecta ['Cliente', 'FuncionarioDaUBS']): Relação Material explícita entre os roles não encontrada.
+   [OK] Subkind Pattern (Massa_Da_Pizza -> ['Massa_Fina_e_Crocante', 'Massa_Pan'])
+   [OK] Subkind Pattern (Cobertura_Da_Pizza -> ['Carne', 'Fruto_Do_Mar', 'Queijo', 'Vegetal'])
+   [OK] Subkind Pattern (Borda_Da_Pizza -> ['Borda_Recheada', 'Borda_Sem_Recheio'])
+   [OK] Subkind Pattern (Item_Da_Pizzaria -> ['Pizza', 'Bebida', 'Petisco'])
+   [OK] Role Pattern (Pessoa -> ['ClienteIndividual', 'Dono_De_Pizzaria', 'Funcionario'])
+   [OK] Relator Pattern (Composicao_Da_Massa conecta ['Massa_Da_Pizza', 'Pizza'])
+   [OK] Relator Pattern (Montagem_Da_Cobertura conecta ['Cobertura_Da_Pizza', 'Pizza'])
+   [OK] Relator Pattern (Montagem_Da_Borda conecta ['Borda_Da_Pizza', 'Pizza'])
+   [OK] Relator Pattern (Atendimento conecta ['Atendente', 'Cliente', 'Lista_de_Itens'])
+   [OK] Relator Pattern (Preparo_Da_Pizza conecta ['Pizzaiolo', 'Pizza'])
+   [OK] Relator Pattern (Venda_De_Alimento conecta ['Pizzaria', 'Cliente', 'Item_Da_Pizzaria'])
+   [OK] RoleMixin Pattern (Cliente -> ['ClienteIndividual', 'ClienteEmpresarial'])
 
 2. ERROS E COERÇÕES:
-   [!] Erro no Relator Pattern 'ContratoServico': Mediação aponta para 'Cliente' que é 'kind', esperava-se 'role'. -> Coerção: Tratando 'Cliente' como Role temporariamente.
-   [!] Erro no Relator Pattern 'ContratoServico': Mediação aponta para 'FuncionarioDaUBS' que é 'None', esperava-se 'role'. -> Coerção: Tratando 'FuncionarioDaUBS' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Composicao_Da_Massa': Mediação aponta para 'Massa_Da_Pizza' que é 'kind', esperava-se 'role'. -> Coerção: Tratando 'Massa_Da_Pizza' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Composicao_Da_Massa': Mediação aponta para 'Pizza' que é 'subkind', esperava-se 'role'. -> Coerção: Tratando 'Pizza' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Montagem_Da_Cobertura': Mediação aponta para 'Cobertura_Da_Pizza' que é 'kind', esperava-se 'role'. -> Coerção: Tratando 'Cobertura_Da_Pizza' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Montagem_Da_Cobertura': Mediação aponta para 'Pizza' que é 'subkind', esperava-se 'role'. -> Coerção: Tratando 'Pizza' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Montagem_Da_Borda': Mediação aponta para 'Borda_Da_Pizza' que é 'kind', esperava-se 'role'. -> Coerção: Tratando 'Borda_Da_Pizza' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Montagem_Da_Borda': Mediação aponta para 'Pizza' que é 'subkind', esperava-se 'role'. -> Coerção: Tratando 'Pizza' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Atendimento': Mediação aponta para 'Cliente' que é 'roleMixin', esperava-se 'role'. -> Coerção: Tratando 'Cliente' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Atendimento': Mediação aponta para 'Lista_de_Itens' que é 'collective', esperava-se 'role'. -> Coerção: Tratando 'Lista_de_Itens' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Preparo_Da_Pizza': Mediação aponta para 'Pizza' que é 'subkind', esperava-se 'role'. -> Coerção: Tratando 'Pizza' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Venda_De_Alimento': Mediação aponta para 'Cliente' que é 'roleMixin', esperava-se 'role'. -> Coerção: Tratando 'Cliente' como Role temporariamente.
+   [!] Erro no Relator Pattern 'Venda_De_Alimento': Mediação aponta para 'Item_Da_Pizzaria' que é 'kind', esperava-se 'role'. -> Coerção: Tratando 'Item_Da_Pizzaria' como Role temporariamente.

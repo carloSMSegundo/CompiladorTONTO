@@ -1,40 +1,66 @@
-// R1: Pacotes
-package ModeloDeProva
+// R1: Pacote
+package OntologiaCompleta
 
-import Hospital
+import OutroPacote // R1: Import
 
-// R3: Datatype
-datatype Endereco {
-    rua: string [1]
-    cep: number [8]
+// R3: Datatype (Sintaxe de bloco)
+datatype CodigoDeBarras {
+    digitos: number [13]
+    tipo: string [1]
 }
 
-// R4: Enum (Literais terminando em número, conforme Lexer)
-enum StatusCivil { Solteiro01, Casado02, Divorciado03 }
+// R4: Enum (Sintaxe de Enum)
+enum Prioridade { Baixa01, Media02, Alta03 }
 
-// R2: Classe com atributos, especialização e tipos customizados
-kind Cliente {
+// R2: Classes base com atributos e tipos customizados
+kind Produto {
+    // Atributos
     nome: string [1]
-    idade: number [1] { derived }
-    estado_civil: StatusCivil // Uso do Enum
-    moradia: Endereco // Uso do Datatype
+    codigo: CodigoDeBarras // Uso do Datatype
+    urgencia: Prioridade // Uso do Enum
+}
+kind BaseOrganizacional // Base para RoleMixin
+
+// --- ESTRUTURAS SEMÂNTICAS (ODPs) ---
+
+// 1. RoleMixin Pattern (Sucesso - ODP)
+roleMixin FuncaoBase // RoleMixin (General)
+
+// R2: Classes que implementam o RoleMixin e especializam outras Classes
+role Gerente specializes FuncaoBase, BaseOrganizacional // Role (Specifics)
+role Supervisor specializes FuncaoBase, BaseOrganizacional // Role (Specifics)
+
+// R5: Genset (Testa RoleMixin - Genset é disjoint complete)
+disjoint complete genset HierarquiaFuncional {
+    general FuncaoBase // RoleMixin
+    specifics Gerente, Supervisor
 }
 
-// R2 e R5: Classes para Genset
-phase Crianca specializes Cliente
-phase Adulto specializes Cliente
+// 2. Relator Pattern (Causa Erro/Coerção Semântica)
+role PessoaFisica // Role (Alvo CORRETO para mediação)
 
-// R5: Generalização (Genset em bloco)
-disjoint complete genset FasesDaVida {
-    general Cliente
-    specifics Crianca, Adulto
+// R2: Classe que será o alvo ERRADO (Kind em vez de Role) para forçar coerção
+kind EntidadeLegal {
+    cnpj: string [1]
 }
 
-// R6a: Relações Internas
-relator ContratoServico {
-    @mediation [1] -- [1] Cliente
-    @mediation [1] -- [1] FuncionarioDaUBS 
+// R6a: Relação Interna (Relator)
+relator RelacaoComercial {
+    // Relação 1 - Aponta para Role (CORRETO)
+    @mediation [1..*] -- [1] PessoaFisica
+
+    // Relação 2 - Aponta para Kind (ERRADO, força Coerção Semântica)
+    @mediation [1..*] -- [1] EntidadeLegal
 }
 
-// R6b: Relação Externa
-@material relation Cliente [1..*] -- contrata -- [1..*] ContratoServico
+// R5: Phase Pattern (Sucesso - ODP)
+phase ProdutoA specializes Produto
+phase ProdutoB specializes Produto
+
+disjoint complete genset TiposProduto {
+    general Produto
+    specifics ProdutoA, ProdutoB
+}
+
+// R6b: Relação Externa (Sintaxe completa)
+@material relation ProdutoA [1..*] -- vendido_em -- [1..*] RelacaoComercial
